@@ -1,14 +1,7 @@
-import { fileURLToPath } from 'node:url'
-
 import { defineConfig } from 'tsup'
 
-// Shared private helpers are inlined into every build: published packages
-// never depend on @samline/internal.
-const alias = {
-  '@samline/internal': fileURLToPath(new URL('../internal/src/index.ts', import.meta.url)),
-}
-
-const external: string[] = []
+// @samline/string ships with no runtime dependencies.
+const noExternal = [/^@samline\//]
 
 export default defineConfig([
   {
@@ -17,22 +10,12 @@ export default defineConfig([
       'vanilla/index': 'src/vanilla/index.ts',
     },
     format: ['esm', 'cjs'],
-    // Inline @samline/internal's types too: it is never published.
-    dts: {
-      resolve: [/^@samline\/internal/],
-      compilerOptions: {
-        baseUrl: '.',
-        paths: { '@samline/internal': ['../internal/src/index.ts'] },
-      },
-    },
+    dts: { resolve: noExternal },
     sourcemap: true,
     clean: true,
     target: 'es2020',
     treeshake: true,
-    external,
-    esbuildOptions: options => {
-      options.alias = alias
-    },
+    noExternal,
   },
   {
     entry: { 'browser/string': 'src/browser/global.ts' },
@@ -42,9 +25,7 @@ export default defineConfig([
     clean: false,
     target: 'es2020',
     platform: 'browser',
-    esbuildOptions: options => {
-      options.alias = alias
-    },
+    noExternal,
     outExtension: () => ({ js: '.global.js' }),
   },
 ])

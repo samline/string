@@ -2,7 +2,7 @@
 
 Case conversion, URL slugs, accent removal, truncation and initials for JavaScript, TypeScript and plain HTML, all built on one Unicode-aware word splitter, so every case agrees.
 
-[Demo](https://samline.github.io/utils/string/) · [Examples](https://samline.github.io/utils/string/examples/) · [Documentation](https://samline.github.io/utils/docs/string/) · [Changelog](CHANGELOG.md)
+[Demo](https://samline.github.io/string/) · [Examples](https://samline.github.io/string/examples/) · [Documentation](https://samline.github.io/string/docs/) · [Changelog](CHANGELOG.md)
 
 ## Table of contents
 
@@ -96,28 +96,28 @@ The bundle defines `window.SamlineString` with every function.
 
 ## Documentation
 
-Read the [documentation](https://samline.github.io/utils/docs/string/) for the full guides and API contracts, and explore [working examples](https://samline.github.io/utils/string/examples/) with complete and separate source files.
+Read the [documentation](https://samline.github.io/string/docs/) for the full guides and API contracts, and explore [working examples](https://samline.github.io/string/examples/) with complete and separate source files.
 
-| Guide                                                                           | What it covers                                      |
-| ------------------------------------------------------------------------------- | --------------------------------------------------- |
-| [Installation](https://samline.github.io/utils/docs/string/getting-started/)    | npm, CDN and the first conversions.                 |
-| [API reference](https://samline.github.io/utils/docs/string/reference/api/)     | Every function with examples.                       |
-| [Options](https://samline.github.io/utils/docs/string/reference/configuration/) | slugify, titleCase, truncate, initials and locales. |
-| [Word splitting](https://samline.github.io/utils/docs/string/guides/words/)     | Exactly how words are detected.                     |
+| Guide                                                                     | What it covers                                      |
+| ------------------------------------------------------------------------- | --------------------------------------------------- |
+| [Installation](https://samline.github.io/string/docs/getting-started/)    | npm, CDN and the first conversions.                 |
+| [API reference](https://samline.github.io/string/docs/reference/api/)     | Every function with examples.                       |
+| [Options](https://samline.github.io/string/docs/reference/configuration/) | slugify, titleCase, truncate, initials and locales. |
+| [Word splitting](https://samline.github.io/string/docs/guides/words/)     | Exactly how words are detected.                     |
 
 ## Changelog
 
-Read [CHANGELOG.md](CHANGELOG.md) or the [published changelog](https://samline.github.io/utils/docs/string/changelog/) for release history and explicitly marked breaking and behavior changes. Review the notes before upgrading.
+Read [CHANGELOG.md](CHANGELOG.md) or the [published changelog](https://samline.github.io/string/docs/changelog/) for release history and explicitly marked breaking and behavior changes. Review the notes before upgrading.
 
 ## AI agent skill
 
-The [String skill](https://samline.github.io/utils/skills/string/SKILL.md) teaches verified package integration. Its maintained [repository source](site/SKILL.md) and website download are the same file. Verify the installed package version before applying its guidance.
+The [String skill](https://samline.github.io/string/skills/string/SKILL.md) teaches verified package integration. Its maintained [repository source](skills/string/SKILL.md) and website download are the same file. Verify the installed package version before applying its guidance.
 
-Download [SKILL.md](https://samline.github.io/utils/skills/string/SKILL.md) into a `string/` folder in your agent's supported skill directory. For agents that discover project skills from `.agents/skills/`:
+Download [SKILL.md](https://samline.github.io/string/skills/string/SKILL.md) into a `string/` folder in your agent's supported skill directory. For agents that discover project skills from `.agents/skills/`:
 
 ```sh
 mkdir -p .agents/skills/string
-curl --fail --location https://samline.github.io/utils/skills/string/SKILL.md \
+curl --fail --location https://samline.github.io/string/skills/string/SKILL.md \
   --output .agents/skills/string/SKILL.md
 ```
 
