@@ -142,7 +142,7 @@ The classic script starts every `[data-string]`, `[data-string-search]`, `[data-
 ```html
 <script
   data-manual
-  src="https://cdn.jsdelivr.net/npm/@samline/string@1.4.0/dist/browser/string.global.js"
+  src="https://cdn.jsdelivr.net/npm/@samline/string@1.5.0/dist/browser/string.global.js"
 ></script>
 <script>
   SamlineString.auto({ locale: 'es', count: { near: 5 }, copy: { reset: 1000 } })

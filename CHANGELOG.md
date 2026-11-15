@@ -4,6 +4,8 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+## [1.5.0] - 2026-11-15
+
 ### Added
 
 - `count` / `autoCount` and `data-string-count`: characters (graphemes) or words in a field, the remaining count from `maxlength` or `max`, a `{count}`/`{max}`/`{remaining}` template, `ok`/`near`/`over` states and a `string:count` event.

@@ -1,14 +1,14 @@
 ---
 name: string
 description: Use @samline/string to convert text between camelCase, PascalCase, kebab-case, snake_case, CONSTANT_CASE, Train-Case and Title Case, build URL slugs, remove accents, truncate text and build initials in JavaScript, or declaratively in HTML with data-string attributes (live slug fields that follow a title, avatars, middle-truncated file names).
-package-version: '1.4.0'
+package-version: '1.5.0'
 ---
 
 # @samline/string
 
-Build against the installed version; this skill describes 1.4.0.
+Build against the installed version; this skill describes 1.5.0.
 
-- **Install:** `npm install @samline/string`. Plain HTML: load `https://cdn.jsdelivr.net/npm/@samline/string@1.4.0/dist/browser/string.global.js` and use `window.SamlineString`.
+- **Install:** `npm install @samline/string`. Plain HTML: load `https://cdn.jsdelivr.net/npm/@samline/string@1.5.0/dist/browser/string.global.js` and use `window.SamlineString`.
 - **Identifiers:** `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase`, `trainCase`. They split with `words()` (separators, camelCase, acronyms like `XMLHttp`, any script) and keep accents.
 - **Human text:** `titleCase(text, { smallWords })`, `sentenceCase`, `capitalize`, `uncapitalize`.
 - **Slugs:** `slugify(text, { separator, lower, replacements, maxLength, trim, locale, charMap, preserve })`. Use `{ trim: false }` while the user types and a plain `slugify()` for the final value. `replacements` takes an object (literal) or `[RegExp | string, string]` pairs. `charMap: CYRILLIC | GREEK | GERMAN` (or a merged/custom map) for other scripts. `uniqueSlug(text, taken)` → first free slug (`hola-3`); exclude the edited record's own slug from `taken`. HTML: `data-string-taken='["a","b"]'`, `data-string-transliterate="cyrillic, greek"`, `data-string-preserve="."`. `removeAccents(text, { charMap })` for accent-insensitive search.
