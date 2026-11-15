@@ -4,6 +4,8 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+## [1.4.0] - 2026-11-15
+
 ### Added
 
 - `graphemes(text)`: user-perceived characters with `Intl.Segmenter` (code points as the fallback).
