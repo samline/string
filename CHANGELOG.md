@@ -4,6 +4,8 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+## [1.2.0] - 2026-11-15
+
 ### Added
 
 - Search and comparison: `fold` (case, accents, full-width), `contains` (every query word, accent-insensitive), `highlight` (matching pieces of the original text, without HTML), `compareNatural` (numeric, locale-aware, accent-insensitive sorting), `distance`, `similarity` and `closest` for typo suggestions.

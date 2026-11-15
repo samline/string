@@ -2,7 +2,7 @@
   "package": {
     "name": "String",
     "npmName": "@samline/string",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Case conversion, slugify, accents, truncate and initials built on one Unicode-aware word splitter, for vanilla JavaScript, TypeScript and plain HTML.",
     "author": "Samuel Olvera (samline)",
     "license": "MIT",
@@ -31,7 +31,7 @@
     "accentDark": "#94a3b8"
   },
   "delivery": {
-    "cdnScript": "https://cdn.jsdelivr.net/npm/@samline/string@1.1.0/dist/browser/string.global.js",
+    "cdnScript": "https://cdn.jsdelivr.net/npm/@samline/string@1.2.0/dist/browser/string.global.js",
     "cdnStylesheet": null
   },
   "dev": {
