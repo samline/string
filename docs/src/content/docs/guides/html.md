@@ -1,7 +1,7 @@
 ---
 title: 'HTML attributes'
 titleAccent: 'attributes'
-description: Convert text and form fields from HTML with data-string, follow another field with data-string-source, and read the state and change events.
+description: Convert text and form fields from HTML with data-string, follow another field with data-string-source, count characters, fit text to its box, copy converted text and color avatars.
 locale: en
 sidebar:
   group: guides
@@ -89,9 +89,55 @@ slug.addEventListener('string:change', event => {
 })
 ```
 
+## Colors
+
+`data-string-color` (or `{ color: true }`) sets the `--string-color` custom property to a stable color for the element's original text, so every "Ana López" avatar gets the same hue. Use it in CSS with a fallback: `background: var(--string-color, #475569)`. Pass `{ color: { saturation, lightness } }` to tune it; `hashColor(text)` returns the same color in code.
+
+## Counters
+
+`data-string-count="<field selector>"` shows how many characters or words a field has, or how many are left.
+
+```html
+<textarea id="bio" maxlength="160"></textarea>
+<output data-string-count="#bio" data-string-count-format="{remaining} characters left"></output>
+```
+
+- Characters are graphemes, so 😀 counts as one. `maxlength` counts UTF-16 units, so an emoji uses two of the field's limit; set `data-string-count-max` to count against your own limit instead.
+- `data-string-count-unit="words"` counts words with `Intl.Segmenter`.
+- `data-string-count-format` is a template with `{count}`, `{max}` and `{remaining}`; the default is `{remaining}` with a maximum and `{count}` without. The `format` option also takes a function.
+- `data-string-count-state` is `ok`, `near` (at most `data-string-count-near` left, 10% of the maximum by default) or `over`.
+- Every update dispatches `string:count` with `{ count, max, remaining, state }` and calls `onCount`.
+- `<output>` is announced politely by screen readers; on another element, add `aria-live="polite"` yourself if you want every change announced.
+
+## Fitting text to its box
+
+`data-string-fit` shortens text until it fits the element's width, cutting in the middle by default, and fits again when the element resizes (`ResizeObserver`, or window resize as the fallback) and when web fonts load.
+
+```html
+<span data-string-fit style="display: block">annual-report-2026-final-version.pdf</span>
+<span data-string-fit="end" data-string-fit-ellipsis="...">A long title</span>
+```
+
+- The value is the position: `middle` (default), `end` or `start`.
+- The element needs a width: a block, inline-block, flex or grid item. Without one, the text is left whole. Flex items also need `min-width: 0`.
+- The full text goes to `title`, `data-string-fit-state` is `full` or `truncated`, and `white-space: nowrap` and `overflow: hidden` are set inline. `destroy()` restores the text, the title and the `style` attribute.
+
+## Copy buttons
+
+`data-string-copy="<source selector>"` copies the source's text (a field's value) to the clipboard on click, converted with `data-string-copy-as="<conversion>"` when given.
+
+```html
+<input id="name" value="Ana María López" />
+<button type="button" data-string-copy="#name" data-string-copy-as="slug">Copy handle</button>
+```
+
+- The button gets `data-string-copy-state="copied"`, or `error` when the clipboard is unavailable or denied, for `data-string-copy-reset` milliseconds (`2000`). Style it: `[data-string-copy-state='copied']::after { content: ' ✓' }`.
+- Every click dispatches `string:copy` with `{ value, ok }` and calls `onCopy`.
+- The clipboard needs a secure context (HTTPS or localhost).
+
 ## Browser bundle
 
-The classic script converts every `[data-string]` element when the DOM is ready, including elements added later, and keeps the controller in `SamlineString.controller`. Add `data-manual` to the script tag to start it yourself:
+The classic script starts every `[data-string]`, `[data-string-search]`, `[data-string-count]`, `[data-string-fit]` and `[data-string-copy]` element when the DOM is ready, including elements added later, and keeps the controller in `SamlineString.controller`. Add `data-manual` to the script tag to start it yourself; `scope` and `locale` go to every behavior, and each takes its own options under `search`, `count`, `fit` and `copy`:
 
 ```html
 <script
@@ -99,6 +145,6 @@ The classic script converts every `[data-string]` element when the DOM is ready,
   src="https://cdn.jsdelivr.net/npm/@samline/string@1.4.0/dist/browser/string.global.js"
 ></script>
 <script>
-  SamlineString.auto({ locale: 'es' })
+  SamlineString.auto({ locale: 'es', count: { near: 5 }, copy: { reset: 1000 } })
 </script>
 ```

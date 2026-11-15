@@ -68,3 +68,4 @@ export {
   type WordCountOptions,
 } from './prose.js'
 export { escapeHtml, stripTags, unescapeHtml } from './html.js'
+export { hashColor, type HashColorOptions } from './color.js'

@@ -36,3 +36,17 @@
 .string-example .search-list li { display: list-item; }
 .string-example .search-list li[hidden] { display: none; }
 .string-example mark { background: var(--color-accent); color: var(--color-bg); border-radius: 0.125rem; }
+.string-example .profile { display: flex; gap: 0.75rem; align-items: center; max-width: 18rem; }
+.string-example .profile .avatar { background: var(--string-color, var(--color-accent)); color: white; }
+.string-example .file { display: block; min-width: 0; flex: 1; }
+.string-example textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-bg-soft);
+  color: var(--color-text);
+  font: inherit;
+}
+.string-example [data-string-count-state='near'] { color: var(--color-accent); }
+.string-example [data-string-copy-state='copied']::after { content: ' ✓'; }

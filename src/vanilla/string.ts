@@ -12,6 +12,7 @@ import {
 } from '@samline/internal'
 
 import { CHAR_MAPS, type CharMapName } from '../core/charmaps.js'
+import { hashColor, type HashColorOptions } from '../core/color.js'
 import { convert, isConversion, type Conversion, type ConvertOptions } from '../core/convert.js'
 
 export type { AutoInitController, ElementTarget }
@@ -19,6 +20,8 @@ export type { AutoInitController, ElementTarget }
 export const ATTRIBUTE = 'data-string'
 export const STATE_ATTRIBUTE = 'data-string-state'
 export const CHANGE_EVENT = 'string:change'
+/** CSS custom property set by `data-string-color`. */
+export const COLOR_PROPERTY = '--string-color'
 
 /**
  * - `ready`: the element shows its converted text.
@@ -43,6 +46,12 @@ export interface StringOptions extends ConvertOptions {
   live?: boolean
   /** Called with the new value after every conversion that changed it. */
   onChange?: (value: string, element: HTMLElement) => void
+  /**
+   * Set `--string-color` to a stable color for the text (before conversion),
+   * for avatar backgrounds: `background: var(--string-color)`. `true` or
+   * `hashColor` options. `data-string-color` turns it on.
+   */
+  color?: boolean | HashColorOptions
 }
 
 export interface StringController {
@@ -100,6 +109,7 @@ const parseReplacements = (raw: string): Record<string, string> | undefined => {
 }
 
 interface Config {
+  color: HashColorOptions | null
   to: Conversion
   options: ConvertOptions
   source: Element | null
@@ -112,7 +122,7 @@ const readConfig = (element: HTMLElement, options: StringOptions): Config | null
   const to = isConversion(raw) ? raw : options.to
   if (!to) return null
 
-  const { to: _to, source: sourceOption, live, onChange: _onChange, ...base } = options
+  const { to: _to, source: sourceOption, live, onChange: _onChange, color, ...base } = options
   const converted: ConvertOptions = { ...base }
   const attr = (name: string) => `${ATTRIBUTE}-${name}`
   const has = (name: string) => element.hasAttribute(attr(name))
@@ -184,6 +194,11 @@ const readConfig = (element: HTMLElement, options: StringOptions): Config | null
     options: converted,
     source: source === element ? null : source,
     live: readBoolean(element, attr('live'), live ?? true),
+    color: readBoolean(element, attr('color'), Boolean(color))
+      ? typeof color === 'object'
+        ? color
+        : {}
+      : null,
   }
 }
 
@@ -267,6 +282,8 @@ const bind = (element: HTMLElement, options: StringOptions): StringController | 
     const label = current.to === 'initials' ? text.trim() : ''
     describe('role', label ? 'img' : null)
     describe('aria-label', label || null)
+    if (current.color) element.style.setProperty(COLOR_PROPERTY, hashColor(text, current.color))
+    else element.style.removeProperty(COLOR_PROPERTY)
   }
 
   const fromSource = () => config!.source && render(textOf(config!.source))
@@ -362,6 +379,8 @@ const bind = (element: HTMLElement, options: StringOptions): StringController | 
         element.replaceChildren(...originalNodes)
       }
       authored.forEach((before, name) => before === null && element.removeAttribute(name))
+      element.style.removeProperty(COLOR_PROPERTY)
+      if (element.getAttribute('style') === '') element.removeAttribute('style')
       element.removeAttribute(STATE_ATTRIBUTE)
     },
   }

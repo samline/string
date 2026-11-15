@@ -101,4 +101,25 @@ It throws a `RangeError` when 100,000 numbers in a row are taken.
 | `live`     | `true`  | Convert fields while the user types; `false` converts on blur only.          |
 | `onChange` | –       | `(value, element) => void`, called after every conversion that changed text. |
 
-`autoString` also takes `selector` (`'[data-string]'`), `scope` (`document`) and `observe` (`true`). Every option has a matching `data-string-*` attribute, listed in the [HTML attributes guide](../../guides/html/#options).
+| `color` | `false` | `true` or `{ saturation, lightness }`: set `--string-color` for the text. |
+
+`autoString` also takes `selector` (`'[data-string]'`), `scope` (`document`) and `observe` (`true`), like every `auto*()`. Every option has a matching `data-string-*` attribute, listed in the [HTML attributes guide](../../guides/html/#options).
+
+## count, fit and copy
+
+| Behavior | Option     | Default                       | Description                                                     |
+| -------- | ---------- | ----------------------------- | --------------------------------------------------------------- |
+| `count`  | `field`    | –                             | The field to count.                                             |
+| `count`  | `unit`     | `'characters'`                | `'characters'` (graphemes) or `'words'`.                        |
+| `count`  | `max`      | The field's `maxlength`       | Maximum.                                                        |
+| `count`  | `near`     | 10% of `max`                  | Remaining count at which the state is `near`.                   |
+| `count`  | `format`   | `'{remaining}'` / `'{count}'` | Template with `{count}`, `{max}`, `{remaining}`, or a function. |
+| `count`  | `onCount`  | –                             | `(info, element) => void`.                                      |
+| `fit`    | `position` | `'middle'`                    | `'middle'`, `'end'` or `'start'`.                               |
+| `fit`    | `ellipsis` | `'…'`                         | Inserted where the text is cut.                                 |
+| `copy`   | `source`   | –                             | Element or field whose text is copied.                          |
+| `copy`   | `as`       | –                             | Conversion applied first; every `convert` option works too.     |
+| `copy`   | `reset`    | `2000`                        | Milliseconds the `copied` or `error` state lasts.               |
+| `copy`   | `onCopy`   | –                             | `({ value, ok }, button) => void`.                              |
+
+Each option has a `data-string-<behavior>-<option>` attribute, listed in the [HTML attributes guide](../../guides/html/).

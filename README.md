@@ -128,6 +128,8 @@ The bundle defines `window.SamlineString` with every function and converts every
 
 `data-string="<conversion>"` converts any element's text, and the original markup comes back on `destroy()`. Inputs and textareas convert while the user types, keep a separator they just typed, keep the caret in place, skip IME composition and finalize on blur. `data-string-taken` keeps a slug field off slugs in use and `data-string-transliterate="cyrillic"` reads other scripts. `data-string-source` makes a field or preview follow another one: a slug follows the title until the user edits it and follows again when emptied, and sources chain (title → slug → URL preview). Truncated text keeps the full text in `title`, initials become an image labelled with the full name, and `data-string-state` plus a `string:change` event report every change. `data-string-search="#q"` filters a list as the user types, wraps matches in `<mark>`, shows a `data-string-search-empty` message and reports results in a `string:search` event.
 
+`data-string-count="#bio"` shows the characters (graphemes) or words left in a field, with `ok`, `near` and `over` states. `data-string-fit` cuts text in the middle to fit its box and fits again when the box resizes. `data-string-copy="#name"` with `data-string-copy-as="slug"` copies converted text to the clipboard. `data-string-color` sets `--string-color` to a stable color for the text, for avatar backgrounds; `hashColor(text)` gives the same color in code.
+
 ## API at a glance
 
 | API                                                                                                                            | Purpose                                     |
@@ -141,15 +143,17 @@ The bundle defines `window.SamlineString` with every function and converts every
 | `fold`, `contains`, `highlight`, `compareNatural`, `distance`, `similarity`, `closest`                                         | Search, sorting and typo suggestions.       |
 | `words(text)`                                                                                                                  | The shared word splitter.                   |
 | `string(target?, options?)`, `autoString(options?)` from `/vanilla`                                                            | Convert elements and fields from HTML.      |
+| `count`, `fit`, `copy` and their `auto*()` from `/vanilla`                                                                     | Counters, fitted text and copy buttons.     |
+| `hashColor(text, options?)`                                                                                                    | A stable color for a name.                  |
 | `search(target?, options?)`, `autoSearch(options?)` from `/vanilla`                                                            | Filter and highlight lists from HTML.       |
 
 ### Entrypoints
 
-| Entrypoint                | When to use                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------- |
-| `@samline/string`         | ESM or CommonJS, every pure function.                                           |
-| `@samline/string/vanilla` | Every function plus the HTML layer: `string()`, `search()` and their `auto*()`. |
-| `@samline/string/browser` | Classic script that defines `window.SamlineString` and starts the HTML layer.   |
+| Entrypoint                | When to use                                                                                                   |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `@samline/string`         | ESM or CommonJS, every pure function.                                                                         |
+| `@samline/string/vanilla` | Every function plus the HTML layer: `string()`, `search()`, `count()`, `fit()`, `copy()` and their `auto*()`. |
+| `@samline/string/browser` | Classic script that defines `window.SamlineString` and starts the HTML layer.                                 |
 
 ## Documentation
 

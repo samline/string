@@ -107,8 +107,8 @@
   },
   "size": {
     "./dist/index.js": 5000,
-    "./dist/vanilla/index.js": 8500,
-    "./dist/browser/string.global.js": 8500
+    "./dist/vanilla/index.js": 10500,
+    "./dist/browser/string.global.js": 10500
   },
   "workspaces": [
     "landing",

@@ -58,6 +58,40 @@ test.describe('string copyable examples', () => {
     await expect(slug).toHaveValue('hello-world-2')
   })
 
+  test('profile colors the avatar, fits the file name, counts and copies', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'profile'))
+    const avatar = page.locator('.avatar')
+    await expect(avatar).toHaveText('AM')
+    expect(await avatar.evaluate(el => getComputedStyle(el).backgroundColor)).not.toBe(
+      'rgb(71, 85, 105)'
+    )
+
+    const file = page.locator('.file')
+    await expect(file).toHaveAttribute('data-string-fit-state', 'truncated')
+    await expect(file).toHaveAttribute('title', 'curriculum-ana-maria-lopez-2026-version-final.pdf')
+    const text = (await file.textContent()) ?? ''
+    expect(text).toContain('…')
+    expect(text.endsWith('.pdf')).toBe(true)
+    expect(await file.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true)
+
+    const output = page.locator('output')
+    await expect(output).toHaveText('50 characters left')
+    await page.locator('#bio').fill('x'.repeat(75))
+    await expect(output).toHaveText('5 characters left')
+    await expect(output).toHaveAttribute('data-string-count-state', 'near')
+
+    await page.evaluate(() => {
+      ;(window as any).copied = []
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: { writeText: async (value: string) => (window as any).copied.push(value) },
+      })
+    })
+    await page.locator('button').click()
+    await expect(page.locator('button')).toHaveAttribute('data-string-copy-state', 'copied')
+    expect(await page.evaluate(() => (window as any).copied)).toEqual(['ana-maria-lopez'])
+  })
+
   test('attributes convert initials, file names, headers and headings', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'markup'))
     await expect(page.locator('.avatar')).toHaveText(['SO', 'AM'])

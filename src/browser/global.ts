@@ -1,4 +1,7 @@
 import * as core from '../core/index.js'
+import { autoCopy, copy, type AutoCopyOptions } from '../vanilla/copy.js'
+import { autoCount, count, type AutoCountOptions } from '../vanilla/count.js'
+import { autoFit, fit, type AutoFitOptions } from '../vanilla/fit.js'
 import { autoSearch, search, type AutoSearchOptions } from '../vanilla/search.js'
 import {
   autoString,
@@ -9,14 +12,21 @@ import {
 
 /**
  * Classic script for pages without a build step. Every function is on
- * `window.SamlineString`. As soon as the DOM is ready, every `[data-string]`
- * element is converted and every `[data-string-search]` list filters as the
- * user types, including elements added later. Add
- * `data-manual` to the script tag to start it yourself with
+ * `window.SamlineString`. As soon as the DOM is ready it starts every
+ * `[data-string]`, `[data-string-search]`, `[data-string-count]`,
+ * `[data-string-fit]` and `[data-string-copy]` element, including elements
+ * added later. Add `data-manual` to the script tag to start it yourself with
  * `SamlineString.auto()`.
  */
 const script = typeof document !== 'undefined' ? document.currentScript : null
 const manual = script?.hasAttribute('data-manual') ?? false
+
+export interface AutoAllOptions extends AutoStringOptions {
+  search?: AutoSearchOptions
+  count?: AutoCountOptions
+  fit?: AutoFitOptions
+  copy?: AutoCopyOptions
+}
 
 let controller: AutoInitController | null = null
 
@@ -26,28 +36,35 @@ const api = {
   autoString,
   search,
   autoSearch,
+  count,
+  autoCount,
+  fit,
+  autoFit,
+  copy,
+  autoCopy,
   /**
-   * Start (or restart) automatic conversion and search. Options go to both;
-   * pass `{ search: { ... } }` for search-only options. Returns the controller.
+   * Start (or restart) every behavior. `scope` and `locale` go to all of
+   * them; the other options go to `data-string`, and each behavior takes its
+   * own under `search`, `count`, `fit` and `copy`. Returns the controller.
    */
-  auto: (options: AutoStringOptions & { search?: AutoSearchOptions } = {}) => {
+  auto: (options: AutoAllOptions = {}) => {
     controller?.destroy()
-    const { search: searchOptions, ...stringOptions } = options
-    const strings = autoString(stringOptions)
-    const searches = autoSearch({
+    const { search: s, count: c, fit: f, copy: p, ...stringOptions } = options
+    const shared = {
       ...(stringOptions.scope && { scope: stringOptions.scope }),
       ...(stringOptions.locale !== undefined && { locale: stringOptions.locale }),
-      ...searchOptions,
-    })
+    }
+    const { locale: _locale, ...fitShared } = shared
+    const running = [
+      autoString(stringOptions),
+      autoSearch({ ...shared, ...s }),
+      autoCount({ ...shared, ...c }),
+      autoFit({ ...fitShared, ...f }),
+      autoCopy({ ...shared, ...p }),
+    ]
     controller = {
-      refresh: () => {
-        strings.refresh()
-        searches.refresh()
-      },
-      destroy: () => {
-        strings.destroy()
-        searches.destroy()
-      },
+      refresh: () => running.forEach(each => each.refresh()),
+      destroy: () => running.forEach(each => each.destroy()),
     }
     return controller
   },
@@ -72,4 +89,4 @@ if (!manual && typeof document !== 'undefined') {
 }
 
 export * from '../core/index.js'
-export { autoSearch, autoString, search, string }
+export { autoCopy, autoCount, autoFit, autoSearch, autoString, copy, count, fit, search, string }

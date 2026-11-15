@@ -1,0 +1,29 @@
+---
+import './_shared.css'
+---
+
+<div class="preview string-example" data-preview="profile">
+  <div class="profile">
+    <span class="avatar" data-string="initials" data-string-color>Ana María López</span>
+    <span class="file" data-string-fit>curriculum-ana-maria-lopez-2026-version-final.pdf</span>
+  </div>
+  <label for="preview-bio">Bio</label>
+  <textarea id="preview-bio" maxlength="80" rows="3">Diseño interfaces accesibles 🎨</textarea>
+  <output data-string-count="#preview-bio" data-string-count-format="{remaining} characters left"
+  ></output>
+  <label for="preview-handle">Display name</label>
+  <input id="preview-handle" value="Ana María López" />
+  <button type="button" data-string-copy="#preview-handle" data-string-copy-as="slug"
+    >Copy as handle</button
+  >
+</div>
+
+<script>
+  import { autoCopy, autoCount, autoFit, autoString } from '@samline/string/vanilla'
+
+  const scope = document.querySelector<HTMLElement>('[data-preview="profile"]')!
+  autoString({ scope })
+  autoFit({ scope })
+  autoCount({ scope })
+  autoCopy({ scope })
+</script>

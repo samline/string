@@ -81,6 +81,49 @@ string()`,
     },
   },
   {
+    id: 'profile',
+    tab: 'Profile',
+    title: 'Avatars, fitted file names, counters and copy',
+    description:
+      'data-string-color gives each name a stable color, data-string-fit cuts the file name in the middle to fit its box, data-string-count shows the characters left and data-string-copy copies the name as a slug.',
+    files: {
+      html: `<div class="profile">
+  <span class="avatar" data-string="initials" data-string-color>Ana María López</span>
+  <span class="file" data-string-fit>curriculum-ana-maria-lopez-2026-version-final.pdf</span>
+</div>
+<label for="bio">Bio</label>
+<textarea id="bio" maxlength="80" rows="3">Diseño interfaces accesibles 🎨</textarea>
+<output data-string-count="#bio" data-string-count-format="{remaining} characters left"></output>
+<label for="handle">Display name</label>
+<input id="handle" value="Ana María López" />
+<button type="button" data-string-copy="#handle" data-string-copy-as="slug">Copy as handle</button>`,
+      css: `.profile { display: flex; gap: 0.75rem; align-items: center; max-width: 18rem; }
+.avatar { display: grid; place-items: center; flex: none; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--string-color, #475569); color: white; font-weight: 600; }
+.file { display: block; min-width: 0; flex: 1; }
+label { display: block; margin-top: 0.75rem; font-weight: 600; }
+textarea, input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
+[data-string-count-state='near'] { color: #b45309; }
+[data-string-count-state='over'] { color: #b91c1c; }
+[data-string-copy-state='copied']::after { content: ' ✓'; }`,
+      js: `// The browser bundle starts every data-string-* element on load: the avatar gets
+// a stable --string-color, the file name fits its box, the counter follows the bio
+// and the button copies the name as a slug.
+document.addEventListener('string:copy', event => {
+  console.log(event.detail.ok ? \`Copied \${event.detail.value}\` : 'Copy failed')
+})`,
+      esm: `import { autoCopy, autoCount, autoFit, autoString } from '@samline/string/vanilla'
+
+autoString()
+autoFit()
+autoCount()
+autoCopy()
+
+document.addEventListener('string:copy', event => {
+  console.log(event.detail.ok ? \`Copied \${event.detail.value}\` : 'Copy failed')
+})`,
+    },
+  },
+  {
     id: 'markup',
     tab: 'From HTML',
     title: 'Convert text with attributes',
