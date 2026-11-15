@@ -28,10 +28,21 @@ afterEach(() => {
 
 describe('hashColor', () => {
   it('is stable and ignores case, accents and spaces', () => {
-    expect(hashColor('Ana López')).toMatch(/^hsl\(\d{1,3} 55% 45%\)$/)
+    expect(hashColor('Ana López')).toMatch(/^hsl\(\d{1,3} 55% \d{1,2}%\)$/)
     expect(hashColor(' ana lopez ')).toBe(hashColor('Ana López'))
     expect(hashColor('Ana López')).not.toBe(hashColor('Samuel Olvera'))
-    expect(hashColor('x', { saturation: 70, lightness: 30 })).toMatch(/ 70% 30%\)$/)
+    expect(hashColor('x', { saturation: 70, lightness: 30 })).toMatch(/ 70% \d{1,2}%\)$/)
+  })
+
+  it('lowers lightness so white text keeps its contrast', () => {
+    const lightness = (color: string) => Number(/ (\d+)%\)$/.exec(color)![1])
+    const names = Array.from({ length: 200 }, (_, index) => `name ${index}`)
+    const values = names.map(name => lightness(hashColor(name)))
+    expect(Math.max(...values)).toBeLessThanOrEqual(45)
+    expect(Math.min(...values)).toBeLessThan(45)
+    expect(names.every(name => lightness(hashColor(name, { contrast: 0 })) === 45)).toBe(true)
+    expect(lightness(hashColor('x', { lightness: 150, contrast: 0 }))).toBe(100)
+    expect(lightness(hashColor('x', { contrast: 30 }))).toBe(0)
     expect(hashColor(undefined as never)).toMatch(/^hsl\(/)
   })
 })

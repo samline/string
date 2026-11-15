@@ -106,7 +106,7 @@
     "vitest": "^5.0.1"
   },
   "size": {
-    "./dist/index.js": 5000,
+    "./dist/index.js": 5500,
     "./dist/vanilla/index.js": 10500,
     "./dist/browser/string.global.js": 10500
   },

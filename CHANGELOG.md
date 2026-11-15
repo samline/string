@@ -9,7 +9,7 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 - `count` / `autoCount` and `data-string-count`: characters (graphemes) or words in a field, the remaining count from `maxlength` or `max`, a `{count}`/`{max}`/`{remaining}` template, `ok`/`near`/`over` states and a `string:count` event.
 - `fit` / `autoFit` and `data-string-fit`: text cut in the middle (or at the end or start) to fit its box, fitted again on resize and when fonts load, with the full text in `title`.
 - `copy` / `autoCopy` and `data-string-copy`: copy a field's or element's text to the clipboard, optionally converted with `data-string-copy-as`, with `copied`/`error` states and a `string:copy` event.
-- `hashColor(text)` and `data-string-color` (`color` option): a stable `--string-color` per name for avatar backgrounds.
+- `hashColor(text)` and `data-string-color` (`color` option): a stable `--string-color` per name for avatar backgrounds, dark enough for white text at 4.5:1 by default.
 - The browser bundle starts every behavior; `SamlineString.auto()` takes per-behavior options under `search`, `count`, `fit` and `copy`.
 
 ## [1.4.0] - 2026-11-15

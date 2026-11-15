@@ -1,7 +1,7 @@
 ---
 title: 'HTML attributes'
 titleAccent: 'attributes'
-description: Convert text and form fields from HTML with data-string, follow another field with data-string-source, count characters, fit text to its box, copy converted text and color avatars.
+description: Convert text and fields with data-string, follow another field, count characters, fit text to its box, copy converted text and color avatars.
 locale: en
 sidebar:
   group: guides
@@ -91,7 +91,7 @@ slug.addEventListener('string:change', event => {
 
 ## Colors
 
-`data-string-color` (or `{ color: true }`) sets the `--string-color` custom property to a stable color for the element's original text, so every "Ana López" avatar gets the same hue. Use it in CSS with a fallback: `background: var(--string-color, #475569)`. Pass `{ color: { saturation, lightness } }` to tune it; `hashColor(text)` returns the same color in code.
+`data-string-color` (or `{ color: true }`) sets the `--string-color` custom property to a stable color for the element's original text, so every "Ana López" avatar gets the same hue. Use it in CSS with a fallback: `background: var(--string-color, #475569)`. Lightness is lowered as needed so white text on it keeps a 4.5:1 contrast. Pass `{ color: { saturation, lightness, contrast } }` to tune it; `hashColor(text)` returns the same color in code.
 
 ## Counters
 

@@ -45,7 +45,7 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 
 - `truncate(text, length, options?)`: `('The quick brown fox jumps', 15)` → `'The quick…'`. Counts graphemes, so emoji (👨‍👩‍👧, 🇲🇽) and accented letters are never split. `{ position: 'middle' }` keeps both ends (`'annual-report-2026-final.pdf'` at 19 → `'annual-re…final.pdf'`) and `{ position: 'start' }` keeps the ending (`'…fox jumps'`).
 - `initials(text, options?)`: `'Samuel Olvera'` → `'SO'`.
-- `hashColor(text, options?)`: `'Ana López'` → `'hsl(… 55% 45%)'`, the same hue every time for the same name, ignoring case and accents.
+- `hashColor(text, options?)`: `'Ana López'` → `'hsl(… 55% 45%)'`, the same hue every time for the same name, ignoring case and accents. Lightness is lowered as needed so white text keeps a 4.5:1 contrast (`contrast` option; `0` turns it off).
 - `graphemes(text)`: `'🇲🇽é'` → `['🇲🇽', 'é']`. Uses `Intl.Segmenter`, with code points as the fallback.
 
 ## Text
