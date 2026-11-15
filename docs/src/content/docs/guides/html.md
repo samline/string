@@ -96,7 +96,7 @@ The classic script converts every `[data-string]` element when the DOM is ready,
 ```html
 <script
   data-manual
-  src="https://cdn.jsdelivr.net/npm/@samline/string@1.2.0/dist/browser/string.global.js"
+  src="https://cdn.jsdelivr.net/npm/@samline/string@1.3.0/dist/browser/string.global.js"
 ></script>
 <script>
   SamlineString.auto({ locale: 'es' })

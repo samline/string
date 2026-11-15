@@ -4,6 +4,8 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+## [1.3.0] - 2026-11-15
+
 ### Added
 
 - `uniqueSlug(text, taken, options)`: the first free slug (`hola-3`), with the number kept inside `maxLength`; `taken` is a list, a `Set` or a function. `convert(text, 'slug', { taken })` uses it.
