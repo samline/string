@@ -1,0 +1,42 @@
+{
+  "package": {
+    "name": "String",
+    "npmName": "@samline/string",
+    "version": "1.0.0",
+    "description": "Case conversion, slugify, accents, truncate and initials built on one Unicode-aware word splitter, for vanilla JavaScript, TypeScript and plain HTML.",
+    "author": "Samuel Olvera (samline)",
+    "license": "MIT",
+    "keywords": [
+      "string",
+      "case",
+      "camelcase",
+      "kebab-case",
+      "snake-case",
+      "slugify",
+      "slug",
+      "title-case",
+      "accents",
+      "truncate"
+    ]
+  },
+  "site": {
+    "url": "https://samline.github.io/string/",
+    "repository": "https://github.com/samline/string",
+    "namespace": "samline-string",
+    "template": false,
+    "credit": "samline"
+  },
+  "theme": {
+    "accentLight": "#bf4532",
+    "accentDark": "#ea6a55"
+  },
+  "delivery": {
+    "cdnScript": "https://cdn.jsdelivr.net/npm/@samline/string@1.0.0/dist/browser/string.global.js",
+    "cdnStylesheet": null
+  },
+  "dev": {
+    "landingPort": 4480,
+    "docsPort": 4481,
+    "testPort": 4488
+  }
+}
