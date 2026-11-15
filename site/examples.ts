@@ -50,6 +50,37 @@ show()`,
     },
   },
   {
+    id: 'unique',
+    tab: 'Unique slugs',
+    title: 'Avoid duplicate slugs in any script',
+    description:
+      'data-string-transliterate turns Cyrillic, Greek and German umlauts into Latin letters, and data-string-taken picks the first free slug (privet-mir-3) when the field loses focus or follows the title.',
+    files: {
+      html: `<label for="post-title">Post title</label>
+<input id="post-title" type="text" value="Привет, мир" />
+<label for="post-slug">Slug</label>
+<input
+  id="post-slug"
+  type="text"
+  data-string="slug"
+  data-string-source="#post-title"
+  data-string-transliterate="cyrillic, greek, german"
+  data-string-taken='["privet-mir", "privet-mir-2", "hello-world"]'
+/>
+<p>Taken: privet-mir, privet-mir-2, hello-world</p>`,
+      css: `label { display: block; margin-top: 0.75rem; font-weight: 600; }
+input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }`,
+      js: `// The browser bundle reads every attribute; nothing to call.
+// In a CMS, render data-string-taken from the slugs already in use,
+// leaving out the slug of the post being edited.`,
+      esm: `import { string } from '@samline/string/vanilla'
+
+// In a CMS, render data-string-taken from the slugs already in use,
+// leaving out the slug of the post being edited.
+string()`,
+    },
+  },
+  {
     id: 'markup',
     tab: 'From HTML',
     title: 'Convert text with attributes',

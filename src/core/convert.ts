@@ -14,7 +14,7 @@ import {
   uncapitalize,
   type TitleCaseOptions,
 } from './case.js'
-import { slugify, type SlugifyOptions } from './slugify.js'
+import { slugify, uniqueSlug, type SlugifyOptions, type TakenSlugs } from './slugify.js'
 import { initials, truncate, type InitialsOptions, type TruncateOptions } from './text.js'
 
 /** Every conversion `convert()` and the `data-string` attribute understand. */
@@ -45,6 +45,8 @@ export interface ConvertOptions
   extends TitleCaseOptions, Omit<SlugifyOptions, 'locale'>, TruncateOptions, InitialsOptions {
   /** Maximum length for `'truncate'`. Without it, `'truncate'` returns the text unchanged. */
   length?: number
+  /** Slugs already in use: `'slug'` then returns a free one (`hola-2`). See `uniqueSlug`. */
+  taken?: TakenSlugs
 }
 
 /** True when `value` names a conversion, for example `'kebab'` or `'slug'`. */
@@ -94,9 +96,11 @@ export const convert = (input: string, to: Conversion, options: ConvertOptions =
     case 'upper':
       return text.toLocaleUpperCase(locale)
     case 'slug':
-      return slugify(text, options)
+      return options.taken === undefined
+        ? slugify(text, options)
+        : uniqueSlug(text, options.taken, options)
     case 'accents':
-      return removeAccents(text)
+      return removeAccents(text, options.charMap ? { charMap: options.charMap } : {})
     case 'truncate':
       return options.length === undefined ? text : truncate(text, options.length, options)
     case 'initials':

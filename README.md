@@ -106,7 +106,7 @@ The bundle defines `window.SamlineString` with every function and converts every
 
 ### Slugs and accents
 
-`slugify` removes accents, transliterates ß, æ, œ, ø, đ, ł and þ, applies your `replacements`, collapses separators and cuts at a separator with `maxLength`. `trim: false` keeps a trailing separator for live slug fields. `removeAccents` gives accent-insensitive text for search.
+`slugify` removes accents, transliterates ß, æ, œ, ø, đ, ł and þ, applies your `replacements` (literal or regex pairs), collapses separators and cuts at a separator with `maxLength`. `trim: false` keeps a trailing separator for live slug fields, and `preserve: '.'` keeps characters such as the dot in `v1.2`. `charMap` adds transliteration: the `CYRILLIC`, `GREEK` and `GERMAN` presets (`Москва` → `moskva`, `Müller` → `mueller`) or your own map. `uniqueSlug(text, taken)` returns the first free slug (`hola-3`), keeping the number inside `maxLength`. `removeAccents` gives accent-insensitive text for search.
 
 ### Display helpers
 
@@ -122,21 +122,21 @@ The bundle defines `window.SamlineString` with every function and converts every
 
 ### HTML attributes
 
-`data-string="<conversion>"` converts any element's text, and the original markup comes back on `destroy()`. Inputs and textareas convert while the user types, keep a separator they just typed, keep the caret in place, skip IME composition and finalize on blur. `data-string-source` makes a field or preview follow another one: a slug follows the title until the user edits it and follows again when emptied, and sources chain (title → slug → URL preview). Truncated text keeps the full text in `title`, initials become an image labelled with the full name, and `data-string-state` plus a `string:change` event report every change. `data-string-search="#q"` filters a list as the user types, wraps matches in `<mark>`, shows a `data-string-search-empty` message and reports results in a `string:search` event.
+`data-string="<conversion>"` converts any element's text, and the original markup comes back on `destroy()`. Inputs and textareas convert while the user types, keep a separator they just typed, keep the caret in place, skip IME composition and finalize on blur. `data-string-taken` keeps a slug field off slugs in use and `data-string-transliterate="cyrillic"` reads other scripts. `data-string-source` makes a field or preview follow another one: a slug follows the title until the user edits it and follows again when emptied, and sources chain (title → slug → URL preview). Truncated text keeps the full text in `title`, initials become an image labelled with the full name, and `data-string-state` plus a `string:change` event report every change. `data-string-search="#q"` filters a list as the user types, wraps matches in `<mark>`, shows a `data-string-search-empty` message and reports results in a `string:search` event.
 
 ## API at a glance
 
-| API                                                                                                     | Purpose                                |
-| ------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase`, `trainCase` | Identifier cases.                      |
-| `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                                               | Human-readable casing.                 |
-| `slugify(text, options?)`, `removeAccents(text)`                                                        | URL slugs and accent-free text.        |
-| `truncate(text, length, options?)`, `initials(text, options?)`                                          | Display helpers.                       |
-| `convert(text, to, options?)`, `CONVERSIONS`, `isConversion(value)`                                     | Any conversion by name.                |
-| `fold`, `contains`, `highlight`, `compareNatural`, `distance`, `similarity`, `closest`                  | Search, sorting and typo suggestions.  |
-| `words(text)`                                                                                           | The shared word splitter.              |
-| `string(target?, options?)`, `autoString(options?)` from `/vanilla`                                     | Convert elements and fields from HTML. |
-| `search(target?, options?)`, `autoSearch(options?)` from `/vanilla`                                     | Filter and highlight lists from HTML.  |
+| API                                                                                                                            | Purpose                                     |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
+| `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase`, `trainCase`                        | Identifier cases.                           |
+| `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                                                                      | Human-readable casing.                      |
+| `slugify(text, options?)`, `uniqueSlug(text, taken, options?)`, `removeAccents(text, options?)`, `CYRILLIC`, `GREEK`, `GERMAN` | URL slugs, free slugs and accent-free text. |
+| `truncate(text, length, options?)`, `initials(text, options?)`                                                                 | Display helpers.                            |
+| `convert(text, to, options?)`, `CONVERSIONS`, `isConversion(value)`                                                            | Any conversion by name.                     |
+| `fold`, `contains`, `highlight`, `compareNatural`, `distance`, `similarity`, `closest`                                         | Search, sorting and typo suggestions.       |
+| `words(text)`                                                                                                                  | The shared word splitter.                   |
+| `string(target?, options?)`, `autoString(options?)` from `/vanilla`                                                            | Convert elements and fields from HTML.      |
+| `search(target?, options?)`, `autoSearch(options?)` from `/vanilla`                                                            | Filter and highlight lists from HTML.       |
 
 ### Entrypoints
 

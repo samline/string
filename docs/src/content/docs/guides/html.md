@@ -56,24 +56,27 @@ On an `<input>` or `<textarea>` the value is converted while the user types and 
 
 Attributes win over JavaScript options. Every option of [`convert`](../../reference/configuration/#convert) is available:
 
-| Attribute                   | Option         | Applies to        |
-| --------------------------- | -------------- | ----------------- |
-| `data-string`               | `to`           | Every element.    |
-| `data-string-source`        | `source`       | Every element.    |
-| `data-string-live`          | `live`         | Fields.           |
-| `data-string-locale`        | `locale`       | Every conversion. |
-| `data-string-small-words`   | `smallWords`   | `title`.          |
-| `data-string-separator`     | `separator`    | `slug`.           |
-| `data-string-lower`         | `lower`        | `slug`.           |
-| `data-string-max-length`    | `maxLength`    | `slug`.           |
-| `data-string-replacements`  | `replacements` | `slug`, as JSON.  |
-| `data-string-length`        | `length`       | `truncate`.       |
-| `data-string-position`      | `position`     | `truncate`.       |
-| `data-string-ellipsis`      | `ellipsis`     | `truncate`.       |
-| `data-string-word-boundary` | `wordBoundary` | `truncate`.       |
-| `data-string-max`           | `max`          | `initials`.       |
+| Attribute                   | Option         | Applies to                                        |
+| --------------------------- | -------------- | ------------------------------------------------- |
+| `data-string`               | `to`           | Every element.                                    |
+| `data-string-source`        | `source`       | Every element.                                    |
+| `data-string-live`          | `live`         | Fields.                                           |
+| `data-string-locale`        | `locale`       | Every conversion.                                 |
+| `data-string-small-words`   | `smallWords`   | `title`.                                          |
+| `data-string-separator`     | `separator`    | `slug`.                                           |
+| `data-string-lower`         | `lower`        | `slug`.                                           |
+| `data-string-max-length`    | `maxLength`    | `slug`.                                           |
+| `data-string-replacements`  | `replacements` | `slug`, as JSON.                                  |
+| `data-string-preserve`      | `preserve`     | `slug`.                                           |
+| `data-string-taken`         | `taken`        | `slug`, as a JSON array or a comma list.          |
+| `data-string-transliterate` | `charMap`      | `slug`, `accents`: `cyrillic`, `greek`, `german`. |
+| `data-string-length`        | `length`       | `truncate`.                                       |
+| `data-string-position`      | `position`     | `truncate`.                                       |
+| `data-string-ellipsis`      | `ellipsis`     | `truncate`.                                       |
+| `data-string-word-boundary` | `wordBoundary` | `truncate`.                                       |
+| `data-string-max`           | `max`          | `initials`.                                       |
 
-Without `data-string-locale` or a `locale` option, the element uses the `lang` of its closest ancestor, so `<html lang="tr">` makes `istanbul` upper-case to `İSTANBUL`. `smallWords` accepts commas or spaces. Invalid JSON in `data-string-replacements` is ignored.
+Without `data-string-locale` or a `locale` option, the element uses the `lang` of its closest ancestor, so `<html lang="tr">` makes `istanbul` upper-case to `İSTANBUL`. `smallWords` accepts commas or spaces. Invalid JSON in `data-string-replacements` is ignored. A field with `data-string-taken` keeps what the user types while they type and moves to the first free slug on blur; while it follows its source, it is always free.
 
 ## State and events
 

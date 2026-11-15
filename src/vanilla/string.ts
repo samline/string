@@ -11,6 +11,7 @@ import {
   type ElementTarget,
 } from '@samline/internal'
 
+import { CHAR_MAPS, type CharMapName } from '../core/charmaps.js'
 import { convert, isConversion, type Conversion, type ConvertOptions } from '../core/convert.js'
 
 export type { AutoInitController, ElementTarget }
@@ -134,6 +135,28 @@ const readConfig = (element: HTMLElement, options: StringOptions): Config | null
     const replacements = parseReplacements(element.getAttribute(attr('replacements')) ?? '')
     if (replacements) converted.replacements = replacements
   }
+  if (has('preserve')) converted.preserve = element.getAttribute(attr('preserve')) ?? ''
+  if (has('transliterate')) {
+    const names = readString(element, attr('transliterate'), '').split(/[\s,]+/)
+    const maps = names
+      .filter((name): name is CharMapName => name in CHAR_MAPS)
+      .map(name => CHAR_MAPS[name])
+    if (maps.length) converted.charMap = Object.assign({}, base.charMap, ...maps)
+  }
+  if (has('taken')) {
+    const raw = element.getAttribute(attr('taken')) ?? ''
+    let taken: unknown
+    try {
+      taken = JSON.parse(raw)
+    } catch {
+      taken = raw.split(/[\s,]+/)
+    }
+    if (Array.isArray(taken)) {
+      converted.taken = taken.filter(
+        (slug): slug is string => typeof slug === 'string' && slug !== ''
+      )
+    }
+  }
   if (has('small-words')) {
     converted.smallWords = readString(element, attr('small-words'), '')
       .split(/[\s,]+/)
@@ -166,7 +189,11 @@ const readConfig = (element: HTMLElement, options: StringOptions): Config | null
 
 /** Live conversion keeps what the user is still typing: a trailing separator. */
 const convertWhileTyping = (value: string, { to, options }: Config): string => {
-  if (to === 'slug') return convert(value, to, { ...options, trim: false })
+  // A free slug is picked on blur, not on every keystroke.
+  if (to === 'slug') {
+    const { taken: _taken, ...typing } = options
+    return convert(value, to, { ...typing, trim: false })
+  }
   const separator = TYPING_SEPARATOR[to]
   const result = convert(value, to, options)
   return separator !== undefined && result && /[^\p{L}\p{N}]$/u.test(value)

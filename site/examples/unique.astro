@@ -1,0 +1,24 @@
+---
+import './_shared.css'
+---
+
+<div class="preview string-example" data-preview="unique">
+  <label for="preview-post-title">Post title</label>
+  <input id="preview-post-title" type="text" value="Привет, мир" />
+  <label for="preview-post-slug">Slug</label>
+  <input
+    id="preview-post-slug"
+    type="text"
+    data-string="slug"
+    data-string-source="#preview-post-title"
+    data-string-transliterate="cyrillic, greek, german"
+    data-string-taken='["privet-mir", "privet-mir-2", "hello-world"]'
+  />
+  <p>Taken: privet-mir, privet-mir-2, hello-world</p>
+</div>
+
+<script>
+  import { string } from '@samline/string/vanilla'
+
+  string(document.querySelectorAll('[data-preview="unique"] [data-string]'))
+</script>

@@ -4,6 +4,13 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+### Added
+
+- `uniqueSlug(text, taken, options)`: the first free slug (`hola-3`), with the number kept inside `maxLength`; `taken` is a list, a `Set` or a function. `convert(text, 'slug', { taken })` uses it.
+- Transliteration presets `CYRILLIC`, `GREEK` and `GERMAN` (plus `CHAR_MAPS`), and a `charMap` option for `slugify`, `removeAccents` and `convert`.
+- `slugify` `preserve` option to keep characters such as `.` or `_`, and replacement pairs with regular expressions.
+- `data-string-taken`, `data-string-transliterate` and `data-string-preserve` attributes. A slug field moves to a free slug on blur, not while the user types.
+
 ## [1.2.0] - 2026-11-15
 
 ### Added

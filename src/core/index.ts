@@ -1,5 +1,6 @@
 export { words } from './words.js'
-export { removeAccents } from './accents.js'
+export { removeAccents, type RemoveAccentsOptions } from './accents.js'
+export { CHAR_MAPS, CYRILLIC, GERMAN, GREEK, type CharMap, type CharMapName } from './charmaps.js'
 export {
   camelCase,
   capitalize,
@@ -16,7 +17,14 @@ export {
   type CaseOptions,
   type TitleCaseOptions,
 } from './case.js'
-export { slugify, type SlugifyOptions } from './slugify.js'
+export {
+  slugify,
+  uniqueSlug,
+  type Replacements,
+  type SlugifyOptions,
+  type TakenSlugs,
+  type UniqueSlugOptions,
+} from './slugify.js'
 export {
   initials,
   truncate,

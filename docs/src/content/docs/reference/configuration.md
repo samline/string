@@ -19,10 +19,28 @@ Every case function, `slugify` and `initials` accept `locale` for upper and lowe
 | -------------- | ------- | ------------------------------------------------------------------------- |
 | `separator`    | `'-'`   | Word separator. `''` joins words.                                         |
 | `lower`        | `true`  | Lower-case the result.                                                    |
-| `replacements` | `{}`    | Literal replacements applied first, for example `{ '&': 'y' }`.           |
+| `replacements` | `{}`    | Applied first: `{ '&': 'y' }` (literal) or pairs `[[/c\+\+/gi, 'cpp']]`.  |
+| `charMap`      | –       | Extra transliteration: `CYRILLIC`, `GREEK`, `GERMAN` or your own map.     |
+| `preserve`     | `''`    | Characters kept as they are, for example `'.'` or `'._'`.                 |
 | `maxLength`    | –       | Maximum length; cuts at a separator when possible.                        |
 | `trim`         | `true`  | Remove leading and trailing separators. Use `false` while the user types. |
 | `locale`       | –       | Locale for lower-casing.                                                  |
+
+## uniqueSlug
+
+Every `slugify` option, plus:
+
+| Option  | Default | Description                                        |
+| ------- | ------- | -------------------------------------------------- |
+| `start` | `2`     | First number tried: the second "Hola" is `hola-2`. |
+
+It throws a `RangeError` when 100,000 numbers in a row are taken.
+
+## removeAccents
+
+| Option    | Default | Description                                                                 |
+| --------- | ------- | --------------------------------------------------------------------------- |
+| `charMap` | –       | Applied before and after accents are removed. Longer keys win over shorter. |
 
 ## titleCase
 
@@ -48,7 +66,7 @@ Every case function, `slugify` and `initials` accept `locale` for upper and lowe
 
 ## convert
 
-`convert(text, to, options)` accepts every option above in one object, plus `length` for `'truncate'` (without it, the text is returned unchanged).
+`convert(text, to, options)` accepts every option above in one object, plus `length` for `'truncate'` (without it, the text is returned unchanged) and `taken` for `'slug'`, which then returns `uniqueSlug`.
 
 ## Search and comparison
 

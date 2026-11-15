@@ -106,9 +106,9 @@
     "vitest": "^5.0.1"
   },
   "size": {
-    "./dist/index.js": 3000,
-    "./dist/vanilla/index.js": 6500,
-    "./dist/browser/string.global.js": 6500
+    "./dist/index.js": 4000,
+    "./dist/vanilla/index.js": 7500,
+    "./dist/browser/string.global.js": 7500
   },
   "workspaces": [
     "landing",

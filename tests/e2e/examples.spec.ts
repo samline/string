@@ -45,6 +45,19 @@ test.describe('string copyable examples', () => {
     await expect(page.locator('code')).toHaveText('vuelve-a-seguir')
   })
 
+  test('unique slugs transliterate and skip taken ones', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'unique'))
+    const slug = page.locator('#post-slug')
+    await expect(slug).toHaveValue('privet-mir-3')
+    await page.locator('#post-title').fill('Αθήνα Müller')
+    await expect(slug).toHaveValue('athina-mueller')
+    await slug.fill('')
+    await slug.pressSequentially('Hello World', { delay: 10 })
+    await expect(slug).toHaveValue('hello-world')
+    await slug.blur()
+    await expect(slug).toHaveValue('hello-world-2')
+  })
+
   test('attributes convert initials, file names, headers and headings', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'markup'))
     await expect(page.locator('.avatar')).toHaveText(['SO', 'AM'])

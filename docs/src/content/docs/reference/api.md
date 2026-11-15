@@ -37,7 +37,9 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 ## URLs and search
 
 - `slugify(text, options?)`: `'¡Hola, Ñandú & Café!'` → `'hola-nandu-cafe'`. See [options](../configuration/#slugify).
-- `removeAccents(text)`: `'Ñandú Straße'` → `'Nandu Strasse'`. Removes diacritics and transliterates ß, æ, œ, ø, đ, ł, þ, ð and ı.
+- `uniqueSlug(text, taken, options?)`: `('Hola', ['hola', 'hola-2'])` → `'hola-3'`. `taken` is a list, a `Set` or a `(slug) => boolean` function; the number is joined with the separator and kept inside `maxLength`. Leave the current record's own slug out of `taken` when editing it.
+- `removeAccents(text, options?)`: `'Ñandú Straße'` → `'Nandu Strasse'`. Removes diacritics and transliterates ß, æ, œ, ø, đ, ł, þ, ð and ı; `charMap` adds more.
+- `CYRILLIC`, `GREEK`, `GERMAN`: transliteration presets for `charMap` (`'Щука'` → `'Shchuka'`, `'Αθήνα'` → `'Athina'`, `'Müller'` → `'Mueller'`). `CHAR_MAPS` holds them by name. Combine them with your own: `{ ...CYRILLIC, ...GERMAN, '№': 'no' }`.
 
 ## Display
 
@@ -82,4 +84,4 @@ The CDN bundle defines `window.SamlineString` with every function above, `string
 
 ## Types
 
-`CaseOptions`, `TitleCaseOptions`, `SlugifyOptions`, `TruncateOptions`, `TruncatePosition`, `InitialsOptions`, `Conversion`, `ConvertOptions`, `FoldOptions`, `MatchOptions`, `HighlightSegment`, `CompareOptions`, `SimilarityOptions` and `ClosestOptions`; from `/vanilla` also `StringOptions`, `AutoStringOptions`, `StringController`, `StringState`, `SearchOptions`, `AutoSearchOptions`, `SearchController`, `SearchResult` and `SearchState`.
+`CaseOptions`, `TitleCaseOptions`, `SlugifyOptions`, `UniqueSlugOptions`, `Replacements`, `TakenSlugs`, `RemoveAccentsOptions`, `CharMap`, `CharMapName`, `TruncateOptions`, `TruncatePosition`, `InitialsOptions`, `Conversion`, `ConvertOptions`, `FoldOptions`, `MatchOptions`, `HighlightSegment`, `CompareOptions`, `SimilarityOptions` and `ClosestOptions`; from `/vanilla` also `StringOptions`, `AutoStringOptions`, `StringController`, `StringState`, `SearchOptions`, `AutoSearchOptions`, `SearchController`, `SearchResult` and `SearchState`.
