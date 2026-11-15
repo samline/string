@@ -11,10 +11,10 @@ export const words = (input: string): string[] => {
   return (
     input
       // fooBar → foo Bar, foo2Bar → foo2 Bar
-      .replace(/([\p{Ll}\p{N}])(\p{Lu})/gu, '$1 $2')
+      .replace(/([\p{Ll}\p{N}]\p{M}*)(\p{Lu})/gu, '$1 $2')
       // XMLHttp → XML Http
       .replace(/(\p{Lu})(\p{Lu}\p{Ll})/gu, '$1 $2')
-      .split(/[^\p{L}\p{N}]+/u)
+      .split(/[^\p{L}\p{M}\p{N}]+/u)
       .filter(Boolean)
   )
 }

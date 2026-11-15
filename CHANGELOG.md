@@ -4,6 +4,20 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+### Added
+
+- `graphemes(text)`: user-perceived characters with `Intl.Segmenter` (code points as the fallback).
+- `wordCount` and `readingTime`, with locale-aware word boundaries.
+- `pluralize(count, forms, { locale, ordinal })` with `Intl.PluralRules`, a formatted `#` count and an explicit `zero` form.
+- `template(text, values, { missing })` with nested paths and `{{ }}` for literal braces.
+- `escapeHtml`, `unescapeHtml` and `stripTags`.
+- `closest` `partial` option (on by default): compares the input with the start of each word of longer candidates, so `horchatta` finds `Horchata de arroz`.
+
+### Fixed
+
+- `truncate` and `initials` count graphemes instead of code points, so emoji sequences (👨‍👩‍👧, flags) and letters with combining accents are never split.
+- `words` (and every case function) and `titleCase` keep combining accents inside their word: decomposed `é` no longer splits `élan` into two words.
+
 ## [1.3.0] - 2026-11-15
 
 ### Added

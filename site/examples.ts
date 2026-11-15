@@ -167,6 +167,61 @@ search()`,
     },
   },
   {
+    id: 'article',
+    tab: 'Article meta',
+    title: 'Reading time, plurals and excerpts',
+    description:
+      'readingTime counts words with Intl.Segmenter, pluralize picks the right form for the language, stripTags and truncate build a plain-text excerpt, and template fills placeholders.',
+    files: {
+      html: `<article id="post">
+  <h2>Café de olla</h2>
+  <p>El <b>café de olla</b> se prepara con canela y piloncillo en una olla de barro.</p>
+  <p>Hierve el agua, añade el piloncillo y la canela, y deja reposar el café cinco minutos antes de colarlo.</p>
+</article>
+<p id="meta"></p>
+<p id="excerpt"></p>
+<p id="greeting"></p>`,
+      css: `#meta { color: #475569; font-size: 0.875rem; }`,
+      js: `const { pluralize, readingTime, stripTags, template, truncate } = window.SamlineString
+const post = document.querySelector('#post')
+const comments = 3
+const { minutes, words } = readingTime(post.textContent, { locale: 'es' })
+
+document.querySelector('#meta').textContent = [
+  pluralize(minutes, { one: '# minuto de lectura', other: '# minutos de lectura' }, { locale: 'es' }),
+  pluralize(words, { one: '# palabra', other: '# palabras' }, { locale: 'es' }),
+  pluralize(comments, { zero: 'Sin comentarios', one: '# comentario', other: '# comentarios' }, { locale: 'es' }),
+].join(' · ')
+
+// Plain text from HTML for a meta description, cut at a word.
+document.querySelector('#excerpt').textContent = truncate(stripTags(post.innerHTML), 90)
+
+document.querySelector('#greeting').textContent = template('Hola {user.name}, tienes {count} borradores.', {
+  user: { name: 'Ana' },
+  count: 2,
+})`,
+      esm: `import { pluralize, readingTime, stripTags, template, truncate } from '@samline/string'
+
+const post = document.querySelector('#post')
+const comments = 3
+const { minutes, words } = readingTime(post.textContent, { locale: 'es' })
+
+document.querySelector('#meta').textContent = [
+  pluralize(minutes, { one: '# minuto de lectura', other: '# minutos de lectura' }, { locale: 'es' }),
+  pluralize(words, { one: '# palabra', other: '# palabras' }, { locale: 'es' }),
+  pluralize(comments, { zero: 'Sin comentarios', one: '# comentario', other: '# comentarios' }, { locale: 'es' }),
+].join(' · ')
+
+// Plain text from HTML for a meta description, cut at a word.
+document.querySelector('#excerpt').textContent = truncate(stripTags(post.innerHTML), 90)
+
+document.querySelector('#greeting').textContent = template('Hola {user.name}, tienes {count} borradores.', {
+  user: { name: 'Ana' },
+  count: 2,
+})`,
+    },
+  },
+  {
     id: 'keys',
     tab: 'Data keys',
     title: 'Normalize keys from an API',

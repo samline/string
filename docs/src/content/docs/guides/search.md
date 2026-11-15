@@ -47,7 +47,7 @@ highlight('Café de olla', 'cafe')
 - `similarity(a, b, { fold })`: from `0` to `1`, folded by default. `('Mexico', 'México')` → `1`.
 - `closest(input, candidates, { threshold })`: the most similar candidate, or `undefined` below `threshold` (`0.5`). `('te vrde', ['Café de olla', 'Té verde'])` → `'Té verde'`.
 
-Similarity compares whole strings, so a short query scores low against a long candidate. Suggest from candidates of similar length, such as names or single words.
+`closest` also compares the input with the start of each word of longer candidates (`partial`, on by default, for inputs of three characters or more), so `horchatta` finds `Horchata de arroz` and `limon` finds `Jamaica con limón`. A whole match scores a little higher than a partial one. `similarity` alone always compares whole strings.
 
 ## Filtering a list
 

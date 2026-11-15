@@ -110,7 +110,11 @@ The bundle defines `window.SamlineString` with every function and converts every
 
 ### Display helpers
 
-`truncate` counts code points, so emoji and accents are never split, and cuts at the last whole word. `position: 'middle'` keeps both ends of file names and IDs, `position: 'start'` keeps the ending. `initials` builds avatar letters.
+`truncate` counts graphemes, so emoji such as 👨‍👩‍👧 or 🇲🇽 and accented letters are never split, and cuts at the last whole word. `position: 'middle'` keeps both ends of file names and IDs, `position: 'start'` keeps the ending. `initials` builds avatar letters.
+
+### Text helpers
+
+`wordCount` and `readingTime` count words with `Intl.Segmenter`, so punctuation is ignored and Chinese or Japanese text is split correctly. `pluralize(count, { one: '# file', other: '# files' })` picks the right form for any language with `Intl.PluralRules`, formats the count and supports ordinals (`22nd`). `template('Hola {user.name}', values)` fills placeholders. `escapeHtml`, `unescapeHtml` and `stripTags` move text in and out of HTML, and `graphemes` splits text into user-perceived characters.
 
 ### Conversions by name
 
@@ -118,7 +122,7 @@ The bundle defines `window.SamlineString` with every function and converts every
 
 ### Search and comparison
 
-`fold` lowers case, removes accents and maps full-width forms, so `contains` finds `Café` with `cafe` and every query word counts. `highlight` splits the original text into matching and non-matching pieces, without building HTML, and keeps decomposed accents with their letter. `compareNatural` sorts `file2` before `file10` and ignores accents. `distance`, `similarity` and `closest` measure typos and suggest the nearest candidate.
+`fold` lowers case, removes accents and maps full-width forms, so `contains` finds `Café` with `cafe` and every query word counts. `highlight` splits the original text into matching and non-matching pieces, without building HTML, and keeps decomposed accents with their letter. `compareNatural` sorts `file2` before `file10` and ignores accents. `distance`, `similarity` and `closest` measure typos and suggest the nearest candidate; `closest` also compares with the start of each word, so `horchatta` finds `Horchata de arroz`.
 
 ### HTML attributes
 
@@ -131,8 +135,9 @@ The bundle defines `window.SamlineString` with every function and converts every
 | `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase`, `trainCase`                        | Identifier cases.                           |
 | `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                                                                      | Human-readable casing.                      |
 | `slugify(text, options?)`, `uniqueSlug(text, taken, options?)`, `removeAccents(text, options?)`, `CYRILLIC`, `GREEK`, `GERMAN` | URL slugs, free slugs and accent-free text. |
-| `truncate(text, length, options?)`, `initials(text, options?)`                                                                 | Display helpers.                            |
+| `truncate(text, length, options?)`, `initials(text, options?)`, `graphemes(text)`                                              | Display helpers.                            |
 | `convert(text, to, options?)`, `CONVERSIONS`, `isConversion(value)`                                                            | Any conversion by name.                     |
+| `wordCount`, `readingTime`, `pluralize`, `template`, `escapeHtml`, `unescapeHtml`, `stripTags`                                 | Prose, plurals, placeholders and HTML text. |
 | `fold`, `contains`, `highlight`, `compareNatural`, `distance`, `similarity`, `closest`                                         | Search, sorting and typo suggestions.       |
 | `words(text)`                                                                                                                  | The shared word splitter.                   |
 | `string(target?, options?)`, `autoString(options?)` from `/vanilla`                                                            | Convert elements and fields from HTML.      |

@@ -184,6 +184,30 @@ export const similarity = (
 export interface ClosestOptions extends SimilarityOptions {
   /** Minimum similarity, from `0` to `1`. Defaults to `0.5`. */
   threshold?: number
+  /**
+   * Also compare the input with the start of each word of a longer
+   * candidate, so `horchatta` finds `Horchata de arroz`. Needs at least three
+   * characters. Defaults to `true`.
+   */
+  partial?: boolean
+}
+
+/** Partial matches score a little lower, so a whole match wins a tie. */
+const PARTIAL_WEIGHT = 0.98
+
+const partialScore = (input: string, candidate: string): number => {
+  const left = Array.from(input)
+  const right = Array.from(candidate)
+  if (left.length < 3 || right.length <= left.length) return 0
+  const needle = left.join('')
+  let best = 0
+  right.forEach((char, index) => {
+    if (index > 0 && !/[\s\p{P}]/u.test(right[index - 1]!)) return
+    if (/\s/u.test(char)) return
+    const piece = right.slice(index, index + left.length).join('')
+    best = Math.max(best, similarity(needle, piece, { fold: false }))
+  })
+  return best * PARTIAL_WEIGHT
 }
 
 /**
@@ -194,12 +218,17 @@ export interface ClosestOptions extends SimilarityOptions {
 export const closest = <T extends string>(
   input: string,
   candidates: Iterable<T>,
-  { threshold = 0.5, ...options }: ClosestOptions = {}
+  { threshold = 0.5, partial = true, ...options }: ClosestOptions = {}
 ): T | undefined => {
+  const shouldFold = options.fold ?? true
+  const foldOptions = options.locale === undefined ? {} : { locale: options.locale }
+  const prepare = (value: string) => (shouldFold ? fold(value, foldOptions) : String(value ?? ''))
+  const needle = prepare(input)
   let best: T | undefined
   let bestScore = -1
   for (const candidate of candidates) {
-    const score = similarity(input, candidate, options)
+    const whole = similarity(input, candidate, options)
+    const score = partial ? Math.max(whole, partialScore(needle, prepare(candidate))) : whole
     if (score > bestScore) {
       best = candidate
       bestScore = score

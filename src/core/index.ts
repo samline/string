@@ -54,3 +54,17 @@ export {
   type MatchOptions,
   type SimilarityOptions,
 } from './search.js'
+export { graphemes } from './graphemes.js'
+export {
+  pluralize,
+  readingTime,
+  template,
+  wordCount,
+  type PluralForms,
+  type PluralizeOptions,
+  type ReadingTime,
+  type ReadingTimeOptions,
+  type TemplateOptions,
+  type WordCountOptions,
+} from './prose.js'
+export { escapeHtml, stripTags, unescapeHtml } from './html.js'

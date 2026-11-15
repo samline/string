@@ -85,6 +85,18 @@ test.describe('string copyable examples', () => {
     await expect(page.locator('#drinks mark')).toHaveCount(0)
   })
 
+  test('article meta shows reading time, plurals, an excerpt and a greeting', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'article'))
+    await expect(page.locator('#meta')).toHaveText(
+      /^1 minuto de lectura · \d+ palabras · 3 comentarios$/
+    )
+    const excerpt = (await page.locator('#excerpt').textContent()) ?? ''
+    expect(excerpt.startsWith('Café de olla El café de olla se prepara')).toBe(true)
+    expect(excerpt.endsWith('…')).toBe(true)
+    expect(Array.from(excerpt).length).toBeLessThanOrEqual(90)
+    await expect(page.locator('#greeting')).toHaveText('Hola Ana, tienes 2 borradores.')
+  })
+
   test('keys round-trip between snake_case and camelCase', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'keys'))
     const data = JSON.parse((await page.locator('#output').textContent()) ?? '{}')

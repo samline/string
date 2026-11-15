@@ -43,8 +43,19 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 
 ## Display
 
-- `truncate(text, length, options?)`: `('The quick brown fox jumps', 15)` → `'The quick…'`. Counts code points, so emoji and accents are never split. `{ position: 'middle' }` keeps both ends (`'annual-report-2026-final.pdf'` at 19 → `'annual-re…final.pdf'`) and `{ position: 'start' }` keeps the ending (`'…fox jumps'`).
+- `truncate(text, length, options?)`: `('The quick brown fox jumps', 15)` → `'The quick…'`. Counts graphemes, so emoji (👨‍👩‍👧, 🇲🇽) and accented letters are never split. `{ position: 'middle' }` keeps both ends (`'annual-report-2026-final.pdf'` at 19 → `'annual-re…final.pdf'`) and `{ position: 'start' }` keeps the ending (`'…fox jumps'`).
 - `initials(text, options?)`: `'Samuel Olvera'` → `'SO'`.
+- `graphemes(text)`: `'🇲🇽é'` → `['🇲🇽', 'é']`. Uses `Intl.Segmenter`, with code points as the fallback.
+
+## Text
+
+- `wordCount(text, options?)`: `"¡Hola, mundo! It's 2026."` → `4`.
+- `readingTime(text, options?)`: `{ words, minutes }`, minutes rounded up at 200 words per minute.
+- `pluralize(count, forms, options?)`: `(1234, { one: '# file', other: '# files' })` → `'1,234 files'`. `forms` takes the `Intl.PluralRules` categories (`zero`, `one`, `two`, `few`, `many`, `other`); `#` becomes the formatted count; `zero` wins for `0` when given.
+- `template(text, values, options?)`: `('Hola {user.name}', { user: { name: 'Ana' } })` → `'Hola Ana'`. `{{` and `}}` are literal braces; missing values keep their placeholder unless you pass `missing`.
+- `escapeHtml(text)`: `'<b>'` → `'&lt;b&gt;'`, for text and quoted attributes.
+- `unescapeHtml(text)`: numeric and common named entities back to characters.
+- `stripTags(html)`: plain text from HTML, without comments, scripts or styles. It is not a sanitizer; insert the result with `textContent`.
 
 ## Conversions by name
 
@@ -62,7 +73,7 @@ See the [search guide](../../guides/search/).
 - `compareNatural(a, b, options?)`: `['file10', 'file2'].sort(compareNatural)` → `['file2', 'file10']`.
 - `distance(a, b)`: `('kitten', 'sitting')` → `3`.
 - `similarity(a, b, options?)`: `('Mexico', 'México')` → `1`.
-- `closest(input, candidates, options?)`: `('mexcio', ['Chile', 'México'])` → `'México'`.
+- `closest(input, candidates, options?)`: `('mexcio', ['Chile', 'México'])` → `'México'`. With `partial` (default) it also compares with the start of each word: `('horchatta', ['Horchata de arroz'])` → `'Horchata de arroz'`.
 
 ## Building blocks
 
@@ -84,4 +95,4 @@ The CDN bundle defines `window.SamlineString` with every function above, `string
 
 ## Types
 
-`CaseOptions`, `TitleCaseOptions`, `SlugifyOptions`, `UniqueSlugOptions`, `Replacements`, `TakenSlugs`, `RemoveAccentsOptions`, `CharMap`, `CharMapName`, `TruncateOptions`, `TruncatePosition`, `InitialsOptions`, `Conversion`, `ConvertOptions`, `FoldOptions`, `MatchOptions`, `HighlightSegment`, `CompareOptions`, `SimilarityOptions` and `ClosestOptions`; from `/vanilla` also `StringOptions`, `AutoStringOptions`, `StringController`, `StringState`, `SearchOptions`, `AutoSearchOptions`, `SearchController`, `SearchResult` and `SearchState`.
+`CaseOptions`, `TitleCaseOptions`, `SlugifyOptions`, `UniqueSlugOptions`, `Replacements`, `TakenSlugs`, `RemoveAccentsOptions`, `CharMap`, `CharMapName`, `TruncateOptions`, `TruncatePosition`, `InitialsOptions`, `WordCountOptions`, `ReadingTimeOptions`, `ReadingTime`, `PluralForms`, `PluralizeOptions`, `TemplateOptions`, `Conversion`, `ConvertOptions`, `FoldOptions`, `MatchOptions`, `HighlightSegment`, `CompareOptions`, `SimilarityOptions` and `ClosestOptions`; from `/vanilla` also `StringOptions`, `AutoStringOptions`, `StringController`, `StringState`, `SearchOptions`, `AutoSearchOptions`, `SearchController`, `SearchResult` and `SearchState`.

@@ -72,7 +72,7 @@ export const titleCase = (
 ): string => {
   const small = new Set(smallWords.map(word => lower(word, locale)))
   let index = 0
-  return String(input ?? '').replace(/[\p{L}\p{N}]+/gu, word => {
+  return String(input ?? '').replace(/[\p{L}\p{M}\p{N}]+/gu, word => {
     const first = index++ === 0
     const lowered = lower(word, locale)
     return !first && small.has(lowered) ? lowered : upperFirst(lowered, locale)

@@ -64,19 +64,29 @@ It throws a `RangeError` when 100,000 numbers in a row are taken.
 | `max`    | `2`     | Maximum number of letters. |
 | `locale` | –       | Locale for upper-casing.   |
 
+## Text helpers
+
+| Option           | Used by                                 | Default | Description                                                                    |
+| ---------------- | --------------------------------------- | ------- | ------------------------------------------------------------------------------ |
+| `locale`         | `wordCount`, `readingTime`, `pluralize` | –       | Word boundaries, plural rules and number format.                               |
+| `wordsPerMinute` | `readingTime`                           | `200`   | Reading speed.                                                                 |
+| `ordinal`        | `pluralize`                             | `false` | Ordinal rules: `one` → `1st`, `two` → `2nd`, `few` → `3rd`.                    |
+| `missing`        | `template`                              | –       | String or `(key) => string` for missing values; default keeps the placeholder. |
+
 ## convert
 
 `convert(text, to, options)` accepts every option above in one object, plus `length` for `'truncate'` (without it, the text is returned unchanged) and `taken` for `'slug'`, which then returns `uniqueSlug`.
 
 ## Search and comparison
 
-| Option        | Used by                 | Default  | Description                                                  |
-| ------------- | ----------------------- | -------- | ------------------------------------------------------------ |
-| `locale`      | every function          | –        | Locale for folding (`fold`, `contains`…) or ordering.        |
-| `split`       | `contains`, `highlight` | `true`   | Each query word is its own term; `false` matches one phrase. |
-| `sensitivity` | `compareNatural`        | `'base'` | `'base'`, `'accent'`, `'case'` or `'variant'`.               |
-| `fold`        | `similarity`, `closest` | `true`   | Ignore accents and case.                                     |
-| `threshold`   | `closest`               | `0.5`    | Minimum similarity, from `0` to `1`.                         |
+| Option        | Used by                 | Default  | Description                                                    |
+| ------------- | ----------------------- | -------- | -------------------------------------------------------------- |
+| `locale`      | every function          | –        | Locale for folding (`fold`, `contains`…) or ordering.          |
+| `split`       | `contains`, `highlight` | `true`   | Each query word is its own term; `false` matches one phrase.   |
+| `sensitivity` | `compareNatural`        | `'base'` | `'base'`, `'accent'`, `'case'` or `'variant'`.                 |
+| `fold`        | `similarity`, `closest` | `true`   | Ignore accents and case.                                       |
+| `threshold`   | `closest`               | `0.5`    | Minimum similarity, from `0` to `1`.                           |
+| `partial`     | `closest`               | `true`   | Also compare with word starts of longer candidates (3+ chars). |
 
 `search()` options are listed in the [search guide](../../guides/search/#filtering-a-list).
 

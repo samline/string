@@ -1,3 +1,4 @@
+import { graphemes } from './graphemes.js'
 import { words } from './words.js'
 
 export type TruncatePosition = 'end' | 'middle' | 'start'
@@ -24,17 +25,17 @@ const TRAILING = new RegExp(`${EDGE}$`, 'u')
 const LEADING = new RegExp(`^${EDGE}`, 'u')
 
 /**
- * Shorten text to at most `length` characters (code points, so emoji and
- * accents are never split).
+ * Shorten text to at most `length` characters. Characters are graphemes, so
+ * emoji (👨‍👩‍👧, 🇲🇽) and accented letters are never split.
  */
 export const truncate = (
   input: string,
   length: number,
   { ellipsis = '…', wordBoundary = true, position = 'end' }: TruncateOptions = {}
 ): string => {
-  const chars = Array.from(String(input ?? ''))
+  const chars = graphemes(input)
   if (!Number.isFinite(length) || length < 0 || chars.length <= length) return chars.join('')
-  const room = Math.max(0, length - Array.from(ellipsis).length)
+  const room = Math.max(0, length - graphemes(ellipsis).length)
 
   if (position === 'middle') {
     const head = chars.slice(0, Math.ceil(room / 2)).join('')
@@ -70,5 +71,5 @@ export interface InitialsOptions {
 export const initials = (input: string, { max = 2, locale }: InitialsOptions = {}): string =>
   words(String(input ?? ''))
     .slice(0, Math.max(0, max))
-    .map(word => Array.from(word)[0]!.toLocaleUpperCase(locale))
+    .map(word => graphemes(word)[0]!.toLocaleUpperCase(locale))
     .join('')
