@@ -19,6 +19,7 @@ export default {
     'getting-started': 'Installation',
     'guides/examples': 'Examples',
     'guides/words': 'Word splitting',
+    'guides/html': 'HTML attributes',
     index: 'Overview',
     'reference/api': 'API reference',
     'reference/configuration': 'Configuration',

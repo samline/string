@@ -39,6 +39,14 @@ export const kebabCase = joinLower('-')
 export const snakeCase = joinLower('_')
 /** `Hello World` → `hello.world` */
 export const dotCase = joinLower('.')
+/** `Hello World` → `hello/world` */
+export const pathCase = joinLower('/')
+
+/** `hello world` → `Hello-World`, the casing of HTTP headers. */
+export const trainCase = (input: string, { locale }: CaseOptions = {}): string =>
+  words(input)
+    .map(word => titleWord(word, locale))
+    .join('-')
 
 /** `Hello World` → `HELLO_WORLD` */
 export const constantCase = (input: string, { locale }: CaseOptions = {}): string =>

@@ -6,25 +6,31 @@ import './_shared.css'
   <label for="preview-title">Title</label>
   <input id="preview-title" type="text" value="Café & Té: Guía 2026" />
   <label for="preview-slug">Slug</label>
-  <input id="preview-slug" type="text" />
+  <input
+    id="preview-slug"
+    type="text"
+    data-string="slug"
+    data-string-source="#preview-title"
+    data-string-replacements='{"&": "y"}'
+  />
+  <p>example.com/blog/<code data-string="slug" data-string-source="#preview-slug"></code></p>
+  <p data-status></p>
 </div>
 
 <script>
-  import { slugify } from '@samline/string'
+  import { string } from '@samline/string/vanilla'
 
-  const title = document.querySelector<HTMLInputElement>('#preview-title')!
-  const slug = document.querySelector<HTMLInputElement>('#preview-slug')!
-  let edited = false
+  const root = document.querySelector<HTMLElement>('[data-preview="slug"]')!
+  string(root.querySelectorAll('[data-string]'))
 
-  const sync = () => {
-    if (!edited) slug.value = slugify(title.value, { replacements: { '&': 'y' } })
-  }
-  title.addEventListener('input', sync)
-  slug.addEventListener('input', () => {
-    edited = true
-    slug.value = slugify(slug.value, { trim: false })
-  })
-  // blur, not change: Safari skips change when a script edited the value during input.
-  slug.addEventListener('blur', () => (slug.value = slugify(slug.value)))
-  sync()
+  const slug = root.querySelector<HTMLInputElement>('#preview-slug')!
+  const status = root.querySelector<HTMLElement>('[data-status]')!
+  const show = () =>
+    (status.textContent =
+      slug.dataset.stringState === 'edited'
+        ? 'Edited by hand. Empty the field to follow the title again.'
+        : 'Follows the title.')
+  slug.addEventListener('string:change', show)
+  slug.addEventListener('input', show)
+  show()
 </script>

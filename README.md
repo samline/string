@@ -1,6 +1,6 @@
 # @samline/string
 
-Case conversion, URL slugs, accent removal, truncation and initials for JavaScript, TypeScript and plain HTML, all built on one Unicode-aware word splitter, so every case agrees.
+Case conversion, URL slugs, accent removal, truncation and initials for JavaScript, TypeScript and plain HTML, all built on one Unicode-aware word splitter, so every case agrees. Call the functions from code, or convert text and form fields straight from HTML attributes.
 
 [Demo](https://samline.github.io/string/) · [Examples](https://samline.github.io/string/examples/) · [Documentation](https://samline.github.io/string/docs/) · [Changelog](CHANGELOG.md)
 
@@ -30,18 +30,34 @@ pnpm add @samline/string
 bun add @samline/string
 ```
 
-Pure functions with no DOM access: browsers, Node 20 or newer, workers and edge runtimes. No runtime dependencies.
+The functions are pure, with no DOM access: browsers, Node 20 or newer, workers and edge runtimes. The optional HTML layer in `@samline/string/vanilla` needs a DOM and does nothing without one. No runtime dependencies.
 
 ## Quick start
 
 ```js
-import { camelCase, kebabCase, slugify, titleCase, truncate } from '@samline/string'
+import { camelCase, convert, kebabCase, slugify, titleCase, truncate } from '@samline/string'
 
 camelCase('XMLHttp request_id') // 'xmlHttpRequestId'
 kebabCase('someLongName') // 'some-long-name'
 titleCase('el señor de los anillos', { smallWords: ['de', 'los'] }) // 'El Señor de los Anillos'
 slugify('¡Hola, Ñandú & Café!', { replacements: { '&': 'y' } }) // 'hola-nandu-y-cafe'
 truncate('The quick brown fox jumps', 15) // 'The quick…'
+truncate('annual-report-2026-final.pdf', 19, { position: 'middle' }) // 'annual-re…final.pdf'
+convert('content type', 'train') // 'Content-Type'
+```
+
+Or let HTML attributes do the work. This slug field fills itself from the title until the user edits it:
+
+```html
+<input id="title" value="Café & Té" />
+<input data-string="slug" data-string-source="#title" />
+<span data-string="initials">Samuel Olvera</span>
+```
+
+```js
+import { string } from '@samline/string/vanilla'
+
+string() // converts every [data-string] element; returns { refresh, destroy }
 ```
 
 ## HTML / CDN
@@ -56,7 +72,7 @@ For Shopify, WordPress or plain HTML pages without a build step, load the browse
 </script>
 ```
 
-The bundle defines `window.SamlineString` with every function.
+The bundle defines `window.SamlineString` with every function and converts every `[data-string]` element when the DOM is ready, including elements added later. Add `data-manual` to the script tag to start it yourself with `SamlineString.auto(options)`.
 
 ## Capabilities
 
@@ -66,7 +82,7 @@ The bundle defines `window.SamlineString` with every function.
 
 ### Every case
 
-`camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase` and `constantCase` for identifiers; `titleCase` (with `smallWords`), `sentenceCase`, `capitalize` and `uncapitalize` for human text. Every function takes a `locale`, so Turkish İ and ı convert correctly.
+`camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase` and `trainCase` (`Content-Type`) for identifiers; `titleCase` (with `smallWords`), `sentenceCase`, `capitalize` and `uncapitalize` for human text. Every function takes a `locale`, so Turkish İ and ı convert correctly.
 
 ### Slugs and accents
 
@@ -74,25 +90,35 @@ The bundle defines `window.SamlineString` with every function.
 
 ### Display helpers
 
-`truncate` counts code points, so emoji and accents are never split, and cuts at the last whole word; `initials` builds avatar letters.
+`truncate` counts code points, so emoji and accents are never split, and cuts at the last whole word. `position: 'middle'` keeps both ends of file names and IDs, `position: 'start'` keeps the ending. `initials` builds avatar letters.
+
+### Conversions by name
+
+`convert(text, 'kebab')` runs any conversion from a string, so it can come from configuration, a select menu or an attribute. `CONVERSIONS` lists the names and `isConversion` checks one.
+
+### HTML attributes
+
+`data-string="<conversion>"` converts any element's text, and the original markup comes back on `destroy()`. Inputs and textareas convert while the user types, keep a separator they just typed, keep the caret in place, skip IME composition and finalize on blur. `data-string-source` makes a field or preview follow another one: a slug follows the title until the user edits it and follows again when emptied, and sources chain (title → slug → URL preview). Truncated text keeps the full text in `title`, initials become an image labelled with the full name, and `data-string-state` plus a `string:change` event report every change.
 
 ## API at a glance
 
-| API                                                                            | Purpose                         |
-| ------------------------------------------------------------------------------ | ------------------------------- |
-| `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `constantCase` | Identifier cases.               |
-| `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                      | Human-readable casing.          |
-| `slugify(text, options?)`, `removeAccents(text)`                               | URL slugs and accent-free text. |
-| `truncate(text, length, options?)`, `initials(text, options?)`                 | Display helpers.                |
-| `words(text)`                                                                  | The shared word splitter.       |
+| API                                                                                                     | Purpose                                |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase`, `trainCase` | Identifier cases.                      |
+| `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                                               | Human-readable casing.                 |
+| `slugify(text, options?)`, `removeAccents(text)`                                                        | URL slugs and accent-free text.        |
+| `truncate(text, length, options?)`, `initials(text, options?)`                                          | Display helpers.                       |
+| `convert(text, to, options?)`, `CONVERSIONS`, `isConversion(value)`                                     | Any conversion by name.                |
+| `words(text)`                                                                                           | The shared word splitter.              |
+| `string(target?, options?)`, `autoString(options?)` from `/vanilla`                                     | Convert elements and fields from HTML. |
 
 ### Entrypoints
 
-| Entrypoint                | When to use                                         |
-| ------------------------- | --------------------------------------------------- |
-| `@samline/string`         | ESM or CommonJS, every function.                    |
-| `@samline/string/vanilla` | The same API as an explicit subpath.                |
-| `@samline/string/browser` | Classic script that defines `window.SamlineString`. |
+| Entrypoint                | When to use                                                                      |
+| ------------------------- | -------------------------------------------------------------------------------- |
+| `@samline/string`         | ESM or CommonJS, every pure function.                                            |
+| `@samline/string/vanilla` | Every function plus the HTML layer: `string()` and `autoString()`.               |
+| `@samline/string/browser` | Classic script that defines `window.SamlineString` and converts `[data-string]`. |
 
 ## Documentation
 
@@ -104,6 +130,7 @@ Read the [documentation](https://samline.github.io/string/docs/) for the full gu
 | [API reference](https://samline.github.io/string/docs/reference/api/)     | Every function with examples.                       |
 | [Options](https://samline.github.io/string/docs/reference/configuration/) | slugify, titleCase, truncate, initials and locales. |
 | [Word splitting](https://samline.github.io/string/docs/guides/words/)     | Exactly how words are detected.                     |
+| [HTML attributes](https://samline.github.io/string/docs/guides/html/)     | `data-string`, fields, sources, state and events.   |
 
 ## Changelog
 

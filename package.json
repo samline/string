@@ -93,6 +93,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",
+    "@samline/internal": "^1.0.0",
     "@types/node": "^24.13.5",
     "@vitest/coverage-v8": "^5.0.1",
     "axe-core": "^4.14.0",
@@ -105,8 +106,9 @@
     "vitest": "^5.0.1"
   },
   "size": {
-    "./dist/index.js": 1500,
-    "./dist/browser/string.global.js": 1500
+    "./dist/index.js": 2000,
+    "./dist/vanilla/index.js": 4500,
+    "./dist/browser/string.global.js": 4500
   },
   "workspaces": [
     "landing",

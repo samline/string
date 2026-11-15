@@ -5,6 +5,7 @@ Case conversion, slugify, accents, truncate and initials built on one Unicode-aw
 Package memory: decisions and lessons specific to this package. Family rules are in the block below.
 
 - Extracted from the samline/utils monorepo on 2026-11-14 with its Git history (`git subtree split`).
+- Phase 1 of the expansion (2026-11-15): the HTML layer lives in `src/vanilla/string.ts` (`string()`, `autoString()`, `data-string`), named after the package like `counter()`; `src/index.ts` stays pure functions only, so `@samline/string` never ships DOM code. Fields finalize on blur, not `change` (Safari). Next phases: search and comparison, smarter slugs, text utilities, more DOM behaviors.
 - The website (Home, Examples, Docs) is not built yet: `site/` holds the content written for the retired utils collection site (landing copy, docs, examples, demo) and is the source for embedding package-landing-docs here.
 
 <!-- samline:family:start -->

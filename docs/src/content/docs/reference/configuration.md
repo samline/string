@@ -1,7 +1,7 @@
 ---
 title: 'Configuration options'
 titleAccent: 'options'
-description: Options for slugify, titleCase, truncate and initials, and the locale option shared by every case function.
+description: Options for slugify, titleCase, truncate, initials, convert and the HTML layer, and the locale option shared by every case function.
 locale: en
 sidebar:
   group: reference
@@ -33,10 +33,11 @@ Every case function, `slugify` and `initials` accept `locale` for upper and lowe
 
 ## truncate
 
-| Option         | Default | Description                                                           |
-| -------------- | ------- | --------------------------------------------------------------------- |
-| `ellipsis`     | `'…'`   | Appended when cut; it counts toward `length`.                         |
-| `wordBoundary` | `true`  | Cut at the last whole word. When no whole word fits, the word is cut. |
+| Option         | Default | Description                                                                          |
+| -------------- | ------- | ------------------------------------------------------------------------------------ |
+| `ellipsis`     | `'…'`   | Appended when cut; it counts toward `length`.                                        |
+| `wordBoundary` | `true`  | Cut at the last whole word. When no whole word fits, the word is cut.                |
+| `position`     | `'end'` | `'end'` keeps the beginning, `'start'` keeps the ending, `'middle'` keeps both ends. |
 
 ## initials
 
@@ -44,3 +45,20 @@ Every case function, `slugify` and `initials` accept `locale` for upper and lowe
 | -------- | ------- | -------------------------- |
 | `max`    | `2`     | Maximum number of letters. |
 | `locale` | –       | Locale for upper-casing.   |
+
+## convert
+
+`convert(text, to, options)` accepts every option above in one object, plus `length` for `'truncate'` (without it, the text is returned unchanged).
+
+## HTML layer
+
+`string(target, options)` and `autoString(options)` accept every `convert` option, plus:
+
+| Option     | Default | Description                                                                  |
+| ---------- | ------- | ---------------------------------------------------------------------------- |
+| `to`       | –       | Conversion for elements without a valid `data-string` value.                 |
+| `source`   | –       | Element or selector that feeds this element.                                 |
+| `live`     | `true`  | Convert fields while the user types; `false` converts on blur only.          |
+| `onChange` | –       | `(value, element) => void`, called after every conversion that changed text. |
+
+`autoString` also takes `selector` (`'[data-string]'`), `scope` (`document`) and `observe` (`true`). Every option has a matching `data-string-*` attribute, listed in the [HTML attributes guide](../../guides/html/#options).

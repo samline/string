@@ -1,0 +1,29 @@
+---
+import './_shared.css'
+---
+
+<div class="preview string-example" data-preview="markup">
+  <ul>
+    <li>
+      <span class="avatar" data-string="initials">Samuel Olvera</span>
+      <span data-string="truncate" data-string-length="22" data-string-position="middle"
+        >annual-report-2026-final-v3.pdf</span
+      >
+    </li>
+    <li>
+      <span class="avatar" data-string="initials">ana maría lópez</span>
+      <span data-string="truncate" data-string-length="22" data-string-position="middle"
+        >brand-guidelines-spanish-edition.fig</span
+      >
+    </li>
+  </ul>
+  <p>Header: <code data-string="train">content security policy</code></p>
+  <p>Env var: <code data-string="constant">api base url</code></p>
+  <h3 data-string="title" data-string-small-words="de, la, el">la casa de papel</h3>
+</div>
+
+<script>
+  import { autoString } from '@samline/string/vanilla'
+
+  autoString({ scope: document.querySelector('[data-preview="markup"]')! })
+</script>

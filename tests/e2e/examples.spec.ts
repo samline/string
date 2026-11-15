@@ -28,13 +28,32 @@ test.describe('string copyable examples', () => {
   }) => {
     await open(page, 'string', find(stringExamples, 'slug'))
     await expect(page.locator('#slug')).toHaveValue('cafe-y-te-guia-2026')
+    await expect(page.locator('code')).toHaveText('cafe-y-te-guia-2026')
+    await expect(page.locator('#status')).toHaveText('Follows the title.')
     await page.locator('#slug').fill('')
     await page.locator('#slug').pressSequentially('Mi Página ', { delay: 10 })
     await expect(page.locator('#slug')).toHaveValue('mi-pagina-')
     await page.locator('#slug').blur()
     await expect(page.locator('#slug')).toHaveValue('mi-pagina')
+    await expect(page.locator('code')).toHaveText('mi-pagina')
+    await expect(page.locator('#status')).toContainText('Edited by hand')
     await page.locator('#title').fill('Otro título')
     await expect(page.locator('#slug')).toHaveValue('mi-pagina')
+    await page.locator('#slug').fill('')
+    await page.locator('#title').fill('Vuelve a seguir')
+    await expect(page.locator('#slug')).toHaveValue('vuelve-a-seguir')
+    await expect(page.locator('code')).toHaveText('vuelve-a-seguir')
+  })
+
+  test('attributes convert initials, file names, headers and headings', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'markup'))
+    await expect(page.locator('.avatar')).toHaveText(['SO', 'AM'])
+    await expect(page.locator('.avatar').first()).toHaveAttribute('aria-label', 'Samuel Olvera')
+    const file = page.locator('.files li span:not(.avatar)').first()
+    await expect(file).toHaveText('annual-repo…nal-v3.pdf')
+    await expect(file).toHaveAttribute('title', 'annual-report-2026-final-v3.pdf')
+    await expect(page.locator('code')).toHaveText(['Content-Security-Policy', 'API_BASE_URL'])
+    await expect(page.locator('h3')).toHaveText('La Casa de Papel')
   })
 
   test('keys round-trip between snake_case and camelCase', async ({ page }) => {

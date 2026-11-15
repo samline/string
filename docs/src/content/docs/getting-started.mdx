@@ -22,7 +22,7 @@ Install `@samline/string`, then follow the Package / ESM or the HTML / CDN path 
 
 ## Requirements
 
-- Any modern browser, Node 20 or newer, workers and edge runtimes. No DOM access.
+- Any modern browser, Node 20 or newer, workers and edge runtimes. The functions never touch the DOM; the optional HTML layer needs one and does nothing without it.
 - No runtime dependencies.
 
 ## Install
@@ -51,6 +51,8 @@ For Shopify, WordPress or plain HTML pages without a build step, load the browse
   const { slugify, titleCase } = window.SamlineString
 </script>
 ```
+
+The bundle also converts every element with a `data-string` attribute, for example `<input data-string="slug" data-string-source="#title" />`. See [HTML attributes](../guides/html/).
 
 ## Working starter files
 
@@ -83,6 +85,12 @@ Defaults and accepted values of `slugify`, `titleCase`, `truncate`, `initials` a
 <LinkCard href={href('guides/words')} title="Word splitting">
 
 Exactly how words are detected.
+
+</LinkCard>
+
+<LinkCard href={href('guides/html')} title="HTML attributes">
+
+Convert text and form fields with `data-string`.
 
 </LinkCard>
 
