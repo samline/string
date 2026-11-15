@@ -65,7 +65,7 @@ string() // converts every [data-string] element; returns { refresh, destroy }
 For Shopify, WordPress or plain HTML pages without a build step, load the browser bundle with a classic script tag. Pin the version in production.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@samline/string@1.0.0/dist/browser/string.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@samline/string@1.1.0/dist/browser/string.global.js"></script>
 <script>
   const { slugify } = window.SamlineString
   console.log(slugify('Café & Té')) // 'cafe-te'

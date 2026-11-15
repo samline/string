@@ -1,6 +1,6 @@
 {
   "name": "@samline/string",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Case conversion, slugify, accents, truncate and initials built on one Unicode-aware word splitter, for vanilla JavaScript, TypeScript and plain HTML.",
   "keywords": [
     "string",

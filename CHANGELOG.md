@@ -4,6 +4,8 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+## [1.1.0] - 2026-11-15
+
 ### Added
 
 - HTML layer in `@samline/string/vanilla`: `string(target, options)` and `autoString(options)` convert any element with `data-string="<conversion>"` and restore the original markup on `destroy()`. Inputs and textareas convert while the user types (keeping a just-typed separator and the caret, skipping IME composition) and finalize on blur.
