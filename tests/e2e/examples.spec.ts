@@ -56,6 +56,22 @@ test.describe('string copyable examples', () => {
     await expect(page.locator('h3')).toHaveText('La Casa de Papel')
   })
 
+  test('search filters ignoring accents, highlights and suggests a typo fix', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'search'))
+    const items = page.locator('#drinks li:visible')
+    await expect(items).toHaveCount(5)
+    await page.locator('#q').pressSequentially('cafe', { delay: 10 })
+    await expect(items).toHaveText(['Café de olla'])
+    await expect(page.locator('#drinks mark')).toHaveText(['Café'])
+    await expect(page.locator('#hint')).toHaveText('1 of 5 drinks')
+    await page.locator('#q').fill('te vrde')
+    await expect(page.locator('#drinks [data-string-search-empty]')).toBeVisible()
+    await expect(page.locator('#hint')).toHaveText('Did you mean Té verde?')
+    await page.locator('#q').fill('')
+    await expect(items).toHaveCount(5)
+    await expect(page.locator('#drinks mark')).toHaveCount(0)
+  })
+
   test('keys round-trip between snake_case and camelCase', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'keys'))
     const data = JSON.parse((await page.locator('#output').textContent()) ?? '{}')

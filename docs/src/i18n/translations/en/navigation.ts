@@ -20,6 +20,7 @@ export default {
     'guides/examples': 'Examples',
     'guides/words': 'Word splitting',
     'guides/html': 'HTML attributes',
+    'guides/search': 'Search',
     index: 'Overview',
     'reference/api': 'API reference',
     'reference/configuration': 'Configuration',

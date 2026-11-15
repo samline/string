@@ -50,6 +50,18 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 - `CONVERSIONS`: `camel`, `pascal`, `kebab`, `snake`, `dot`, `path`, `constant`, `train`, `title`, `sentence`, `capitalize`, `uncapitalize`, `lower`, `upper`, `slug`, `accents`, `truncate`, `initials`.
 - `isConversion(value)`: `true` for a name in `CONVERSIONS`.
 
+## Search and comparison
+
+See the [search guide](../../guides/search/).
+
+- `fold(text, options?)`: `'Ñandú ＡＢＣ Straße'` → `'nandu abc strasse'`.
+- `contains(text, query, options?)`: `('México: Café de olla', 'cafe mex')` → `true`. Every query word must appear.
+- `highlight(text, query, options?)`: `('Café de olla', 'cafe')` → `[{ text: 'Café', match: true }, { text: ' de olla', match: false }]`.
+- `compareNatural(a, b, options?)`: `['file10', 'file2'].sort(compareNatural)` → `['file2', 'file10']`.
+- `distance(a, b)`: `('kitten', 'sitting')` → `3`.
+- `similarity(a, b, options?)`: `('Mexico', 'México')` → `1`.
+- `closest(input, candidates, options?)`: `('mexcio', ['Chile', 'México'])` → `'México'`.
+
 ## Building blocks
 
 - `words(text)`: `'XMLHttpRequest'` → `['XML', 'Http', 'Request']`.
@@ -60,12 +72,14 @@ From `@samline/string/vanilla` (see the [HTML attributes guide](../../guides/htm
 
 - `string(target?, options?)`: converts `target` (an element, selector or list; defaults to `[data-string]`) and returns `{ refresh, destroy }`. `destroy()` is idempotent and restores the original markup.
 - `autoString(options?)`: the same for every match in `scope`, including elements added later. Takes `selector`, `scope` and `observe` besides the `string()` options.
-- `ATTRIBUTE` (`data-string`), `STATE_ATTRIBUTE` (`data-string-state`) and `CHANGE_EVENT` (`string:change`).
+- `search(target?, options?)`: filters each list (defaults to `[data-string-search]`) as its field changes and returns `{ refresh, destroy }`.
+- `autoSearch(options?)`: the same for every list in `scope`, including lists added later.
+- `ATTRIBUTE` (`data-string`), `STATE_ATTRIBUTE` (`data-string-state`), `CHANGE_EVENT` (`string:change`), `SEARCH_ATTRIBUTE` (`data-string-search`), `SEARCH_STATE_ATTRIBUTE`, `SEARCH_EMPTY_ATTRIBUTE` and `SEARCH_EVENT` (`string:search`).
 
 ## Browser global
 
-The CDN bundle defines `window.SamlineString` with every function above, `string`, `autoString`, `auto(options?)` and `controller`, and converts `[data-string]` on load unless the script tag has `data-manual`.
+The CDN bundle defines `window.SamlineString` with every function above, `string`, `autoString`, `search`, `autoSearch`, `auto(options?)` and `controller`. On load it converts `[data-string]` and filters `[data-string-search]` unless the script tag has `data-manual`. `auto()` passes its options to both, with search-only options under `search`: `auto({ locale: 'es', search: { min: 2 } })`.
 
 ## Types
 
-`CaseOptions`, `TitleCaseOptions`, `SlugifyOptions`, `TruncateOptions`, `TruncatePosition`, `InitialsOptions`, `Conversion` and `ConvertOptions`; from `/vanilla` also `StringOptions`, `AutoStringOptions`, `StringController` and `StringState`.
+`CaseOptions`, `TitleCaseOptions`, `SlugifyOptions`, `TruncateOptions`, `TruncatePosition`, `InitialsOptions`, `Conversion`, `ConvertOptions`, `FoldOptions`, `MatchOptions`, `HighlightSegment`, `CompareOptions`, `SimilarityOptions` and `ClosestOptions`; from `/vanilla` also `StringOptions`, `AutoStringOptions`, `StringController`, `StringState`, `SearchOptions`, `AutoSearchOptions`, `SearchController`, `SearchResult` and `SearchState`.

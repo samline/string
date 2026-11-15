@@ -1,0 +1,42 @@
+---
+import './_shared.css'
+---
+
+<div class="preview string-example" data-preview="search">
+  <label for="preview-q">Search drinks</label>
+  <input id="preview-q" type="search" autocomplete="off" />
+  <ul class="search-list" data-string-search="#preview-q">
+    <li>Café de olla</li>
+    <li>Té verde</li>
+    <li>Chocolate mexicano</li>
+    <li>Horchata de arroz</li>
+    <li>Jamaica con limón</li>
+    <li hidden data-string-search-empty>No drinks match.</li>
+  </ul>
+  <p data-hint aria-live="polite"></p>
+</div>
+
+<script>
+  import { closest, search } from '@samline/string/vanilla'
+
+  const root = document.querySelector<HTMLElement>('[data-preview="search"]')!
+  const drinks = [
+    'Café de olla',
+    'Té verde',
+    'Chocolate mexicano',
+    'Horchata de arroz',
+    'Jamaica con limón',
+  ]
+  const hint = root.querySelector<HTMLElement>('[data-hint]')!
+  const list = root.querySelector<HTMLElement>('[data-string-search]')!
+  list.addEventListener('string:search', event => {
+    const { query, matches, state } = (event as CustomEvent).detail
+    const guess = state === 'empty' ? closest(query, drinks) : undefined
+    hint.textContent = guess
+      ? `Did you mean ${guess}?`
+      : state === 'results'
+        ? `${matches.length} of ${drinks.length} drinks`
+        : ''
+  })
+  search(list)
+</script>

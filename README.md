@@ -1,6 +1,6 @@
 # @samline/string
 
-Case conversion, URL slugs, accent removal, truncation and initials for JavaScript, TypeScript and plain HTML, all built on one Unicode-aware word splitter, so every case agrees. Call the functions from code, or convert text and form fields straight from HTML attributes.
+Case conversion, URL slugs, accent removal, truncation and initials for JavaScript, TypeScript and plain HTML, all built on one Unicode-aware word splitter, so every case agrees. Accent-insensitive search, highlighting, natural sorting and typo suggestions use the same rules. Call the functions from code, or convert text, fill form fields and filter lists straight from HTML attributes.
 
 [Demo](https://samline.github.io/string/) · [Examples](https://samline.github.io/string/examples/) · [Documentation](https://samline.github.io/string/docs/) · [Changelog](CHANGELOG.md)
 
@@ -60,6 +60,26 @@ import { string } from '@samline/string/vanilla'
 string() // converts every [data-string] element; returns { refresh, destroy }
 ```
 
+Search without worrying about accents or case:
+
+```js
+import { closest, compareNatural, contains, highlight } from '@samline/string'
+
+contains('México: Café de olla', 'cafe mex') // true
+highlight('Café de olla', 'cafe') // [{ text: 'Café', match: true }, { text: ' de olla', match: false }]
+;['file10', 'file2', 'File1'].sort(compareNatural) // ['File1', 'file2', 'file10']
+closest('te vrde', ['Café de olla', 'Té verde']) // 'Té verde'
+```
+
+```html
+<input id="q" type="search" />
+<ul data-string-search="#q">
+  <li>Café de olla</li>
+  <li>Té verde</li>
+  <li hidden data-string-search-empty>No results</li>
+</ul>
+```
+
 ## HTML / CDN
 
 For Shopify, WordPress or plain HTML pages without a build step, load the browser bundle with a classic script tag. Pin the version in production.
@@ -72,7 +92,7 @@ For Shopify, WordPress or plain HTML pages without a build step, load the browse
 </script>
 ```
 
-The bundle defines `window.SamlineString` with every function and converts every `[data-string]` element when the DOM is ready, including elements added later. Add `data-manual` to the script tag to start it yourself with `SamlineString.auto(options)`.
+The bundle defines `window.SamlineString` with every function and converts every `[data-string]` element and filters every `[data-string-search]` list when the DOM is ready, including elements added later. Add `data-manual` to the script tag to start it yourself with `SamlineString.auto(options)`.
 
 ## Capabilities
 
@@ -96,9 +116,13 @@ The bundle defines `window.SamlineString` with every function and converts every
 
 `convert(text, 'kebab')` runs any conversion from a string, so it can come from configuration, a select menu or an attribute. `CONVERSIONS` lists the names and `isConversion` checks one.
 
+### Search and comparison
+
+`fold` lowers case, removes accents and maps full-width forms, so `contains` finds `Café` with `cafe` and every query word counts. `highlight` splits the original text into matching and non-matching pieces, without building HTML, and keeps decomposed accents with their letter. `compareNatural` sorts `file2` before `file10` and ignores accents. `distance`, `similarity` and `closest` measure typos and suggest the nearest candidate.
+
 ### HTML attributes
 
-`data-string="<conversion>"` converts any element's text, and the original markup comes back on `destroy()`. Inputs and textareas convert while the user types, keep a separator they just typed, keep the caret in place, skip IME composition and finalize on blur. `data-string-source` makes a field or preview follow another one: a slug follows the title until the user edits it and follows again when emptied, and sources chain (title → slug → URL preview). Truncated text keeps the full text in `title`, initials become an image labelled with the full name, and `data-string-state` plus a `string:change` event report every change.
+`data-string="<conversion>"` converts any element's text, and the original markup comes back on `destroy()`. Inputs and textareas convert while the user types, keep a separator they just typed, keep the caret in place, skip IME composition and finalize on blur. `data-string-source` makes a field or preview follow another one: a slug follows the title until the user edits it and follows again when emptied, and sources chain (title → slug → URL preview). Truncated text keeps the full text in `title`, initials become an image labelled with the full name, and `data-string-state` plus a `string:change` event report every change. `data-string-search="#q"` filters a list as the user types, wraps matches in `<mark>`, shows a `data-string-search-empty` message and reports results in a `string:search` event.
 
 ## API at a glance
 
@@ -109,16 +133,18 @@ The bundle defines `window.SamlineString` with every function and converts every
 | `slugify(text, options?)`, `removeAccents(text)`                                                        | URL slugs and accent-free text.        |
 | `truncate(text, length, options?)`, `initials(text, options?)`                                          | Display helpers.                       |
 | `convert(text, to, options?)`, `CONVERSIONS`, `isConversion(value)`                                     | Any conversion by name.                |
+| `fold`, `contains`, `highlight`, `compareNatural`, `distance`, `similarity`, `closest`                  | Search, sorting and typo suggestions.  |
 | `words(text)`                                                                                           | The shared word splitter.              |
 | `string(target?, options?)`, `autoString(options?)` from `/vanilla`                                     | Convert elements and fields from HTML. |
+| `search(target?, options?)`, `autoSearch(options?)` from `/vanilla`                                     | Filter and highlight lists from HTML.  |
 
 ### Entrypoints
 
-| Entrypoint                | When to use                                                                      |
-| ------------------------- | -------------------------------------------------------------------------------- |
-| `@samline/string`         | ESM or CommonJS, every pure function.                                            |
-| `@samline/string/vanilla` | Every function plus the HTML layer: `string()` and `autoString()`.               |
-| `@samline/string/browser` | Classic script that defines `window.SamlineString` and converts `[data-string]`. |
+| Entrypoint                | When to use                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------- |
+| `@samline/string`         | ESM or CommonJS, every pure function.                                           |
+| `@samline/string/vanilla` | Every function plus the HTML layer: `string()`, `search()` and their `auto*()`. |
+| `@samline/string/browser` | Classic script that defines `window.SamlineString` and starts the HTML layer.   |
 
 ## Documentation
 
@@ -131,6 +157,7 @@ Read the [documentation](https://samline.github.io/string/docs/) for the full gu
 | [Options](https://samline.github.io/string/docs/reference/configuration/) | slugify, titleCase, truncate, initials and locales. |
 | [Word splitting](https://samline.github.io/string/docs/guides/words/)     | Exactly how words are detected.                     |
 | [HTML attributes](https://samline.github.io/string/docs/guides/html/)     | `data-string`, fields, sources, state and events.   |
+| [Search](https://samline.github.io/string/docs/guides/search/)            | Folding, highlighting, sorting and list filtering.  |
 
 ## Changelog
 

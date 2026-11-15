@@ -1,7 +1,7 @@
 ---
 title: 'Configuration options'
 titleAccent: 'options'
-description: Options for slugify, titleCase, truncate, initials, convert and the HTML layer, and the locale option shared by every case function.
+description: Options for slugify, titleCase, truncate, initials, convert, search and comparison and the HTML layer, and the locale option shared by every case function.
 locale: en
 sidebar:
   group: reference
@@ -49,6 +49,18 @@ Every case function, `slugify` and `initials` accept `locale` for upper and lowe
 ## convert
 
 `convert(text, to, options)` accepts every option above in one object, plus `length` for `'truncate'` (without it, the text is returned unchanged).
+
+## Search and comparison
+
+| Option        | Used by                 | Default  | Description                                                  |
+| ------------- | ----------------------- | -------- | ------------------------------------------------------------ |
+| `locale`      | every function          | –        | Locale for folding (`fold`, `contains`…) or ordering.        |
+| `split`       | `contains`, `highlight` | `true`   | Each query word is its own term; `false` matches one phrase. |
+| `sensitivity` | `compareNatural`        | `'base'` | `'base'`, `'accent'`, `'case'` or `'variant'`.               |
+| `fold`        | `similarity`, `closest` | `true`   | Ignore accents and case.                                     |
+| `threshold`   | `closest`               | `0.5`    | Minimum similarity, from `0` to `1`.                         |
+
+`search()` options are listed in the [search guide](../../guides/search/#filtering-a-list).
 
 ## HTML layer
 

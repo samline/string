@@ -4,6 +4,12 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+### Added
+
+- Search and comparison: `fold` (case, accents, full-width), `contains` (every query word, accent-insensitive), `highlight` (matching pieces of the original text, without HTML), `compareNatural` (numeric, locale-aware, accent-insensitive sorting), `distance`, `similarity` and `closest` for typo suggestions.
+- `search(target, options)` and `autoSearch(options)` in `@samline/string/vanilla`: `data-string-search="#q"` filters a list as the user types, wraps matches in `<mark>`, shows a `data-string-search-empty` message, reports `data-string-search-state` and a `string:search` event, and restores the markup on `destroy()`.
+- The browser bundle also starts `[data-string-search]` lists; `SamlineString.auto({ search })` takes search-only options.
+
 ## [1.1.0] - 2026-11-15
 
 ### Added

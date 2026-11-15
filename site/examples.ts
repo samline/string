@@ -87,6 +87,55 @@ console.log('Converted', document.querySelectorAll('[data-string-state]').length
     },
   },
   {
+    id: 'search',
+    tab: 'Search',
+    title: 'Filter a list ignoring accents',
+    description:
+      'data-string-search filters the list as the user types: cafe finds Café, matches are wrapped in mark, and the empty message shows when nothing matches. closest() suggests the nearest drink for a typo.',
+    files: {
+      html: `<label for="q">Search drinks</label>
+<input id="q" type="search" autocomplete="off" />
+<ul id="drinks" data-string-search="#q">
+  <li>Café de olla</li>
+  <li>Té verde</li>
+  <li>Chocolate mexicano</li>
+  <li>Horchata de arroz</li>
+  <li>Jamaica con limón</li>
+  <li hidden data-string-search-empty>No drinks match.</li>
+</ul>
+<p id="hint" aria-live="polite"></p>`,
+      css: `label { display: block; font-weight: 600; }
+input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
+mark { background: #fde68a; color: inherit; border-radius: 0.125rem; }`,
+      js: `const { closest } = window.SamlineString
+const drinks = ['Café de olla', 'Té verde', 'Chocolate mexicano', 'Horchata de arroz', 'Jamaica con limón']
+const hint = document.querySelector('#hint')
+document.querySelector('#drinks').addEventListener('string:search', event => {
+  const { query, matches, state } = event.detail
+  const guess = state === 'empty' ? closest(query, drinks) : undefined
+  hint.textContent = guess
+    ? \`Did you mean \${guess}?\`
+    : state === 'results'
+      ? \`\${matches.length} of \${drinks.length} drinks\`
+      : ''
+})`,
+      esm: `import { closest, search } from '@samline/string/vanilla'
+
+const drinks = ['Café de olla', 'Té verde', 'Chocolate mexicano', 'Horchata de arroz', 'Jamaica con limón']
+const hint = document.querySelector('#hint')
+document.querySelector('#drinks').addEventListener('string:search', event => {
+  const { query, matches, state } = event.detail
+  const guess = state === 'empty' ? closest(query, drinks) : undefined
+  hint.textContent = guess
+    ? \`Did you mean \${guess}?\`
+    : state === 'results'
+      ? \`\${matches.length} of \${drinks.length} drinks\`
+      : ''
+})
+search()`,
+    },
+  },
+  {
     id: 'keys',
     tab: 'Data keys',
     title: 'Normalize keys from an API',

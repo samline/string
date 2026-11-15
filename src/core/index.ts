@@ -31,3 +31,18 @@ export {
   type Conversion,
   type ConvertOptions,
 } from './convert.js'
+export {
+  closest,
+  compareNatural,
+  contains,
+  distance,
+  fold,
+  highlight,
+  similarity,
+  type ClosestOptions,
+  type CompareOptions,
+  type FoldOptions,
+  type HighlightSegment,
+  type MatchOptions,
+  type SimilarityOptions,
+} from './search.js'
