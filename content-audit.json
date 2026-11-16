@@ -1,6 +1,6 @@
 {
   "status": "verified",
-  "packageVersion": "1.5.0",
+  "packageVersion": "2.0.0",
   "capabilityReview": {
     "status": "verified",
     "integrations": [
@@ -116,7 +116,7 @@
   "sources": [
     {
       "source": "README.md",
-      "sha256": "9ac3961d7c1b9056998cbf748933c86714f2a215d52b6288c4ed8f96d9b1a99a",
+      "sha256": "68c07be51a177102c4001981539f231fbb3557049b06b4833fc56b124df39e9a",
       "destination": "docs/src/content/docs/index.mdx",
       "reviewed": true
     },
