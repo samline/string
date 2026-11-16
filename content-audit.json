@@ -116,7 +116,7 @@
   "sources": [
     {
       "source": "README.md",
-      "sha256": "68c07be51a177102c4001981539f231fbb3557049b06b4833fc56b124df39e9a",
+      "sha256": "f15ab0f60961b7b7788f676a39d622bdccf15aaec628f7d6e07d6ebb876d8198",
       "destination": "docs/src/content/docs/index.mdx",
       "reviewed": true
     },
