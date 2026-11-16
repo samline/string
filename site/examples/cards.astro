@@ -7,25 +7,34 @@ import './_shared.css'
 </div>
 
 <script>
-  import { initials, truncate } from '@samline/string'
+  import { hashColor, initials, truncate } from '@samline/string'
 
   const people = [
     { name: 'Samuel Olvera', bio: 'Builds small, framework-agnostic utilities for the open web.' },
     {
-      name: 'ana maría lópez',
+      name: 'Ana María López',
       bio: 'Diseña interfaces accesibles y escribe sobre tipografía en español.',
+    },
+    {
+      name: 'ana maria lopez',
+      bio: 'Importada de otro sistema, con el nombre escrito sin acentos ni mayúsculas.',
     },
   ]
 
   document.querySelector('[data-preview="cards"] ul')!.replaceChildren(
-    ...people.map(person => {
+    ...people.map(({ name, bio }) => {
       const item = document.createElement('li')
       const avatar = Object.assign(document.createElement('span'), {
         className: 'avatar',
-        textContent: initials(person.name),
+        textContent: initials(name),
       })
+      avatar.setAttribute('role', 'img')
+      avatar.setAttribute('aria-label', name)
+      avatar.style.background = hashColor(name)
+      avatar.style.color = 'white'
       const text = Object.assign(document.createElement('span'), {
-        textContent: truncate(person.bio, 40),
+        textContent: truncate(bio, 40),
+        title: bio,
       })
       item.append(avatar, text)
       return item

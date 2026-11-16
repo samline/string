@@ -14,7 +14,7 @@ export interface TruncateOptions {
   /**
    * Where the text is cut. `'end'` (default) keeps the beginning,
    * `'start'` keeps the ending, and `'middle'` keeps both ends, which suits
-   * file names and IDs: `annual-report-2026-final.pdf` → `annual-r…final.pdf`.
+   * file names and IDs: `annual-report-2026-final.pdf` at 19 → `annual-re…final.pdf`.
    */
   position?: TruncatePosition
 }

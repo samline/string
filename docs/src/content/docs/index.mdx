@@ -12,15 +12,19 @@ import CardGrid from '../../../../shared/components/CardGrid.astro'
 import LinkCard from '../../../../shared/components/LinkCard.astro'
 import { href } from '../../lib/routes'
 
-`@samline/string` converts text between cases, builds URL slugs, removes accents, truncates and builds initials. Every function relies on the same word splitter, so `XMLHttpRequest`, `xml-http-request` and `xml_http_request` always agree.
+`@samline/string` converts text between cases, builds URL slugs, searches without accents and shapes text for display, from code or straight from HTML attributes. Every function relies on the same word splitter, so `XMLHttpRequest`, `xml-http-request` and `xml_http_request` always agree.
 
-| Job             | Functions                                                                      |
-| --------------- | ------------------------------------------------------------------------------ |
-| Identifiers     | `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `constantCase` |
-| Human text      | `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                      |
-| URLs and search | `slugify`, `removeAccents`                                                     |
-| Display         | `truncate`, `initials`                                                         |
-| Building blocks | `words`                                                                        |
+| Job                 | Functions                                                                                                            |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Identifiers         | `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase`, `trainCase`              |
+| Human text          | `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                                                            |
+| URLs and accents    | `slugify`, `uniqueSlug`, `removeAccents`, `CYRILLIC`, `GREEK`, `GERMAN`                                              |
+| Display             | `truncate`, `initials`, `graphemes`, `hashColor`                                                                     |
+| Text                | `wordCount`, `readingTime`, `pluralize`, `template`, `escapeHtml`, `unescapeHtml`, `stripTags`                       |
+| Search              | `fold`, `contains`, `highlight`, `compareNatural`, `distance`, `similarity`, `closest`                               |
+| Conversions by name | `convert`, `CONVERSIONS`, `isConversion`                                                                             |
+| HTML (`/vanilla`)   | `data-string`, `data-string-search`, `data-string-count`, `data-string-fit`, `data-string-copy`, `data-string-color` |
+| Building blocks     | `words`                                                                                                              |
 
 ## Choose your next step
 
@@ -46,13 +50,25 @@ Every function with examples.
 
 <LinkCard href={href('reference/configuration')} title="Configuration">
 
-Defaults and accepted values of `slugify`, `titleCase`, `truncate`, `initials` and locales.
+Defaults and accepted values of every function, the HTML layer and locales.
 
 </LinkCard>
 
 <LinkCard href={href('guides/words')} title="Word splitting">
 
 Exactly how words are detected.
+
+</LinkCard>
+
+<LinkCard href={href('guides/html')} title="HTML attributes">
+
+Slug fields, counters, fitted text, copy buttons and avatar colors from `data-string-*`.
+
+</LinkCard>
+
+<LinkCard href={href('guides/search')} title="Search">
+
+Accent-insensitive matching, highlighting, natural sorting and list filtering.
 
 </LinkCard>
 

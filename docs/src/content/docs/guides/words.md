@@ -22,4 +22,4 @@ Every case function starts from `words(text)`. The rules, in order:
 | `  --leading and trailing__  ` | `leading`, `and`, `trailing`          |
 | `version2Beta`                 | `version2`, `Beta`                    |
 
-Digits stay attached to the word before them, so `v2` and `iPhone15` do not break into pieces.
+Digits stay attached to the word before them, so `v2` and `utf8` do not break into pieces. Mixed-case names follow rule 1: `iPhone15` → `i`, `Phone15`.

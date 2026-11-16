@@ -1,0 +1,32 @@
+---
+import './_shared.css'
+---
+
+<div class="preview string-example" data-preview="convert">
+  <label for="preview-phrase">Text</label>
+  <input id="preview-phrase" type="text" value="Café con leche: receta rápida" />
+  <label for="preview-conversion">Conversion</label>
+  <select id="preview-conversion"></select>
+  <p>Result: <output for="preview-phrase preview-conversion"></output></p>
+</div>
+
+<script>
+  import { CONVERSIONS, convert, isConversion } from '@samline/string'
+
+  const root = document.querySelector<HTMLElement>('[data-preview="convert"]')!
+  const input = root.querySelector('input')!
+  const select = root.querySelector('select')!
+  const result = root.querySelector('output')!
+
+  select.append(...CONVERSIONS.map(name => new Option(name, name)))
+  const saved = 'kebab'
+  select.value = isConversion(saved) ? saved : 'camel'
+
+  const update = () => {
+    const to = isConversion(select.value) ? select.value : 'camel'
+    result.textContent = convert(input.value, to, { length: 16 })
+  }
+  input.addEventListener('input', update)
+  select.addEventListener('change', update)
+  update()
+</script>

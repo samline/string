@@ -11,7 +11,7 @@ sidebar:
 
 ## Locale
 
-Every case function, `slugify` and `initials` accept `locale` for upper and lower casing, for example `{ locale: 'tr' }` so `istanbul` becomes `İSTANBUL`.
+Every case function, `slugify`, `initials`, `wordCount`, `readingTime`, `pluralize` and the search functions accept `locale`, for example `{ locale: 'tr' }` so `constantCase('istanbul')` becomes `İSTANBUL`. In HTML, an element without `data-string-locale` uses its closest `lang`.
 
 ## slugify
 
@@ -64,6 +64,14 @@ It throws a `RangeError` when 100,000 numbers in a row are taken.
 | `max`    | `2`     | Maximum number of letters. |
 | `locale` | –       | Locale for upper-casing.   |
 
+## hashColor
+
+| Option       | Default | Description                                                                         |
+| ------------ | ------- | ----------------------------------------------------------------------------------- |
+| `saturation` | `55`    | Saturation in percent.                                                              |
+| `lightness`  | `45`    | Highest lightness in percent.                                                       |
+| `contrast`   | `4.5`   | Minimum contrast of white text; lightness is lowered to reach it. `0` turns it off. |
+
 ## Text helpers
 
 | Option           | Used by                                 | Default | Description                                                                    |
@@ -94,14 +102,13 @@ It throws a `RangeError` when 100,000 numbers in a row are taken.
 
 `string(target, options)` and `autoString(options)` accept every `convert` option, plus:
 
-| Option     | Default | Description                                                                  |
-| ---------- | ------- | ---------------------------------------------------------------------------- |
-| `to`       | –       | Conversion for elements without a valid `data-string` value.                 |
-| `source`   | –       | Element or selector that feeds this element.                                 |
-| `live`     | `true`  | Convert fields while the user types; `false` converts on blur only.          |
-| `onChange` | –       | `(value, element) => void`, called after every conversion that changed text. |
-
-| `color` | `false` | `true` or `{ saturation, lightness }`: set `--string-color` for the text. |
+| Option     | Default | Description                                                                     |
+| ---------- | ------- | ------------------------------------------------------------------------------- |
+| `to`       | –       | Conversion for elements without a valid `data-string` value.                    |
+| `source`   | –       | Element or selector that feeds this element.                                    |
+| `live`     | `true`  | Convert fields while the user types; `false` converts on blur only.             |
+| `onChange` | –       | `(value, element) => void`, called after every conversion that changed text.    |
+| `color`    | `false` | `true` or [`hashColor` options](#hashcolor): set `--string-color` for the text. |
 
 `autoString` also takes `selector` (`'[data-string]'`), `scope` (`document`) and `observe` (`true`), like every `auto*()`. Every option has a matching `data-string-*` attribute, listed in the [HTML attributes guide](../../guides/html/#options).
 

@@ -20,19 +20,85 @@
     "scenarios": [
       {
         "name": "Live slug field",
-        "evidence": "test/string.test.ts (trim: false)",
+        "evidence": "tests/e2e/examples.spec.ts (slug)",
         "destination": "site/examples/slug.astro",
         "reviewed": true
       },
       {
+        "name": "Unique and transliterated slugs",
+        "evidence": "tests/e2e/examples.spec.ts (unique)",
+        "destination": "site/examples/unique.astro",
+        "reviewed": true
+      },
+      {
+        "name": "One name in every convention",
+        "evidence": "tests/e2e/examples.spec.ts (tokens)",
+        "destination": "site/examples/tokens.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Avatars, fitted names, counters and copy",
+        "evidence": "tests/e2e/examples.spec.ts (profile)",
+        "destination": "site/examples/profile.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Convert text with attributes",
+        "evidence": "tests/e2e/examples.spec.ts (markup)",
+        "destination": "site/examples/markup.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Filter a list ignoring accents",
+        "evidence": "tests/e2e/examples.spec.ts (search)",
+        "destination": "site/examples/search.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Suggestions with highlight and closest",
+        "evidence": "tests/e2e/examples.spec.ts (suggest)",
+        "destination": "site/examples/suggest.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Natural sorting",
+        "evidence": "tests/e2e/examples.spec.ts (files)",
+        "destination": "site/examples/files.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Conversions by name",
+        "evidence": "tests/e2e/examples.spec.ts (convert)",
+        "destination": "site/examples/convert.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Grapheme counting and emoji-safe truncation",
+        "evidence": "tests/e2e/examples.spec.ts (composer)",
+        "destination": "site/examples/composer.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Plurals and ordinals per language",
+        "evidence": "tests/e2e/examples.spec.ts (plurals)",
+        "destination": "site/examples/plurals.astro",
+        "reviewed": true
+      },
+      {
+        "name": "Reading time, plurals and excerpts",
+        "evidence": "tests/e2e/examples.spec.ts (article)",
+        "destination": "site/examples/article.astro",
+        "reviewed": true
+      },
+      {
         "name": "API key normalization",
-        "evidence": "test/string.test.ts (round trips)",
+        "evidence": "tests/e2e/examples.spec.ts (keys)",
         "destination": "site/examples/keys.astro",
         "reviewed": true
       },
       {
-        "name": "Avatars and excerpts",
-        "evidence": "test/string.test.ts (truncate, initials)",
+        "name": "Avatars and excerpts from data",
+        "evidence": "tests/e2e/examples.spec.ts (cards)",
         "destination": "site/examples/cards.astro",
         "reviewed": true
       }
@@ -50,49 +116,49 @@
   "sources": [
     {
       "source": "README.md",
-      "sha256": "59cabeefe1162df9e4a03d07131892e64f00fd50d6f4a1d9e9fb7293a47a562e",
+      "sha256": "52efe5e7a958879541f03b2a87edcfa93764ef586eb14f3fbd5638c9164d6f33",
       "destination": "docs/src/content/docs/index.mdx",
       "reviewed": true
     },
     {
       "source": "src/browser/global.ts",
-      "sha256": "0f302e7bdba836f7194aa3d23d83fe9866daa8bd5631403a246c7ffdb5abdef1",
+      "sha256": "1105eb6666cb72feccfddcb44ef4704b79f2a50a07182869ff54a7546a73141c",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
     {
       "source": "src/core/accents.ts",
-      "sha256": "1225c54f3f2166e42ae93b8ff20225cea564227faa48349176bfa597828ee79b",
+      "sha256": "a437ea51ae1c9ada6e90a72361ae9ae160bcdafeeb5d666fd9d8a35c44d51a4a",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
     {
       "source": "src/core/case.ts",
-      "sha256": "0cd3762e6e41ae969a27f085a5088f91070bc9c22663f2ed971074447c82aebf",
+      "sha256": "aba7cff05d57227f310b2d40c11e0bc28d291879367af74f56817d60e054817f",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
     {
       "source": "src/core/index.ts",
-      "sha256": "40111119277e7807cd53cfa100ebac0d9e26925098148a190427b30fda991f41",
+      "sha256": "4afd06e5d03690fbc524a56edf8f2ba83668a65a0f13511f141314e1f52b325c",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
     {
       "source": "src/core/slugify.ts",
-      "sha256": "9da15541f788407c838cda115f593546402daf2b31349ba5be2abe006db21885",
+      "sha256": "be54f362b082ec715d917adc99bfe6d851e01b23ea7a38b13f39674ddcce63ff",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
     {
       "source": "src/core/text.ts",
-      "sha256": "5adce8df62a659595695803e0e856bf890619e48b94e3fab6426d8b854a3a10d",
+      "sha256": "2f4ddbf37eb52028e41de584d2b0ef357168d6d17a1045a0135025e8d6d0fd0a",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
     {
       "source": "src/core/words.ts",
-      "sha256": "df40ab4c6f9c04c81dc2037735a85a27bb5ed816d96ddbb5e887cc9e392c6b2a",
+      "sha256": "a114676a1fbccb0dba5d44bfc69489f5b35b901a6f5a3f6f9c795ab3631e5d5c",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
@@ -104,13 +170,13 @@
     },
     {
       "source": "src/vanilla/index.ts",
-      "sha256": "f960874a1be0dd2dae2c3614192672d5690184b68fb7e4e0cc59b318feeeb390",
+      "sha256": "fa20c6d9b01623cafe506d739ba4f1c11174dabe4b50beed49f6dc36c3545387",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
     {
       "source": "src/core/words.ts",
-      "sha256": "df40ab4c6f9c04c81dc2037735a85a27bb5ed816d96ddbb5e887cc9e392c6b2a",
+      "sha256": "a114676a1fbccb0dba5d44bfc69489f5b35b901a6f5a3f6f9c795ab3631e5d5c",
       "destination": "docs/src/content/docs/guides/words.md",
       "reviewed": true
     }
@@ -147,5 +213,5 @@
       "reviewed": true
     }
   ],
-  "notes": "Content reviewed in the utils collection site (1.0.0), then moved to this repository's standalone site on 2026-11-14. Source hashes were recomputed against @samline/string@1.0.0."
+  "notes": "Content reviewed in the utils collection site (1.0.0), moved to this repository's standalone site on 2026-11-14, and audited against 1.5.0 on 2026-11-15: landing, docs, README, skill and examples. Source hashes recomputed on 2026-11-15."
 }

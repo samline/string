@@ -1,0 +1,42 @@
+---
+import './_shared.css'
+---
+
+<div class="preview string-example" data-preview="composer">
+  <label for="preview-post">Post</label>
+  <textarea id="preview-post" rows="3">¡Listos! 👨‍👩‍👧 🇲🇽 ✈️</textarea>
+  <output
+    data-string-count="#preview-post"
+    data-string-count-max="40"
+    data-string-count-format="{remaining} of {max} characters left"></output>
+  <dl class="stats">
+    <dt><code>post.length</code></dt>
+    <dd data-units></dd>
+    <dt><code>graphemes(post).length</code></dt>
+    <dd data-chars></dd>
+    <dt><code>post.slice(0, 11) + '…'</code></dt>
+    <dd data-sliced></dd>
+    <dt><code>truncate(post, 12)</code></dt>
+    <dd data-truncated></dd>
+  </dl>
+</div>
+
+<script>
+  import { autoCount, graphemes, truncate } from '@samline/string/vanilla'
+
+  const root = document.querySelector<HTMLElement>('[data-preview="composer"]')!
+  const post = root.querySelector('textarea')!
+  autoCount({ scope: root })
+
+  const set = (name: string, value: string | number) =>
+    (root.querySelector(`[data-${name}]`)!.textContent = String(value))
+  const update = () => {
+    const text = post.value
+    set('units', text.length)
+    set('chars', graphemes(text).length)
+    set('sliced', text.slice(0, 11) + '…')
+    set('truncated', truncate(text, 12))
+  }
+  post.addEventListener('input', update)
+  update()
+</script>

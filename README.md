@@ -92,7 +92,7 @@ For Shopify, WordPress or plain HTML pages without a build step, load the browse
 </script>
 ```
 
-The bundle defines `window.SamlineString` with every function and converts every `[data-string]` element and filters every `[data-string-search]` list when the DOM is ready, including elements added later. Add `data-manual` to the script tag to start it yourself with `SamlineString.auto(options)`.
+The bundle defines `window.SamlineString` with every function and, when the DOM is ready, starts every `[data-string]`, `[data-string-search]`, `[data-string-count]`, `[data-string-fit]` and `[data-string-copy]` element, including elements added later. Add `data-manual` to the script tag to start it yourself with `SamlineString.auto(options)`.
 
 ## Capabilities
 
@@ -106,7 +106,7 @@ The bundle defines `window.SamlineString` with every function and converts every
 
 ### Slugs and accents
 
-`slugify` removes accents, transliterates ß, æ, œ, ø, đ, ł and þ, applies your `replacements` (literal or regex pairs), collapses separators and cuts at a separator with `maxLength`. `trim: false` keeps a trailing separator for live slug fields, and `preserve: '.'` keeps characters such as the dot in `v1.2`. `charMap` adds transliteration: the `CYRILLIC`, `GREEK` and `GERMAN` presets (`Москва` → `moskva`, `Müller` → `mueller`) or your own map. `uniqueSlug(text, taken)` returns the first free slug (`hola-3`), keeping the number inside `maxLength`. `removeAccents` gives accent-insensitive text for search.
+`slugify` removes accents, transliterates ß, æ, œ, ø, đ, ł and þ, applies your `replacements` (literal or regex pairs), collapses separators and cuts at a separator with `maxLength`. `trim: false` keeps a trailing separator for live slug fields, and `preserve: '.'` keeps characters such as the dot in `v1.2`. `charMap` adds transliteration: the `CYRILLIC`, `GREEK` and `GERMAN` presets (also by name in `CHAR_MAPS`) (`Москва` → `moskva`, `Müller` → `mueller`) or your own map. `uniqueSlug(text, taken)` returns the first free slug (`hola-3`), keeping the number inside `maxLength`. `removeAccents` gives accent-insensitive text for search.
 
 ### Display helpers
 
@@ -132,20 +132,20 @@ The bundle defines `window.SamlineString` with every function and converts every
 
 ## API at a glance
 
-| API                                                                                                                            | Purpose                                     |
-| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
-| `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase`, `trainCase`                        | Identifier cases.                           |
-| `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                                                                      | Human-readable casing.                      |
-| `slugify(text, options?)`, `uniqueSlug(text, taken, options?)`, `removeAccents(text, options?)`, `CYRILLIC`, `GREEK`, `GERMAN` | URL slugs, free slugs and accent-free text. |
-| `truncate(text, length, options?)`, `initials(text, options?)`, `graphemes(text)`                                              | Display helpers.                            |
-| `convert(text, to, options?)`, `CONVERSIONS`, `isConversion(value)`                                                            | Any conversion by name.                     |
-| `wordCount`, `readingTime`, `pluralize`, `template`, `escapeHtml`, `unescapeHtml`, `stripTags`                                 | Prose, plurals, placeholders and HTML text. |
-| `fold`, `contains`, `highlight`, `compareNatural`, `distance`, `similarity`, `closest`                                         | Search, sorting and typo suggestions.       |
-| `words(text)`                                                                                                                  | The shared word splitter.                   |
-| `string(target?, options?)`, `autoString(options?)` from `/vanilla`                                                            | Convert elements and fields from HTML.      |
-| `count`, `fit`, `copy` and their `auto*()` from `/vanilla`                                                                     | Counters, fitted text and copy buttons.     |
-| `hashColor(text, options?)`                                                                                                    | A stable color for a name.                  |
-| `search(target?, options?)`, `autoSearch(options?)` from `/vanilla`                                                            | Filter and highlight lists from HTML.       |
+| API                                                                                                                                         | Purpose                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `camelCase`, `pascalCase`, `kebabCase`, `snakeCase`, `dotCase`, `pathCase`, `constantCase`, `trainCase`                                     | Identifier cases.                           |
+| `titleCase`, `sentenceCase`, `capitalize`, `uncapitalize`                                                                                   | Human-readable casing.                      |
+| `slugify(text, options?)`, `uniqueSlug(text, taken, options?)`, `removeAccents(text, options?)`, `CYRILLIC`, `GREEK`, `GERMAN`, `CHAR_MAPS` | URL slugs, free slugs and accent-free text. |
+| `truncate(text, length, options?)`, `initials(text, options?)`, `graphemes(text)`                                                           | Display helpers.                            |
+| `convert(text, to, options?)`, `CONVERSIONS`, `isConversion(value)`                                                                         | Any conversion by name.                     |
+| `wordCount`, `readingTime`, `pluralize`, `template`, `escapeHtml`, `unescapeHtml`, `stripTags`                                              | Prose, plurals, placeholders and HTML text. |
+| `fold`, `contains`, `highlight`, `compareNatural`, `distance`, `similarity`, `closest`                                                      | Search, sorting and typo suggestions.       |
+| `words(text)`                                                                                                                               | The shared word splitter.                   |
+| `string(target?, options?)`, `autoString(options?)` from `/vanilla`                                                                         | Convert elements and fields from HTML.      |
+| `count`, `fit`, `copy` and their `auto*()` from `/vanilla`                                                                                  | Counters, fitted text and copy buttons.     |
+| `hashColor(text, options?)`                                                                                                                 | A stable color for a name.                  |
+| `search(target?, options?)`, `autoSearch(options?)` from `/vanilla`                                                                         | Filter and highlight lists from HTML.       |
 
 ### Entrypoints
 
@@ -153,7 +153,7 @@ The bundle defines `window.SamlineString` with every function and converts every
 | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `@samline/string`         | ESM or CommonJS, every pure function.                                                                         |
 | `@samline/string/vanilla` | Every function plus the HTML layer: `string()`, `search()`, `count()`, `fit()`, `copy()` and their `auto*()`. |
-| `@samline/string/browser` | Classic script that defines `window.SamlineString` and starts the HTML layer.                                 |
+| `@samline/string/browser` | Classic script that defines `window.SamlineString` and starts the HTML layer.                                       |
 
 ## Documentation
 

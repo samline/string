@@ -18,7 +18,7 @@ import { href } from '../../lib/routes'
 
 export const starter = examplesFor()[0]
 
-Install `@samline/string`, then follow the Package / ESM or the HTML / CDN path to the first slug. Both use the same API.
+Install `@samline/string`, then follow the Package / ESM or the HTML / CDN path to the first slug. Both use the same functions.
 
 ## Requirements
 
@@ -52,7 +52,7 @@ For Shopify, WordPress or plain HTML pages without a build step, load the browse
 </script>
 ```
 
-The bundle also converts every element with a `data-string` attribute, for example `<input data-string="slug" data-string-source="#title" />`. See [HTML attributes](../guides/html/).
+The bundle also starts every `data-string-*` attribute when the page loads, for example `<input data-string="slug" data-string-source="#title" />`. See [HTML attributes](../guides/html/).
 
 ## Working starter files
 
@@ -78,7 +78,7 @@ Every function with examples.
 
 <LinkCard href={href('reference/configuration')} title="Configuration">
 
-Defaults and accepted values of `slugify`, `titleCase`, `truncate`, `initials` and locales.
+Defaults and accepted values of every function, the HTML layer and locales.
 
 </LinkCard>
 
@@ -91,6 +91,12 @@ Exactly how words are detected.
 <LinkCard href={href('guides/html')} title="HTML attributes">
 
 Convert text and form fields with `data-string`.
+
+</LinkCard>
+
+<LinkCard href={href('guides/search')} title="Search">
+
+Accent-insensitive matching, highlighting, natural sorting and list filtering.
 
 </LinkCard>
 

@@ -1,0 +1,46 @@
+---
+import './_shared.css'
+
+const rows = [
+  ['kebab', 'CSS name'],
+  ['camel', 'JavaScript'],
+  ['constant', 'Environment variable'],
+  ['pascal', 'Component'],
+  ['dot', 'Translation key'],
+] as const
+---
+
+<div class="preview string-example" data-preview="tokens">
+  <label for="preview-token">Name</label>
+  <input id="preview-token" type="text" value="Primary button hover" />
+  <dl class="names">
+    {
+      rows.map(([to, label]) => (
+        <div>
+          <dt>{label}</dt>
+          <dd>
+            <code data-string={to} data-string-source="#preview-token" />
+          </dd>
+          <dd>
+            <button
+              type="button"
+              data-string-copy="#preview-token"
+              data-string-copy-as={to}
+              aria-label={`Copy the ${label.toLowerCase()}`}
+            >
+              Copy
+            </button>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>
+
+<script>
+  import { autoCopy, autoString } from '@samline/string/vanilla'
+
+  const scope = document.querySelector<HTMLElement>('[data-preview="tokens"]')!
+  autoString({ scope })
+  autoCopy({ scope })
+</script>

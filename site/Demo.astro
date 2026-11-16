@@ -14,7 +14,18 @@ const outputs = [
 
 <string-demo class="demo">
   <label class="label" for="string-demo-input">Any text</label>
-  <input id="string-demo-input" class="input" type="text" value="XMLHttpRequest para el Año Nuevo" autocomplete="off" />
+  <input
+    id="string-demo-input"
+    class="input"
+    type="text"
+    value="Guía rápida: Año Nuevo 2026"
+    autocomplete="off"
+    aria-describedby="string-demo-hint"
+  />
+  <p id="string-demo-hint" class="hint">
+    Try <code>XMLHttpRequest</code> or <code>user_first_name</code>: the cases keep accents, the
+    slug removes them.
+  </p>
   <dl class="outputs">
     {
       outputs.map(([fn, label]) => (
@@ -52,6 +63,14 @@ const outputs = [
   .label {
     font-size: 0.875rem;
     color: var(--palette-specimen-text);
+  }
+  .hint {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-subtle);
+  }
+  .hint code {
+    font-family: var(--font-mono);
   }
   .input {
     width: 100%;

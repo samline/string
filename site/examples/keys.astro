@@ -3,7 +3,16 @@ import './_shared.css'
 ---
 
 <div class="preview string-example" data-preview="keys">
-  <pre></pre>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">From the API</th>
+        <th scope="col">In your code</th>
+        <th scope="col">Sent back</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 </div>
 
 <script>
@@ -12,13 +21,20 @@ import './_shared.css'
   const mapKeys = (object: Record<string, unknown>, convert: (key: string) => string) =>
     Object.fromEntries(Object.entries(object).map(([key, value]) => [convert(key), value]))
 
-  const fromApi = { user_id: 7, first_name: 'Ana', last_login_at: '2026-11-13' }
-  const forJs = mapKeys(fromApi, camelCase)
-  const back = mapKeys(forJs, snakeCase)
+  const response = { user_id: 7, first_name: 'Ana', last_login_at: '2026-11-13', is_admin: false }
+  const user = mapKeys(response, camelCase)
+  const payload = mapKeys(user, snakeCase)
 
-  document.querySelector('[data-preview="keys"] pre')!.textContent = JSON.stringify(
-    { forJs, back },
-    null,
-    2
+  const columns = [response, user, payload].map(Object.keys)
+  document.querySelector('[data-preview="keys"] tbody')!.replaceChildren(
+    ...columns[0]!.map((_, row) => {
+      const tr = document.createElement('tr')
+      for (const keys of columns) {
+        const cell = document.createElement('td')
+        cell.append(Object.assign(document.createElement('code'), { textContent: keys[row] ?? '' }))
+        tr.append(cell)
+      }
+      return tr
+    })
   )
 </script>

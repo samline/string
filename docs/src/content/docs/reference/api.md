@@ -45,7 +45,7 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 
 - `truncate(text, length, options?)`: `('The quick brown fox jumps', 15)` → `'The quick…'`. Counts graphemes, so emoji (👨‍👩‍👧, 🇲🇽) and accented letters are never split. `{ position: 'middle' }` keeps both ends (`'annual-report-2026-final.pdf'` at 19 → `'annual-re…final.pdf'`) and `{ position: 'start' }` keeps the ending (`'…fox jumps'`).
 - `initials(text, options?)`: `'Samuel Olvera'` → `'SO'`.
-- `hashColor(text, options?)`: `'Ana López'` → `'hsl(… 55% 45%)'`, the same hue every time for the same name, ignoring case and accents. Lightness is lowered as needed so white text keeps a 4.5:1 contrast (`contrast` option; `0` turns it off).
+- `hashColor(text, options?)`: `'Ana López'` → `'hsl(… 55% 45%)'`, the same hue every time for the same name, ignoring case and accents. Lightness is lowered as needed so white text keeps a 4.5:1 contrast. See [options](../configuration/#hashcolor).
 - `graphemes(text)`: `'🇲🇽é'` → `['🇲🇽', 'é']`. Uses `Intl.Segmenter`, with code points as the fallback.
 
 ## Text
@@ -55,7 +55,7 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 - `pluralize(count, forms, options?)`: `(1234, { one: '# file', other: '# files' })` → `'1,234 files'`. `forms` takes the `Intl.PluralRules` categories (`zero`, `one`, `two`, `few`, `many`, `other`); `#` becomes the formatted count; `zero` wins for `0` when given.
 - `template(text, values, options?)`: `('Hola {user.name}', { user: { name: 'Ana' } })` → `'Hola Ana'`. `{{` and `}}` are literal braces; missing values keep their placeholder unless you pass `missing`.
 - `escapeHtml(text)`: `'<b>'` → `'&lt;b&gt;'`, for text and quoted attributes.
-- `unescapeHtml(text)`: numeric and common named entities back to characters.
+- `unescapeHtml(text)`: numeric entities and `&amp;`, `&lt;`, `&gt;`, `&quot;`, `&apos;`, `&nbsp;`, `&copy;`, `&reg;`, `&hellip;`, `&mdash;`, `&ndash;`, `&laquo;` and `&raquo;` back to characters. Other named entities stay as they are.
 - `stripTags(html)`: plain text from HTML, without comments, scripts or styles. It is not a sanitizer; insert the result with `textContent`.
 
 ## Conversions by name
@@ -92,7 +92,7 @@ From `@samline/string/vanilla` (see the [HTML attributes guide](../../guides/htm
 - `fit(target?, options?)` / `autoFit`: text that fits its box, for `[data-string-fit]`.
 - `copy(target?, options?)` / `autoCopy`: copy buttons for `[data-string-copy]`.
 - Every one returns `{ refresh, destroy }` and is inert without a DOM. See the [HTML attributes guide](../../guides/html/).
-- `ATTRIBUTE` (`data-string`), `STATE_ATTRIBUTE` (`data-string-state`), `CHANGE_EVENT` (`string:change`), `SEARCH_ATTRIBUTE` (`data-string-search`), `SEARCH_STATE_ATTRIBUTE`, `SEARCH_EMPTY_ATTRIBUTE` and `SEARCH_EVENT` (`string:search`).
+- Attribute, event and property names as constants: `ATTRIBUTE` (`data-string`), `STATE_ATTRIBUTE` (`data-string-state`), `CHANGE_EVENT` (`string:change`), `COLOR_PROPERTY` (`--string-color`); `SEARCH_ATTRIBUTE`, `SEARCH_STATE_ATTRIBUTE`, `SEARCH_EMPTY_ATTRIBUTE`, `SEARCH_EVENT` (`string:search`); `COUNT_ATTRIBUTE`, `COUNT_STATE_ATTRIBUTE`, `COUNT_EVENT` (`string:count`); `FIT_ATTRIBUTE`, `FIT_STATE_ATTRIBUTE`; `COPY_ATTRIBUTE`, `COPY_STATE_ATTRIBUTE` and `COPY_EVENT` (`string:copy`).
 
 ## Browser global
 

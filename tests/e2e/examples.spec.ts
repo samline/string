@@ -125,7 +125,7 @@ test.describe('string copyable examples', () => {
       /^1 minuto de lectura · \d+ palabras · 3 comentarios$/
     )
     const excerpt = (await page.locator('#excerpt').textContent()) ?? ''
-    expect(excerpt.startsWith('Café de olla El café de olla se prepara')).toBe(true)
+    expect(excerpt.startsWith('El café de olla se prepara')).toBe(true)
     expect(excerpt.endsWith('…')).toBe(true)
     expect(Array.from(excerpt).length).toBeLessThanOrEqual(90)
     await expect(page.locator('#greeting')).toHaveText('Hola Ana, tienes 2 borradores.')
@@ -133,15 +133,132 @@ test.describe('string copyable examples', () => {
 
   test('keys round-trip between snake_case and camelCase', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'keys'))
-    const data = JSON.parse((await page.locator('#output').textContent()) ?? '{}')
-    expect(Object.keys(data.forJs)).toEqual(['userId', 'firstName', 'lastLoginAt'])
-    expect(Object.keys(data.back)).toEqual(['user_id', 'first_name', 'last_login_at'])
+    const rows = page.locator('#keys tr')
+    await expect(rows).toHaveCount(4)
+    await expect(rows.first().locator('td')).toHaveText(['user_id', 'userId', 'user_id'])
+    await expect(rows.nth(2).locator('td')).toHaveText([
+      'last_login_at',
+      'lastLoginAt',
+      'last_login_at',
+    ])
   })
 
-  test('cards build initials and truncated bios', async ({ page }) => {
+  test('cards build colored initials and truncated bios with the full text', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'cards'))
-    await expect(page.locator('.avatar')).toHaveText(['SO', 'AM'])
-    await expect(page.locator('#people li').first()).toContainText('Builds small,')
-    await expect(page.locator('#people li').first()).toContainText('…')
+    const avatars = page.locator('.avatar')
+    await expect(avatars).toHaveText(['SO', 'AM', 'AM'])
+    await expect(avatars.nth(1)).toHaveAttribute('aria-label', 'Ana María López')
+    const colors = await avatars.evaluateAll(list => list.map(el => el.style.background))
+    expect(colors[1]).toBe(colors[2])
+    expect(colors[0]).not.toBe(colors[1])
+    const bio = page.locator('#people li').first().locator('span:not(.avatar)')
+    await expect(bio).toHaveText('Builds small, framework-agnostic…')
+    await expect(bio).toHaveAttribute(
+      'title',
+      'Builds small, framework-agnostic utilities for the open web.'
+    )
+  })
+
+  test('one name follows the field in every convention and copies each', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'tokens'))
+    await expect(page.locator('.names code')).toHaveText([
+      'primary-button-hover',
+      'primaryButtonHover',
+      'PRIMARY_BUTTON_HOVER',
+      'PrimaryButtonHover',
+      'primary.button.hover',
+    ])
+    await page.locator('#token').fill('Año Nuevo banner')
+    await expect(page.locator('.names code').nth(2)).toHaveText('AÑO_NUEVO_BANNER')
+    await page.evaluate(() => {
+      ;(window as any).copied = []
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: { writeText: async (value: string) => (window as any).copied.push(value) },
+      })
+    })
+    await page.getByRole('button', { name: 'Copy the JavaScript name' }).click()
+    expect(await page.evaluate(() => (window as any).copied)).toEqual(['añoNuevoBanner'])
+  })
+
+  test('suggestions ignore accents, mark matches and fix typos', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'suggest'))
+    const status = page.locator('#country-status')
+    await expect(status).toHaveText('Type a country, with or without accents.')
+    await page.locator('#country').fill('peru')
+    await expect(page.locator('#countries li')).toHaveText(['Perú'])
+    await expect(page.locator('#countries mark')).toHaveText(['Perú'])
+    await expect(status).toHaveText('1 found')
+    await page.locator('#country').fill('cote')
+    await expect(page.locator('#countries li')).toHaveText(["Côte d'Ivoire"])
+    await expect(page.locator('#countries mark')).toHaveText(['Côte'])
+    await page.locator('#country').fill('mexcio')
+    await expect(page.locator('#countries li')).toHaveCount(0)
+    await expect(status).toHaveText('No match. Did you mean México?')
+  })
+
+  test('natural sorting reads numbers and ignores case and accents', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'files'))
+    await expect(page.locator('#plain li')).toHaveText([
+      'Foto 9.jpg',
+      'Informe 2.pdf',
+      'foto 12.jpg',
+      'informe 1.pdf',
+      'informe 10.pdf',
+      'índice.pdf',
+    ])
+    await expect(page.locator('#natural li')).toHaveText([
+      'Foto 9.jpg',
+      'foto 12.jpg',
+      'índice.pdf',
+      'informe 1.pdf',
+      'Informe 2.pdf',
+      'informe 10.pdf',
+    ])
+    await page.getByRole('button', { name: 'Add' }).click()
+    await expect(page.locator('#natural li').nth(5)).toHaveText('informe 3.pdf')
+    await expect(page.locator('#file-name')).toHaveValue('')
+  })
+
+  test('the menu switches the conversion by name', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'convert'))
+    const result = page.locator('#result')
+    await expect(page.locator('#conversion option')).toHaveCount(18)
+    await expect(page.locator('#conversion')).toHaveValue('kebab')
+    await expect(result).toHaveText('café-con-leche-receta-rápida')
+    await page.locator('#conversion').selectOption('slug')
+    await expect(result).toHaveText('cafe-con-leche-receta-rapida')
+    await page.locator('#conversion').selectOption('truncate')
+    await expect(result).toHaveText('Café con leche…')
+    await page.locator('#conversion').selectOption('constant')
+    await page.locator('#phrase').fill('Té verde')
+    await expect(result).toHaveText('TÉ_VERDE')
+  })
+
+  test('the composer counts graphemes and never cuts an emoji', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'composer'))
+    await expect(page.locator('#units')).toHaveText('25')
+    await expect(page.locator('#chars')).toHaveText('14')
+    await expect(page.locator('output')).toHaveText('26 of 40 characters left')
+    await expect(page.locator('#truncated')).toHaveText('¡Listos! 👨‍👩‍👧…')
+    expect(await page.locator('#sliced').textContent()).not.toContain('👨‍👩‍👧')
+  })
+
+  test('plurals pick each language form', async ({ page }) => {
+    await open(page, 'string', find(stringExamples, 'plurals'))
+    const cells = page.locator('[data-plural]')
+    await expect(cells).toHaveText(['2 files', '2nd place', '2 archivos', '2 pliki', '2 файла'])
+    await page.locator('#amount').fill('5')
+    await expect(cells).toHaveText(['5 files', '5th place', '5 archivos', '5 plików', '5 файлов'])
+    await page.locator('#amount').fill('0')
+    await expect(cells.nth(2)).toHaveText('Ningún archivo')
+    await page.locator('#amount').fill('22')
+    await expect(cells).toHaveText([
+      '22 files',
+      '22nd place',
+      '22 archivos',
+      '22 pliki',
+      '22 файла',
+    ])
   })
 })
