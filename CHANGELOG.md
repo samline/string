@@ -4,6 +4,10 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 ## Unreleased
 
+### Changed
+
+- **Breaking:** the browser bundle defines `window.Strings` instead of `window.SamlineString`, so the global carries the package's own name like every other @samline package (`window.String` is JavaScript's built-in constructor). In pages that load the CDN script, replace `SamlineString` with `Strings`, for example `Strings.auto()` and `Strings.controller`. ESM and CommonJS imports are unchanged.
+
 ## [1.5.0] - 2026-11-15
 
 ### Added

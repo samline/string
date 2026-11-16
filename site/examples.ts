@@ -1,4 +1,4 @@
-// Copyable files load the published browser bundle (window.SamlineString);
+// Copyable files load the published browser bundle (window.Strings);
 // the previews in examples/*.astro import the package itself.
 export default [
   {
@@ -204,9 +204,9 @@ document.addEventListener('string:copy', event => {
 .files li { display: flex; gap: 0.75rem; align-items: center; }
 .avatar { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #475569; color: white; font-weight: 600; }`,
       js: `// Nothing to call: the browser bundle converts every [data-string] element when the
-// page loads, including elements added later. SamlineString.controller.destroy()
+// page loads, including elements added later. Strings.controller.destroy()
 // restores the original text. Add data-manual to the script tag to start it
-// yourself with SamlineString.auto(options).`,
+// yourself with Strings.auto(options).`,
       esm: `import { autoString } from '@samline/string/vanilla'
 
 const controller = autoString()
@@ -235,7 +235,7 @@ console.log('Converted', document.querySelectorAll('[data-string-state]').length
       css: `label { display: block; font-weight: 600; }
 input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 mark { background: #fde68a; color: inherit; border-radius: 0.125rem; }`,
-      js: `const { closest } = window.SamlineString
+      js: `const { closest } = window.Strings
 const drinks = ['Café de olla', 'Té verde', 'Chocolate mexicano', 'Horchata de arroz', 'Jamaica con limón']
 const hint = document.querySelector('#hint')
 document.querySelector('#drinks').addEventListener('string:search', event => {
@@ -277,7 +277,7 @@ search()`,
       css: `label { display: block; font-weight: 600; }
 input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 mark { background: #fde68a; color: inherit; border-radius: 0.125rem; }`,
-      js: `const { closest, contains, highlight } = window.SamlineString
+      js: `const { closest, contains, highlight } = window.Strings
 const countries = ['México', 'Perú', 'Panamá', 'España', 'Japón', 'Canadá', 'Brasil', 'Bélgica', 'Türkiye', "Côte d'Ivoire"]
 const input = document.querySelector('#country')
 const list = document.querySelector('#countries')
@@ -372,7 +372,7 @@ update()`,
 input { width: 100%; max-width: 20rem; padding: 0.5rem; font: inherit; }
 .columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; }
 h3 { font-size: 1rem; }`,
-      js: `const { compareNatural } = window.SamlineString
+      js: `const { compareNatural } = window.Strings
 const files = ['informe 10.pdf', 'Informe 2.pdf', 'índice.pdf', 'informe 1.pdf', 'foto 12.jpg', 'Foto 9.jpg']
 const input = document.querySelector('#file-name')
 
@@ -428,7 +428,7 @@ update()`,
       css: `label { display: block; margin-top: 0.75rem; font-weight: 600; }
 input, select { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 output { font-family: ui-monospace, monospace; }`,
-      js: `const { CONVERSIONS, convert, isConversion } = window.SamlineString
+      js: `const { CONVERSIONS, convert, isConversion } = window.Strings
 const input = document.querySelector('#phrase')
 const select = document.querySelector('#conversion')
 const result = document.querySelector('#result')
@@ -490,7 +490,7 @@ textarea { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 [data-string-count-state='near'] { color: #b45309; }
 [data-string-count-state='over'] { color: #b91c1c; }`,
       js: `// The browser bundle starts the counter; the rest compares the two ways of counting.
-const { graphemes, truncate } = window.SamlineString
+const { graphemes, truncate } = window.Strings
 const post = document.querySelector('#post')
 
 const update = () => {
@@ -543,7 +543,7 @@ update()`,
 input { width: 8rem; padding: 0.5rem; font: inherit; }
 table { margin-top: 1rem; border-collapse: collapse; }
 th, td { padding: 0.375rem 1rem 0.375rem 0; text-align: left; }`,
-      js: `const { pluralize } = window.SamlineString
+      js: `const { pluralize } = window.Strings
 const forms = {
   en: [{ one: '# file', other: '# files' }, { locale: 'en' }],
   ordinal: [{ one: '#st place', two: '#nd place', few: '#rd place', other: '#th place' }, { locale: 'en', ordinal: true }],
@@ -598,7 +598,7 @@ update()`,
 <p id="excerpt"></p>
 <p id="greeting"></p>`,
       css: `#meta { color: #475569; font-size: 0.875rem; }`,
-      js: `const { pluralize, readingTime, stripTags, template, truncate } = window.SamlineString
+      js: `const { pluralize, readingTime, stripTags, template, truncate } = window.Strings
 const post = document.querySelector('#post')
 const comments = 3
 const { minutes, words } = readingTime(post.textContent, { locale: 'es' })
@@ -658,7 +658,7 @@ document.querySelector('#greeting').textContent = template('Hola {user.name}, ti
 </table>`,
       css: `table { border-collapse: collapse; }
 th, td { padding: 0.375rem 1.5rem 0.375rem 0; text-align: left; }`,
-      js: `const { camelCase, snakeCase } = window.SamlineString
+      js: `const { camelCase, snakeCase } = window.Strings
 const mapKeys = (object, convert) =>
   Object.fromEntries(Object.entries(object).map(([key, value]) => [convert(key), value]))
 
@@ -712,7 +712,7 @@ document.querySelector('#keys').replaceChildren(
       css: `ul { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
 li { display: flex; gap: 0.75rem; align-items: center; }
 .avatar { display: grid; place-items: center; flex: none; width: 2.5rem; height: 2.5rem; border-radius: 50%; color: white; font-weight: 600; }`,
-      js: `const { hashColor, initials, truncate } = window.SamlineString
+      js: `const { hashColor, initials, truncate } = window.Strings
 const people = [
   { name: 'Samuel Olvera', bio: 'Builds small, framework-agnostic utilities for the open web.' },
   { name: 'Ana María López', bio: 'Diseña interfaces accesibles y escribe sobre tipografía en español.' },

@@ -137,7 +137,7 @@ slug.addEventListener('string:change', event => {
 
 ## Browser bundle
 
-The classic script starts every `[data-string]`, `[data-string-search]`, `[data-string-count]`, `[data-string-fit]` and `[data-string-copy]` element when the DOM is ready, including elements added later, and keeps the controller in `SamlineString.controller`. Add `data-manual` to the script tag to start it yourself; `scope` and `locale` go to every behavior, and each takes its own options under `search`, `count`, `fit` and `copy`:
+The classic script starts every `[data-string]`, `[data-string-search]`, `[data-string-count]`, `[data-string-fit]` and `[data-string-copy]` element when the DOM is ready, including elements added later, and keeps the controller in `Strings.controller`. Add `data-manual` to the script tag to start it yourself; `scope` and `locale` go to every behavior, and each takes its own options under `search`, `count`, `fit` and `copy`:
 
 ```html
 <script
@@ -145,6 +145,6 @@ The classic script starts every `[data-string]`, `[data-string-search]`, `[data-
   src="https://cdn.jsdelivr.net/npm/@samline/string@1.5.0/dist/browser/string.global.js"
 ></script>
 <script>
-  SamlineString.auto({ locale: 'es', count: { near: 5 }, copy: { reset: 1000 } })
+  Strings.auto({ locale: 'es', count: { near: 5 }, copy: { reset: 1000 } })
 </script>
 ```

@@ -11,7 +11,7 @@
         "reviewed": true
       },
       {
-        "name": "HTML / CDN (window.SamlineString)",
+        "name": "HTML / CDN (window.Strings)",
         "evidence": "src/browser/global.ts",
         "destination": "docs/src/content/docs/getting-started.mdx",
         "reviewed": true
@@ -116,13 +116,13 @@
   "sources": [
     {
       "source": "README.md",
-      "sha256": "52efe5e7a958879541f03b2a87edcfa93764ef586eb14f3fbd5638c9164d6f33",
+      "sha256": "9ac3961d7c1b9056998cbf748933c86714f2a215d52b6288c4ed8f96d9b1a99a",
       "destination": "docs/src/content/docs/index.mdx",
       "reviewed": true
     },
     {
       "source": "src/browser/global.ts",
-      "sha256": "1105eb6666cb72feccfddcb44ef4704b79f2a50a07182869ff54a7546a73141c",
+      "sha256": "d6b3ba33a5309fa81047f6d721dd0d98d470cd5bbeaf11ebb002112553ceff71",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
@@ -208,7 +208,7 @@
       "reviewed": true
     },
     {
-      "source": "window.SamlineString",
+      "source": "window.Strings",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     }

@@ -19,7 +19,7 @@ test('the browser bundle converts [data-string] elements on load and later', asy
   })
   await expect(page.locator('#c')).toHaveText('added_later')
 
-  await page.evaluate(() => (window as any).SamlineString.controller.destroy())
+  await page.evaluate(() => (window as any).Strings.controller.destroy())
   await expect(page.locator('#a')).toHaveText('Hello World')
 })
 
@@ -37,7 +37,7 @@ test('keeps the caret while converting in the middle of a field', async ({ load 
   expect(await field.evaluate((el: HTMLInputElement) => el.selectionEnd)).toBe(9)
 })
 
-test('data-manual waits for SamlineString.auto()', async ({ page }) => {
+test('data-manual waits for Strings.auto()', async ({ page }) => {
   await page.setContent(`<!doctype html><p id="a" data-string="constant">api url</p>`)
   const { fileURLToPath } = await import('node:url')
   const bundle = fileURLToPath(new URL('../../dist/browser/string.global.js', import.meta.url))
@@ -52,6 +52,6 @@ test('data-manual waits for SamlineString.auto()', async ({ page }) => {
     readFileSync(bundle, 'utf8')
   )
   await expect(page.locator('#a')).toHaveText('api url')
-  await page.evaluate(() => (window as any).SamlineString.auto())
+  await page.evaluate(() => (window as any).Strings.auto())
   await expect(page.locator('#a')).toHaveText('API_URL')
 })

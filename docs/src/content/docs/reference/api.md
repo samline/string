@@ -96,7 +96,7 @@ From `@samline/string/vanilla` (see the [HTML attributes guide](../../guides/htm
 
 ## Browser global
 
-The CDN bundle defines `window.SamlineString` with every function above, every HTML behavior and its `auto*()`, `auto(options?)` and `controller`. On load it starts every behavior unless the script tag has `data-manual`. `auto()` passes `scope` and `locale` to every behavior and takes each behavior's own options under `search`, `count`, `fit` and `copy`: `auto({ locale: 'es', search: { min: 2 } })`.
+The CDN bundle defines `window.Strings` with every function above, every HTML behavior and its `auto*()`, `auto(options?)` and `controller`. On load it starts every behavior unless the script tag has `data-manual`. `auto()` passes `scope` and `locale` to every behavior and takes each behavior's own options under `search`, `count`, `fit` and `copy`: `auto({ locale: 'es', search: { min: 2 } })`.
 
 ## Types
 

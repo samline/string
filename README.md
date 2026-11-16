@@ -87,12 +87,12 @@ For Shopify, WordPress or plain HTML pages without a build step, load the browse
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@samline/string@1.5.0/dist/browser/string.global.js"></script>
 <script>
-  const { slugify } = window.SamlineString
+  const { slugify } = window.Strings
   console.log(slugify('Café & Té')) // 'cafe-te'
 </script>
 ```
 
-The bundle defines `window.SamlineString` with every function and, when the DOM is ready, starts every `[data-string]`, `[data-string-search]`, `[data-string-count]`, `[data-string-fit]` and `[data-string-copy]` element, including elements added later. Add `data-manual` to the script tag to start it yourself with `SamlineString.auto(options)`.
+The bundle defines `window.Strings` (`window.String` is JavaScript's own) with every function and, when the DOM is ready, starts every `[data-string]`, `[data-string-search]`, `[data-string-count]`, `[data-string-fit]` and `[data-string-copy]` element, including elements added later. Add `data-manual` to the script tag to start it yourself with `Strings.auto(options)`.
 
 ## Capabilities
 
@@ -153,7 +153,7 @@ The bundle defines `window.SamlineString` with every function and, when the DOM 
 | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `@samline/string`         | ESM or CommonJS, every pure function.                                                                         |
 | `@samline/string/vanilla` | Every function plus the HTML layer: `string()`, `search()`, `count()`, `fit()`, `copy()` and their `auto*()`. |
-| `@samline/string/browser` | Classic script that defines `window.SamlineString` and starts the HTML layer.                                       |
+| `@samline/string/browser` | Classic script that defines `window.Strings` and starts the HTML layer.                                       |
 
 ## Documentation
 

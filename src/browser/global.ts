@@ -12,11 +12,11 @@ import {
 
 /**
  * Classic script for pages without a build step. Every function is on
- * `window.SamlineString`. As soon as the DOM is ready it starts every
+ * `window.Strings` (`window.String` is the built-in constructor). As soon as the DOM is ready it starts every
  * `[data-string]`, `[data-string-search]`, `[data-string-count]`,
  * `[data-string-fit]` and `[data-string-copy]` element, including elements
  * added later. Add `data-manual` to the script tag to start it yourself with
- * `SamlineString.auto()`.
+ * `Strings.auto()`.
  */
 const script = typeof document !== 'undefined' ? document.currentScript : null
 const manual = script?.hasAttribute('data-manual') ?? false
@@ -74,10 +74,10 @@ const api = {
   },
 }
 
-export type SamlineStringGlobal = typeof api
+export type StringsGlobal = typeof api
 
-const scope = globalThis as typeof globalThis & { SamlineString?: SamlineStringGlobal }
-scope.SamlineString = api
+const scope = globalThis as typeof globalThis & { Strings?: StringsGlobal }
+scope.Strings = api
 
 if (!manual && typeof document !== 'undefined') {
   if (document.readyState === 'loading') {

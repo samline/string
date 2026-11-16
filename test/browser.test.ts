@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
 describe('browser global', () => {
-  it('exposes window.SamlineString and converts [data-string] on load', async () => {
+  it('exposes window.Strings and converts [data-string] on load', async () => {
     document.body.innerHTML =
       '<p id="a" data-string="kebab">Hello World</p><input id="q" /><ul data-string-search="#q"><li>Café</li><li>Té</li></ul>'
     await import('../src/browser/global.js')
-    const api = (globalThis as { SamlineString?: Record<string, any> }).SamlineString!
+    const api = (globalThis as { Strings?: Record<string, any> }).Strings!
     expect(typeof api.slugify).toBe('function')
     expect(typeof api.convert).toBe('function')
     expect(typeof api.string).toBe('function')

@@ -111,7 +111,7 @@ const sections = {
       },
       global: {
         label: 'HTML / CDN',
-        entrypoint: 'window.SamlineString',
+        entrypoint: 'window.Strings',
         description: 'A classic script that starts every attribute when the page loads.',
       },
       case: {
@@ -223,7 +223,7 @@ pluralize(5, files, { locale: 'pl' }) // '5 plików'`,
       bundler: {
         question: text('Does it work without a bundler?'),
         answer: text(
-          'Yes. Load dist/browser/string.global.js with a classic script tag: it defines window.SamlineString and starts every data-string-* attribute when the page loads. Pin the version in production.'
+          'Yes. Load dist/browser/string.global.js with a classic script tag: it defines window.Strings and starts every data-string-* attribute when the page loads. Pin the version in production.'
         ),
       },
       html: {
