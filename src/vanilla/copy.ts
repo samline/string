@@ -28,6 +28,39 @@ export interface CopyOptions extends ConvertOptions {
 
 export type AutoCopyOptions = CopyOptions & AutoOptions
 
+// Fallback for pages without the Clipboard API (plain HTTP, restrictive
+// iframes) or when it refuses: copy a hidden selection, then give focus back.
+const copySelection = (value: string): boolean => {
+  if (typeof document.execCommand !== 'function') return false
+  const area = document.createElement('textarea')
+  const focused = document.activeElement
+  area.value = value
+  area.setAttribute('readonly', '')
+  area.setAttribute('aria-hidden', 'true')
+  area.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none'
+  document.body.append(area)
+  area.select()
+  let ok = false
+  try {
+    ok = document.execCommand('copy')
+  } catch {
+    ok = false
+  }
+  area.remove()
+  if (focused instanceof HTMLElement) focused.focus({ preventScroll: true })
+  return ok
+}
+
+const writeClipboard = async (value: string): Promise<boolean> => {
+  try {
+    if (!navigator.clipboard) throw new Error('No clipboard')
+    await navigator.clipboard.writeText(value)
+    return true
+  } catch {
+    return copySelection(value)
+  }
+}
+
 const bindCopy = (button: HTMLElement, options: CopyOptions): Controller | null => {
   const {
     source: sourceOption,
@@ -53,13 +86,7 @@ const bindCopy = (button: HTMLElement, options: CopyOptions): Controller | null 
     const name = readString(button, `${COPY_ATTRIBUTE}-as`, '')
     const as = isConversion(name) ? name : asOption
     const value = as ? convert(raw, as, convertOptions) : raw
-    try {
-      if (!source || !navigator.clipboard) throw new Error('No source or clipboard')
-      await navigator.clipboard.writeText(value)
-      finish({ value, ok: true })
-    } catch {
-      finish({ value, ok: false })
-    }
+    finish({ value, ok: source ? await writeClipboard(value) : false })
   }
 
   button.addEventListener('click', onClick)
@@ -81,6 +108,7 @@ const bindCopy = (button: HTMLElement, options: CopyOptions): Controller | null 
  * Copy another element's text, converted, to the clipboard:
  * `<button data-string-copy="#title" data-string-copy-as="kebab">Copy</button>`.
  * The button gets `data-string-copy-state="copied"` (or `error`) for two seconds.
+ * Without the Clipboard API, or when it refuses, a hidden selection is copied.
  */
 export const copy = bindAll<CopyOptions>(`[${COPY_ATTRIBUTE}]`, bindCopy)
 

@@ -169,6 +169,7 @@ describe('copy', () => {
 
   it('copies raw text from options and reports errors', async () => {
     const writeText = stubClipboard(vi.fn().mockRejectedValue(new Error('denied')))
+    Object.assign(document, { execCommand: undefined })
     document.body.innerHTML = `<p id="src">Ünïcode</p><button id="b">Copy</button><button id="c" data-string-copy="#none">x</button>`
     const onCopy = vi.fn()
     copy('#b', { source: '#src', onCopy })
@@ -181,13 +182,30 @@ describe('copy', () => {
     expect($('#c').dataset.stringCopyState).toBe('error')
   })
 
-  it('reports an error without a clipboard and starts automatically', async () => {
+  it('falls back to a selection copy without a clipboard and starts automatically', async () => {
     vi.stubGlobal('navigator', { ...navigator, clipboard: undefined })
+    const copied: string[] = []
+    const execCommand = vi.fn(() => {
+      copied.push(document.querySelector('textarea')?.value ?? '')
+      return true
+    })
+    Object.assign(document, { execCommand })
     document.body.innerHTML = `<p id="src">x</p><button id="b" data-string-copy="#src" data-string-copy-as="upper">Copy</button>`
+    $('#b').focus()
     const controller = autoCopy({ reset: 10 })
+    await click($('#b'))
+    expect(execCommand).toHaveBeenCalledWith('copy')
+    expect(copied).toEqual(['X'])
+    expect($('#b').dataset.stringCopyState).toBe('copied')
+    expect(document.querySelector('textarea')).toBeNull()
+    expect(document.activeElement).toBe($('#b'))
+    execCommand.mockImplementation(() => {
+      throw new Error('blocked')
+    })
     await click($('#b'))
     expect($('#b').dataset.stringCopyState).toBe('error')
     controller.destroy()
+    Object.assign(document, { execCommand: undefined })
   })
 })
 
