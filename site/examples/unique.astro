@@ -19,6 +19,10 @@ import './_shared.css'
 
 <script>
   import { string } from '@samline/string/vanilla'
+  import { preview } from '../../shared/lib/preview'
 
-  string(document.querySelectorAll('[data-preview="unique"] [data-string]'))
+  preview('unique', stage => {
+    const controller = string(stage.querySelectorAll('[data-preview="unique"] [data-string]'))
+    return controller
+  })
 </script>

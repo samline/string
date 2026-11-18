@@ -18,25 +18,29 @@ import './_shared.css'
 
 <script>
   import { closest, search } from '@samline/string/vanilla'
+  import { preview } from '../../shared/lib/preview'
 
-  const root = document.querySelector<HTMLElement>('[data-preview="search"]')!
-  const drinks = [
-    'Café de olla',
-    'Té verde',
-    'Chocolate mexicano',
-    'Horchata de arroz',
-    'Jamaica con limón',
-  ]
-  const hint = root.querySelector<HTMLElement>('[data-hint]')!
-  const list = root.querySelector<HTMLElement>('[data-string-search]')!
-  list.addEventListener('string:search', event => {
-    const { query, matches, state } = (event as CustomEvent).detail
-    const guess = state === 'empty' ? closest(query, drinks) : undefined
-    hint.textContent = guess
-      ? `Did you mean ${guess}?`
-      : state === 'results'
-        ? `${matches.length} of ${drinks.length} drinks`
-        : ''
+  preview('search', stage => {
+    const root = stage.querySelector<HTMLElement>('[data-preview="search"]')!
+    const drinks = [
+      'Café de olla',
+      'Té verde',
+      'Chocolate mexicano',
+      'Horchata de arroz',
+      'Jamaica con limón',
+    ]
+    const hint = root.querySelector<HTMLElement>('[data-hint]')!
+    const list = root.querySelector<HTMLElement>('[data-string-search]')!
+    list.addEventListener('string:search', event => {
+      const { query, matches, state } = (event as CustomEvent).detail
+      const guess = state === 'empty' ? closest(query, drinks) : undefined
+      hint.textContent = guess
+        ? `Did you mean ${guess}?`
+        : state === 'results'
+          ? `${matches.length} of ${drinks.length} drinks`
+          : ''
+    })
+    const controller = search(list)
+    return controller
   })
-  search(list)
 </script>

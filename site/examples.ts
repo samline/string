@@ -121,7 +121,7 @@ input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 .names { display: grid; gap: 0.5rem; margin: 1rem 0 0; }
 .names div { display: grid; grid-template-columns: 11rem 1fr auto; gap: 0.75rem; align-items: center; }
 .names dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
-[data-string-copy-state='copied']::after { content: ' ✓'; }`,
+[data-string-copy-state='copied']::after { content: ' · Copied'; }`,
       js: `// Nothing to call: the browser bundle starts every data-string-* attribute.
 // Each <code> follows #token with its own conversion and each button copies it.
 document.addEventListener('string:copy', event => {
@@ -161,7 +161,7 @@ label { display: block; margin-top: 0.75rem; font-weight: 600; }
 textarea, input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 [data-string-count-state='near'] { color: #b45309; }
 [data-string-count-state='over'] { color: #b91c1c; }
-[data-string-copy-state='copied']::after { content: ' ✓'; }`,
+[data-string-copy-state='copied']::after { content: ' · Copied'; }`,
       js: `// The browser bundle starts every data-string-* element on load: the avatar gets
 // a stable --string-color, the file name fits its box, the counter follows the bio
 // and the button copies the name as a slug.

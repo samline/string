@@ -23,20 +23,24 @@ import './_shared.css'
 
 <script>
   import { autoCount, graphemes, truncate } from '@samline/string/vanilla'
+  import { preview } from '../../shared/lib/preview'
 
-  const root = document.querySelector<HTMLElement>('[data-preview="composer"]')!
-  const post = root.querySelector('textarea')!
-  autoCount({ scope: root })
+  preview('composer', stage => {
+    const root = stage.querySelector<HTMLElement>('[data-preview="composer"]')!
+    const post = root.querySelector('textarea')!
+    const controller = autoCount({ scope: root })
 
-  const set = (name: string, value: string | number) =>
-    (root.querySelector(`[data-${name}]`)!.textContent = String(value))
-  const update = () => {
-    const text = post.value
-    set('units', text.length)
-    set('chars', graphemes(text).length)
-    set('sliced', text.slice(0, 11) + '…')
-    set('truncated', truncate(text, 12))
-  }
-  post.addEventListener('input', update)
-  update()
+    const set = (name: string, value: string | number) =>
+      (root.querySelector(`[data-${name}]`)!.textContent = String(value))
+    const update = () => {
+      const text = post.value
+      set('units', text.length)
+      set('chars', graphemes(text).length)
+      set('sliced', text.slice(0, 11) + '…')
+      set('truncated', truncate(text, 12))
+    }
+    post.addEventListener('input', update)
+    update()
+    return controller
+  })
 </script>

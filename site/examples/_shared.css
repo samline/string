@@ -49,7 +49,7 @@
   font: inherit;
 }
 .string-example [data-string-count-state='near'] { color: var(--color-accent); }
-.string-example [data-string-copy-state='copied']::after { content: ' ✓'; }
+.string-example [data-string-copy-state='copied']::after { content: ' · Copied'; }
 .string-example select {
   width: 100%;
   max-width: 28rem;

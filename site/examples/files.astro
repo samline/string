@@ -24,33 +24,36 @@ import './_shared.css'
 
 <script>
   import { compareNatural } from '@samline/string'
+  import { preview } from '../../shared/lib/preview'
 
-  const root = document.querySelector<HTMLElement>('[data-preview="files"]')!
-  const files = [
-    'informe 10.pdf',
-    'Informe 2.pdf',
-    'índice.pdf',
-    'informe 1.pdf',
-    'foto 12.jpg',
-    'Foto 9.jpg',
-  ]
-  const input = root.querySelector('input')!
+  preview('files', stage => {
+    const root = stage.querySelector<HTMLElement>('[data-preview="files"]')!
+    const files = [
+      'informe 10.pdf',
+      'Informe 2.pdf',
+      'índice.pdf',
+      'informe 1.pdf',
+      'foto 12.jpg',
+      'Foto 9.jpg',
+    ]
+    const input = root.querySelector('input')!
 
-  const show = (list: HTMLElement, names: string[]) =>
-    list.replaceChildren(
-      ...names.map(name => Object.assign(document.createElement('li'), { textContent: name }))
-    )
+    const show = (list: HTMLElement, names: string[]) =>
+      list.replaceChildren(
+        ...names.map(name => Object.assign(document.createElement('li'), { textContent: name }))
+      )
 
-  const update = () => {
-    show(root.querySelector('[data-plain]')!, [...files].sort())
-    show(root.querySelector('[data-natural]')!, [...files].sort(compareNatural))
-  }
+    const update = () => {
+      show(root.querySelector('[data-plain]')!, [...files].sort())
+      show(root.querySelector('[data-natural]')!, [...files].sort(compareNatural))
+    }
 
-  root.querySelector('form')!.addEventListener('submit', event => {
-    event.preventDefault()
-    if (input.value.trim()) files.push(input.value.trim())
-    input.value = ''
+    root.querySelector('form')!.addEventListener('submit', event => {
+      event.preventDefault()
+      if (input.value.trim()) files.push(input.value.trim())
+      input.value = ''
+      update()
+    })
     update()
   })
-  update()
 </script>

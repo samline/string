@@ -20,10 +20,15 @@ import './_shared.css'
 
 <script>
   import { autoCopy, autoCount, autoFit, autoString } from '@samline/string/vanilla'
+  import { preview } from '../../shared/lib/preview'
 
-  const scope = document.querySelector<HTMLElement>('[data-preview="profile"]')!
-  autoString({ scope })
-  autoFit({ scope })
-  autoCount({ scope })
-  autoCopy({ scope })
+  preview('profile', stage => {
+    const scope = stage.querySelector<HTMLElement>('[data-preview="profile"]')!
+    return [
+      autoString({ scope }),
+      autoFit({ scope }),
+      autoCount({ scope }),
+      autoCopy({ scope }),
+    ]
+  })
 </script>

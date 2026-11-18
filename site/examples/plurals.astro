@@ -32,25 +32,28 @@ const rows = [
 
 <script>
   import { pluralize, type PluralForms, type PluralizeOptions } from '@samline/string'
+  import { preview } from '../../shared/lib/preview'
 
-  const forms: Record<string, [PluralForms, PluralizeOptions]> = {
-    en: [{ one: '# file', other: '# files' }, { locale: 'en' }],
-    ordinal: [
-      { one: '#st place', two: '#nd place', few: '#rd place', other: '#th place' },
-      { locale: 'en', ordinal: true },
-    ],
-    es: [{ zero: 'Ningún archivo', one: '# archivo', other: '# archivos' }, { locale: 'es' }],
-    pl: [{ one: '# plik', few: '# pliki', many: '# plików', other: '# pliku' }, { locale: 'pl' }],
-    ru: [{ one: '# файл', few: '# файла', many: '# файлов', other: '# файла' }, { locale: 'ru' }],
-  }
-  const root = document.querySelector<HTMLElement>('[data-preview="plurals"]')!
-  const amount = root.querySelector('input')!
+  preview('plurals', stage => {
+    const forms: Record<string, [PluralForms, PluralizeOptions]> = {
+      en: [{ one: '# file', other: '# files' }, { locale: 'en' }],
+      ordinal: [
+        { one: '#st place', two: '#nd place', few: '#rd place', other: '#th place' },
+        { locale: 'en', ordinal: true },
+      ],
+      es: [{ zero: 'Ningún archivo', one: '# archivo', other: '# archivos' }, { locale: 'es' }],
+      pl: [{ one: '# plik', few: '# pliki', many: '# plików', other: '# pliku' }, { locale: 'pl' }],
+      ru: [{ one: '# файл', few: '# файла', many: '# файлов', other: '# файла' }, { locale: 'ru' }],
+    }
+    const root = stage.querySelector<HTMLElement>('[data-preview="plurals"]')!
+    const amount = root.querySelector('input')!
 
-  const update = () => {
-    const count = Math.max(0, Math.floor(Number(amount.value) || 0))
-    for (const cell of root.querySelectorAll<HTMLElement>('[data-plural]'))
-      cell.textContent = pluralize(count, ...forms[cell.dataset.plural!]!)
-  }
-  amount.addEventListener('input', update)
-  update()
+    const update = () => {
+      const count = Math.max(0, Math.floor(Number(amount.value) || 0))
+      for (const cell of root.querySelectorAll<HTMLElement>('[data-plural]'))
+        cell.textContent = pluralize(count, ...forms[cell.dataset.plural!]!)
+    }
+    amount.addEventListener('input', update)
+    update()
+  })
 </script>

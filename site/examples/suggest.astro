@@ -16,48 +16,51 @@ import './_shared.css'
 
 <script>
   import { closest, contains, highlight } from '@samline/string'
+  import { preview } from '../../shared/lib/preview'
 
-  const root = document.querySelector<HTMLElement>('[data-preview="suggest"]')!
-  const countries = [
-    'México',
-    'Perú',
-    'Panamá',
-    'España',
-    'Japón',
-    'Canadá',
-    'Brasil',
-    'Bélgica',
-    'Türkiye',
-    "Côte d'Ivoire",
-  ]
-  const input = root.querySelector('input')!
-  const list = root.querySelector('ul')!
-  const status = root.querySelector('p')!
+  preview('suggest', stage => {
+    const root = stage.querySelector<HTMLElement>('[data-preview="suggest"]')!
+    const countries = [
+      'México',
+      'Perú',
+      'Panamá',
+      'España',
+      'Japón',
+      'Canadá',
+      'Brasil',
+      'Bélgica',
+      'Türkiye',
+      "Côte d'Ivoire",
+    ]
+    const input = root.querySelector('input')!
+    const list = root.querySelector('ul')!
+    const status = root.querySelector('p')!
 
-  const marked = (name: string) =>
-    highlight(name, input.value).map(({ text, match }) =>
-      match ? Object.assign(document.createElement('mark'), { textContent: text }) : text
-    )
+    const marked = (name: string) =>
+      highlight(name, input.value).map(({ text, match }) =>
+        match ? Object.assign(document.createElement('mark'), { textContent: text }) : text
+      )
 
-  const update = () => {
-    const query = input.value.trim()
-    const found = query ? countries.filter(name => contains(name, query)) : []
-    list.replaceChildren(
-      ...found.map(name => {
-        const item = document.createElement('li')
-        item.append(...marked(name))
-        return item
-      })
-    )
-    const guess = query && !found.length ? closest(query, countries) : undefined
-    status.textContent = !query
-      ? 'Type a country, with or without accents.'
-      : guess
-        ? `No match. Did you mean ${guess}?`
-        : found.length
-          ? `${found.length} found`
-          : 'No match.'
-  }
-  input.addEventListener('input', update)
-  update()
+    const update = () => {
+      const query = input.value.trim()
+      const found = query ? countries.filter(name => contains(name, query)) : []
+      list.replaceChildren(
+        ...found.map(name => {
+          const item = document.createElement('li')
+          item.append(...marked(name))
+          return item
+        })
+      )
+      const guess = query && !found.length ? closest(query, countries) : undefined
+      status.textContent = !query
+        ? 'Type a country, with or without accents.'
+        : guess
+          ? `No match. Did you mean ${guess}?`
+          : found.length
+            ? `${found.length} found`
+            : 'No match.'
+    }
+    input.addEventListener('input', update)
+    update()
+  })
 </script>

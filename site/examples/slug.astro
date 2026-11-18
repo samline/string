@@ -19,18 +19,22 @@ import './_shared.css'
 
 <script>
   import { string } from '@samline/string/vanilla'
+  import { preview } from '../../shared/lib/preview'
 
-  const root = document.querySelector<HTMLElement>('[data-preview="slug"]')!
-  string(root.querySelectorAll('[data-string]'))
+  preview('slug', stage => {
+    const root = stage.querySelector<HTMLElement>('[data-preview="slug"]')!
+    const controller = string(root.querySelectorAll('[data-string]'))
 
-  const slug = root.querySelector<HTMLInputElement>('#preview-slug')!
-  const status = root.querySelector<HTMLElement>('[data-status]')!
-  const show = () =>
-    (status.textContent =
-      slug.dataset.stringState === 'edited'
-        ? 'Edited by hand. Empty the field to follow the title again.'
-        : 'Follows the title.')
-  slug.addEventListener('string:change', show)
-  slug.addEventListener('input', show)
-  show()
+    const slug = root.querySelector<HTMLInputElement>('#preview-slug')!
+    const status = root.querySelector<HTMLElement>('[data-status]')!
+    const show = () =>
+      (status.textContent =
+        slug.dataset.stringState === 'edited'
+          ? 'Edited by hand. Empty the field to follow the title again.'
+          : 'Follows the title.')
+    slug.addEventListener('string:change', show)
+    slug.addEventListener('input', show)
+    show()
+    return controller
+  })
 </script>

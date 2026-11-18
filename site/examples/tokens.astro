@@ -39,8 +39,13 @@ const rows = [
 
 <script>
   import { autoCopy, autoString } from '@samline/string/vanilla'
+  import { preview } from '../../shared/lib/preview'
 
-  const scope = document.querySelector<HTMLElement>('[data-preview="tokens"]')!
-  autoString({ scope })
-  autoCopy({ scope })
+  preview('tokens', stage => {
+    const scope = stage.querySelector<HTMLElement>('[data-preview="tokens"]')!
+    return [
+      autoString({ scope }),
+      autoCopy({ scope }),
+    ]
+  })
 </script>
