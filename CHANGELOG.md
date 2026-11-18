@@ -2,7 +2,11 @@
 
 All notable changes to this package. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [semver](https://semver.org/).
 
-## Unreleased
+## [2.0.1] - 2026-11-17
+
+### Fixed
+
+- `data-string-copy` and `copy()` fall back to copying a hidden selection when the Clipboard API is missing (plain HTTP, restrictive iframes) or refuses, and give focus back to the button. `error` now means that no copy succeeded.
 
 ## [2.0.0] - 2026-11-15
 

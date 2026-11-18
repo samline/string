@@ -85,7 +85,7 @@ closest('te vrde', ['Café de olla', 'Té verde']) // 'Té verde'
 For Shopify, WordPress or plain HTML pages without a build step, load the browser bundle with a classic script tag. Pin the version in production.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@samline/string@2.0.0/dist/browser/string.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@samline/string@2.0.1/dist/browser/string.global.js"></script>
 <script>
   const { slugify } = window.Strings
   console.log(slugify('Café & Té')) // 'cafe-te'
@@ -128,7 +128,7 @@ The bundle defines `window.Strings` (`window.String` is JavaScript's own) with e
 
 `data-string="<conversion>"` converts any element's text, and the original markup comes back on `destroy()`. Inputs and textareas convert while the user types, keep a separator they just typed, keep the caret in place, skip IME composition and finalize on blur. `data-string-taken` keeps a slug field off slugs in use and `data-string-transliterate="cyrillic"` reads other scripts. `data-string-source` makes a field or preview follow another one: a slug follows the title until the user edits it and follows again when emptied, and sources chain (title → slug → URL preview). Truncated text keeps the full text in `title`, initials become an image labelled with the full name, and `data-string-state` plus a `string:change` event report every change. `data-string-search="#q"` filters a list as the user types, wraps matches in `<mark>`, shows a `data-string-search-empty` message and reports results in a `string:search` event.
 
-`data-string-count="#bio"` shows the characters (graphemes) or words left in a field, with `ok`, `near` and `over` states. `data-string-fit` cuts text in the middle to fit its box and fits again when the box resizes. `data-string-copy="#name"` with `data-string-copy-as="slug"` copies converted text to the clipboard. `data-string-color` sets `--string-color` to a stable color for the text, for avatar backgrounds; `hashColor(text)` gives the same color in code.
+`data-string-count="#bio"` shows the characters (graphemes) or words left in a field, with `ok`, `near` and `over` states. `data-string-fit` cuts text in the middle to fit its box and fits again when the box resizes. `data-string-copy="#name"` with `data-string-copy-as="slug"` copies converted text to the clipboard, with a selection fallback where the Clipboard API is missing. `data-string-color` sets `--string-color` to a stable color for the text, for avatar backgrounds; `hashColor(text)` gives the same color in code.
 
 ## API at a glance
 
