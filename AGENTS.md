@@ -7,7 +7,7 @@ Package memory: decisions and lessons specific to this package. Family rules are
 - Extracted from the samline/utils monorepo on 2026-11-14 with its Git history (`git subtree split`).
 - Expansion of 2026-11-15, one minor release per phase: 1.1.0 HTML layer (`data-string`, `convert`), 1.2.0 search (`fold`, `highlight`, `data-string-search`), 1.3.0 slugs (`uniqueSlug`, char maps), 1.4.0 text helpers (`graphemes`, `pluralize`, `template`, `stripTags`), 1.5.0 DOM behaviors (`data-string-count`, `-fit`, `-copy`, `-color`). `src/index.ts` stays pure functions only; DOM code lives in `src/vanilla/` (`controller.ts` holds the shared `bindAll`/`autoAll` helpers). Fields finalize on blur, not `change` (Safari). `hashColor` lowers lightness so white text keeps 4.5:1, which the site's axe check enforces.
 - 2.0.0 (2026-11-15) renamed the browser global to `window.Strings`: the maintainer wants no `samline` in the API, and `window.String` is the built-in constructor. Same day: site audit against 1.5.0 (landing copy, docs, 14 examples with tests).
-- The website is embedded from package-landing-docs (`landing/`, `docs/`, `shared/`); `site/` holds this package's previews and copyable examples. `bun run site:test:adaptation` fails because it looks for the template's `scripts/configure.mjs` (here `site-tools/`); fix it in the template, not here.
+- The website is embedded from package-landing-docs (`landing/`, `docs/`, `shared/`); `site/` holds this package's previews and copyable examples.
 
 <!-- samline:family:start -->
 
@@ -26,6 +26,8 @@ This block is synced from the template that owns the family conventions ([packag
 - README is the package guide and the site's source of truth; public text in English. Any public API change updates tests, README, docs, examples and `skills/<name>/SKILL.md` together.
 - Releases: Keep a Changelog entry for every user-facing change, semver, pinned CDN URLs bumped before release. Publishing is manual (`bun run release` by the maintainer); CI never publishes; no `--provenance`.
 - Public repository: no dated reports, handoff notes, transcripts or client names; private notes go in the ignored `.local/`. Site examples with state offer Reset; icons are SVG, never Unicode glyphs.
+- Work skills: `npx autoskills -y -a universal`, tracked with `skills-lock.json`, minus the `bun` skill (it contradicts pnpm installs), plus `modern-web-guidance`, consulted before HTML, CSS or client-side JavaScript work.
+- Always explore code through the `codebase-memory` skill and graph when `codebase-memory-mcp` is installed; read source for gaps.
 - Never add AI attribution to commits, tags or pull requests.
 
 <!-- samline:family:end -->
