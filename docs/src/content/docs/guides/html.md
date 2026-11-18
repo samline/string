@@ -131,7 +131,8 @@ slug.addEventListener('string:change', event => {
 <button type="button" data-string-copy="#name" data-string-copy-as="slug">Copy handle</button>
 ```
 
-- The button gets `data-string-copy-state="copied"`, or `error` when the clipboard is unavailable or denied, for `data-string-copy-reset` milliseconds (`2000`). Style it: `[data-string-copy-state='copied']::after { content: ' ✓' }`.
+- Without the Clipboard API (plain HTTP, some iframes), or when it refuses, the text is copied from a hidden selection instead.
+- The button gets `data-string-copy-state="copied"`, or `error` when no copy succeeded, for `data-string-copy-reset` milliseconds (`2000`). Style it: `[data-string-copy-state='copied']::after { content: ' · Copied' }`.
 - Every click dispatches `string:copy` with `{ value, ok }` and calls `onCopy`.
 - The clipboard needs a secure context (HTTPS or localhost).
 
@@ -142,7 +143,7 @@ The classic script starts every `[data-string]`, `[data-string-search]`, `[data-
 ```html
 <script
   data-manual
-  src="https://cdn.jsdelivr.net/npm/@samline/string@2.0.0/dist/browser/string.global.js"
+  src="https://cdn.jsdelivr.net/npm/@samline/string@2.0.1/dist/browser/string.global.js"
 ></script>
 <script>
   Strings.auto({ locale: 'es', count: { near: 5 }, copy: { reset: 1000 } })
