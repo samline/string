@@ -89,7 +89,10 @@
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 1rem;
 }
-.string-example .inline { display: flex; gap: 0.5rem; max-width: 28rem; }
+.string-example .inline { display: flex; gap: 0.5rem; }
+/* The field takes the row; the action keeps its content width. */
+.string-example .inline input { flex: 1; min-width: 0; }
+.string-example .inline button { flex: none; white-space: nowrap; }
 .string-example .stats { display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 1rem; margin: 0; }
 .string-example .stats dd { margin: 0; }
 .string-example ol li { display: list-item; }

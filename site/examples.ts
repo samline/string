@@ -369,7 +369,9 @@ update()`,
   </section>
 </div>`,
       css: `label { display: block; font-weight: 600; }
-input { width: 100%; max-width: 20rem; padding: 0.5rem; font: inherit; }
+#add-file { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+#add-file label { flex-basis: 100%; }
+input { flex: 1; min-width: 0; padding: 0.5rem; font: inherit; }
 .columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; }
 h3 { font-size: 1rem; }`,
       js: `const { compareNatural } = window.Strings
