@@ -167,6 +167,7 @@ Read the [documentation](https://samline.github.io/string/docs/) for the full gu
 | [Word splitting](https://samline.github.io/string/docs/guides/words/)     | Exactly how words are detected.                     |
 | [HTML attributes](https://samline.github.io/string/docs/guides/html/)     | `data-string`, fields, sources, state and events.   |
 | [Search](https://samline.github.io/string/docs/guides/search/)            | Folding, highlighting, sorting and list filtering.  |
+| [Frameworks](https://samline.github.io/string/docs/guides/frameworks/)    | React, Vue, Svelte, Astro and plain HTML or CDN.    |
 
 ## Changelog
 

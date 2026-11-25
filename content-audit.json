@@ -15,6 +15,12 @@
         "evidence": "src/browser/global.ts",
         "destination": "docs/src/content/docs/getting-started.mdx",
         "reviewed": true
+      },
+      {
+        "name": "React, Vue, Svelte and Astro usage",
+        "evidence": "src/core/index.ts; src/vanilla/index.ts; package.json exports",
+        "destination": "docs/src/content/docs/guides/frameworks.md",
+        "reviewed": true
       }
     ],
     "scenarios": [
@@ -116,7 +122,7 @@
   "sources": [
     {
       "source": "README.md",
-      "sha256": "f15ab0f60961b7b7788f676a39d622bdccf15aaec628f7d6e07d6ebb876d8198",
+      "sha256": "2f6b5ebb871c57d375926c62e0d52a7a561b42248267e598f14e0b6f821c2257",
       "destination": "docs/src/content/docs/index.mdx",
       "reviewed": true
     },

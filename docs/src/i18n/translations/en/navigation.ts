@@ -21,6 +21,7 @@ export default {
     'guides/words': 'Word splitting',
     'guides/html': 'HTML attributes',
     'guides/search': 'Search',
+    'guides/frameworks': 'Frameworks',
     index: 'Overview',
     'reference/api': 'API reference',
     'reference/configuration': 'Configuration',
