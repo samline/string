@@ -42,7 +42,17 @@ const sections = {
       `${project.license} licensed`,
     ],
     compatibilityLabel: 'ONE SMALL SCRIPT. RIGHT AT HOME IN YOUR STACK.',
-    platforms: ['JavaScript', 'TypeScript', 'Node.js', 'React', 'Vue', 'Svelte', 'WordPress'],
+    platforms: [
+      'JavaScript',
+      'TypeScript',
+      'Node.js',
+      'React',
+      'Vue',
+      'Svelte',
+      'Astro',
+      'Shopify',
+      'WordPress',
+    ],
   },
   features: {
     eyebrow: '01 / More than toUpperCase',
