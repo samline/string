@@ -4,12 +4,12 @@ import './_shared.css'
 
 <div class="preview string-example" data-preview="article">
   <article>
-    <h3>Café de olla</h3>
+    <h3>Cold brew at home</h3>
     <div class="body">
-      <p>El <b>café de olla</b> se prepara con canela y piloncillo en una olla de barro.</p>
+      <p><b>Cold brew</b> steeps coarse coffee in cold water for hours instead of minutes.</p>
       <p>
-        Hierve el agua, añade el piloncillo y la canela, y deja reposar el café cinco minutos antes
-        de colarlo.
+        Grind the beans, stir them into the water, and let the jar rest overnight before you strain
+        it.
       </p>
     </div>
   </article>
@@ -24,15 +24,15 @@ import './_shared.css'
   const root = document.querySelector<HTMLElement>('[data-preview="article"]')!
   const post = root.querySelector('article')!
   const comments = 3
-  const { minutes, words } = readingTime(post.textContent ?? '', { locale: 'es' })
+  const { minutes, words } = readingTime(post.textContent ?? '', { locale: 'en' })
 
   root.querySelector('[data-meta]')!.textContent = [
-    pluralize(minutes, { one: '# minuto de lectura', other: '# minutos de lectura' }, { locale: 'es' }),
-    pluralize(words, { one: '# palabra', other: '# palabras' }, { locale: 'es' }),
+    pluralize(minutes, { one: '# minute read', other: '# minutes read' }, { locale: 'en' }),
+    pluralize(words, { one: '# word', other: '# words' }, { locale: 'en' }),
     pluralize(
       comments,
-      { zero: 'Sin comentarios', one: '# comentario', other: '# comentarios' },
-      { locale: 'es' }
+      { zero: 'No comments', one: '# comment', other: '# comments' },
+      { locale: 'en' }
     ),
   ].join(' · ')
 
@@ -40,7 +40,7 @@ import './_shared.css'
   root.querySelector('[data-excerpt]')!.textContent = truncate(stripTags(body.innerHTML), 90)
 
   root.querySelector('[data-greeting]')!.textContent = template(
-    'Hola {user.name}, tienes {count} borradores.',
+    'Hi {user.name}, you have {count} drafts.',
     { user: { name: 'Ana' }, count: 2 }
   )
 </script>

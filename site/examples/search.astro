@@ -6,11 +6,11 @@ import './_shared.css'
   <label for="preview-q">Search drinks</label>
   <input id="preview-q" type="search" autocomplete="off" />
   <ul class="search-list" data-string-search="#preview-q">
-    <li>Café de olla</li>
-    <li>Té verde</li>
-    <li>Chocolate mexicano</li>
-    <li>Horchata de arroz</li>
-    <li>Jamaica con limón</li>
+    <li>Café au lait</li>
+    <li>Green tea</li>
+    <li>Hot chocolate</li>
+    <li>Piña colada</li>
+    <li>Iced matcha latte</li>
     <li hidden data-string-search-empty>No drinks match.</li>
   </ul>
   <p data-hint aria-live="polite"></p>
@@ -23,11 +23,11 @@ import './_shared.css'
   preview('search', stage => {
     const root = stage.querySelector<HTMLElement>('[data-preview="search"]')!
     const drinks = [
-      'Café de olla',
-      'Té verde',
-      'Chocolate mexicano',
-      'Horchata de arroz',
-      'Jamaica con limón',
+      'Café au lait',
+      'Green tea',
+      'Hot chocolate',
+      'Piña colada',
+      'Iced matcha latte',
     ]
     const hint = root.querySelector<HTMLElement>('[data-hint]')!
     const list = root.querySelector<HTMLElement>('[data-string-search]')!

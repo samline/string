@@ -27,22 +27,22 @@ test.describe('string copyable examples', () => {
     page,
   }) => {
     await open(page, 'string', find(stringExamples, 'slug'))
-    await expect(page.locator('#slug')).toHaveValue('cafe-y-te-guia-2026')
-    await expect(page.locator('code')).toHaveText('cafe-y-te-guia-2026')
+    await expect(page.locator('#slug')).toHaveValue('cafe-and-bakery-2026-guide')
+    await expect(page.locator('code')).toHaveText('cafe-and-bakery-2026-guide')
     await expect(page.locator('#status')).toHaveText('Follows the title.')
     await page.locator('#slug').fill('')
-    await page.locator('#slug').pressSequentially('Mi Página ', { delay: 10 })
-    await expect(page.locator('#slug')).toHaveValue('mi-pagina-')
+    await page.locator('#slug').pressSequentially('My Page ', { delay: 10 })
+    await expect(page.locator('#slug')).toHaveValue('my-page-')
     await page.locator('#slug').blur()
-    await expect(page.locator('#slug')).toHaveValue('mi-pagina')
-    await expect(page.locator('code')).toHaveText('mi-pagina')
+    await expect(page.locator('#slug')).toHaveValue('my-page')
+    await expect(page.locator('code')).toHaveText('my-page')
     await expect(page.locator('#status')).toContainText('Edited by hand')
-    await page.locator('#title').fill('Otro título')
-    await expect(page.locator('#slug')).toHaveValue('mi-pagina')
+    await page.locator('#title').fill('Another title')
+    await expect(page.locator('#slug')).toHaveValue('my-page')
     await page.locator('#slug').fill('')
-    await page.locator('#title').fill('Vuelve a seguir')
-    await expect(page.locator('#slug')).toHaveValue('vuelve-a-seguir')
-    await expect(page.locator('code')).toHaveText('vuelve-a-seguir')
+    await page.locator('#title').fill('Follow again')
+    await expect(page.locator('#slug')).toHaveValue('follow-again')
+    await expect(page.locator('code')).toHaveText('follow-again')
   })
 
   test('unique slugs transliterate and skip taken ones', async ({ page }) => {
@@ -68,14 +68,14 @@ test.describe('string copyable examples', () => {
 
     const file = page.locator('.file')
     await expect(file).toHaveAttribute('data-string-fit-state', 'truncated')
-    await expect(file).toHaveAttribute('title', 'curriculum-ana-maria-lopez-2026-version-final.pdf')
+    await expect(file).toHaveAttribute('title', 'resume-ana-maria-lopez-2026-final-version.pdf')
     const text = (await file.textContent()) ?? ''
     expect(text).toContain('…')
     expect(text.endsWith('.pdf')).toBe(true)
     expect(await file.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true)
 
     const output = page.locator('output')
-    await expect(output).toHaveText('50 characters left')
+    await expect(output).toHaveText('49 characters left')
     await page.locator('#bio').fill('x'.repeat(75))
     await expect(output).toHaveText('5 characters left')
     await expect(output).toHaveAttribute('data-string-count-state', 'near')
@@ -89,6 +89,22 @@ test.describe('string copyable examples', () => {
     })
     await page.locator('button').click()
     await expect(page.locator('button')).toHaveAttribute('data-string-copy-state', 'copied')
+    expect(
+      await page
+        .locator('button')
+        .evaluate(el => [
+          getComputedStyle(el.querySelector('span')!).visibility,
+          getComputedStyle(el, '::after').content,
+        ])
+    ).toEqual(['hidden', '"Copied"'])
+    await expect(page.locator('button')).not.toHaveAttribute('data-string-copy-state', /./, {
+      timeout: 4000,
+    })
+    expect(
+      await page
+        .locator('button')
+        .evaluate(el => getComputedStyle(el.querySelector('span')!).visibility)
+    ).toBe('visible')
     expect(await page.evaluate(() => (window as any).copied)).toEqual(['ana-maria-lopez'])
   })
 
@@ -100,7 +116,7 @@ test.describe('string copyable examples', () => {
     await expect(file).toHaveText('annual-repo…nal-v3.pdf')
     await expect(file).toHaveAttribute('title', 'annual-report-2026-final-v3.pdf')
     await expect(page.locator('code')).toHaveText(['Content-Security-Policy', 'API_BASE_URL'])
-    await expect(page.locator('h3')).toHaveText('La Casa de Papel')
+    await expect(page.locator('h3')).toHaveText('The Art of the Possible')
   })
 
   test('search filters ignoring accents, highlights and suggests a typo fix', async ({ page }) => {
@@ -108,12 +124,12 @@ test.describe('string copyable examples', () => {
     const items = page.locator('#drinks li:visible')
     await expect(items).toHaveCount(5)
     await page.locator('#q').pressSequentially('cafe', { delay: 10 })
-    await expect(items).toHaveText(['Café de olla'])
+    await expect(items).toHaveText(['Café au lait'])
     await expect(page.locator('#drinks mark')).toHaveText(['Café'])
     await expect(page.locator('#hint')).toHaveText('1 of 5 drinks')
-    await page.locator('#q').fill('te vrde')
+    await page.locator('#q').fill('pina colda')
     await expect(page.locator('#drinks [data-string-search-empty]')).toBeVisible()
-    await expect(page.locator('#hint')).toHaveText('Did you mean Té verde?')
+    await expect(page.locator('#hint')).toHaveText('Did you mean Piña colada?')
     await page.locator('#q').fill('')
     await expect(items).toHaveCount(5)
     await expect(page.locator('#drinks mark')).toHaveCount(0)
@@ -121,14 +137,12 @@ test.describe('string copyable examples', () => {
 
   test('article meta shows reading time, plurals, an excerpt and a greeting', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'article'))
-    await expect(page.locator('#meta')).toHaveText(
-      /^1 minuto de lectura · \d+ palabras · 3 comentarios$/
-    )
+    await expect(page.locator('#meta')).toHaveText(/^1 minute read · \d+ words · 3 comments$/)
     const excerpt = (await page.locator('#excerpt').textContent()) ?? ''
-    expect(excerpt.startsWith('El café de olla se prepara')).toBe(true)
+    expect(excerpt.startsWith('Cold brew steeps coarse coffee')).toBe(true)
     expect(excerpt.endsWith('…')).toBe(true)
     expect(Array.from(excerpt).length).toBeLessThanOrEqual(90)
-    await expect(page.locator('#greeting')).toHaveText('Hola Ana, tienes 2 borradores.')
+    await expect(page.locator('#greeting')).toHaveText('Hi Ana, you have 2 drafts.')
   })
 
   test('keys round-trip between snake_case and camelCase', async ({ page }) => {
@@ -168,8 +182,8 @@ test.describe('string copyable examples', () => {
       'PrimaryButtonHover',
       'primary.button.hover',
     ])
-    await page.locator('#token').fill('Año Nuevo banner')
-    await expect(page.locator('.names code').nth(2)).toHaveText('AÑO_NUEVO_BANNER')
+    await page.locator('#token').fill('Piñata banner')
+    await expect(page.locator('.names code').nth(2)).toHaveText('PIÑATA_BANNER')
     await page.evaluate(() => {
       ;(window as any).copied = []
       Object.defineProperty(navigator, 'clipboard', {
@@ -178,45 +192,45 @@ test.describe('string copyable examples', () => {
       })
     })
     await page.getByRole('button', { name: 'Copy the JavaScript name' }).click()
-    expect(await page.evaluate(() => (window as any).copied)).toEqual(['añoNuevoBanner'])
+    expect(await page.evaluate(() => (window as any).copied)).toEqual(['piñataBanner'])
   })
 
   test('suggestions ignore accents, mark matches and fix typos', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'suggest'))
     const status = page.locator('#country-status')
     await expect(status).toHaveText('Type a country, with or without accents.')
-    await page.locator('#country').fill('peru')
-    await expect(page.locator('#countries li')).toHaveText(['Perú'])
-    await expect(page.locator('#countries mark')).toHaveText(['Perú'])
+    await page.locator('#country').fill('reunion')
+    await expect(page.locator('#countries li')).toHaveText(['Réunion'])
+    await expect(page.locator('#countries mark')).toHaveText(['Réunion'])
     await expect(status).toHaveText('1 found')
     await page.locator('#country').fill('cote')
     await expect(page.locator('#countries li')).toHaveText(["Côte d'Ivoire"])
     await expect(page.locator('#countries mark')).toHaveText(['Côte'])
-    await page.locator('#country').fill('mexcio')
+    await page.locator('#country').fill('curacoa')
     await expect(page.locator('#countries li')).toHaveCount(0)
-    await expect(status).toHaveText('No match. Did you mean México?')
+    await expect(status).toHaveText('No match. Did you mean Curaçao?')
   })
 
   test('natural sorting reads numbers and ignores case and accents', async ({ page }) => {
     await open(page, 'string', find(stringExamples, 'files'))
     await expect(page.locator('#plain li')).toHaveText([
-      'Foto 9.jpg',
-      'Informe 2.pdf',
-      'foto 12.jpg',
-      'informe 1.pdf',
-      'informe 10.pdf',
-      'índice.pdf',
+      'Photo 9.jpg',
+      'Report 2.pdf',
+      'photo 12.jpg',
+      'report 1.pdf',
+      'report 10.pdf',
+      'éclair.jpg',
     ])
     await expect(page.locator('#natural li')).toHaveText([
-      'Foto 9.jpg',
-      'foto 12.jpg',
-      'índice.pdf',
-      'informe 1.pdf',
-      'Informe 2.pdf',
-      'informe 10.pdf',
+      'éclair.jpg',
+      'Photo 9.jpg',
+      'photo 12.jpg',
+      'report 1.pdf',
+      'Report 2.pdf',
+      'report 10.pdf',
     ])
     await page.getByRole('button', { name: 'Add' }).click()
-    await expect(page.locator('#natural li').nth(5)).toHaveText('informe 3.pdf')
+    await expect(page.locator('#natural li').nth(5)).toHaveText('report 3.pdf')
     await expect(page.locator('#file-name')).toHaveValue('')
   })
 
@@ -225,14 +239,14 @@ test.describe('string copyable examples', () => {
     const result = page.locator('#result')
     await expect(page.locator('#conversion option')).toHaveCount(18)
     await expect(page.locator('#conversion')).toHaveValue('kebab')
-    await expect(result).toHaveText('café-con-leche-receta-rápida')
+    await expect(result).toHaveText('crème-brûlée-quick-recipe')
     await page.locator('#conversion').selectOption('slug')
-    await expect(result).toHaveText('cafe-con-leche-receta-rapida')
+    await expect(result).toHaveText('creme-brulee-quick-recipe')
     await page.locator('#conversion').selectOption('truncate')
-    await expect(result).toHaveText('Café con leche…')
+    await expect(result).toHaveText('Crème brûlée…')
     await page.locator('#conversion').selectOption('constant')
-    await page.locator('#phrase').fill('Té verde')
-    await expect(result).toHaveText('TÉ_VERDE')
+    await page.locator('#phrase').fill('Piña colada')
+    await expect(result).toHaveText('PIÑA_COLADA')
   })
 
   test('the composer counts graphemes and never cuts an emoji', async ({ page }) => {
@@ -240,7 +254,7 @@ test.describe('string copyable examples', () => {
     await expect(page.locator('#units')).toHaveText('25')
     await expect(page.locator('#chars')).toHaveText('14')
     await expect(page.locator('output')).toHaveText('26 of 40 characters left')
-    await expect(page.locator('#truncated')).toHaveText('¡Listos! 👨‍👩‍👧…')
+    await expect(page.locator('#truncated')).toHaveText('Packing! 👨‍👩‍👧…')
     expect(await page.locator('#sliced').textContent()).not.toContain('👨‍👩‍👧')
   })
 

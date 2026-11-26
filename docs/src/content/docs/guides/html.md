@@ -11,9 +11,9 @@ sidebar:
 The HTML layer runs every conversion from attributes. The browser bundle starts it on its own; with a bundler, call `string()` or `autoString()` from `@samline/string/vanilla`.
 
 ```html
-<h2 data-string="title" data-string-small-words="de, la">la casa de papel</h2>
-<input id="title" value="Café & Té" />
-<input data-string="slug" data-string-source="#title" data-string-replacements='{"&": "y"}' />
+<h2 data-string="title" data-string-small-words="of, the">the art of the possible</h2>
+<input id="title" value="Café & Crème" />
+<input data-string="slug" data-string-source="#title" data-string-replacements='{"&": "and"}' />
 ```
 
 ```js
@@ -128,11 +128,35 @@ slug.addEventListener('string:change', event => {
 
 ```html
 <input id="name" value="Ana María López" />
-<button type="button" data-string-copy="#name" data-string-copy-as="slug">Copy handle</button>
+<button type="button" data-string-copy="#name" data-string-copy-as="slug">
+  <span>Copy handle</span>
+</button>
+```
+
+```css
+/* The label swaps to "Copied" in place, so the button keeps its width. */
+[data-string-copy] {
+  display: inline-grid;
+  justify-items: center;
+}
+[data-string-copy] > span,
+[data-string-copy]::after {
+  grid-area: 1 / 1;
+}
+[data-string-copy]::after {
+  content: 'Copied';
+  visibility: hidden;
+}
+[data-string-copy-state='copied'] > span {
+  visibility: hidden;
+}
+[data-string-copy-state='copied']::after {
+  visibility: visible;
+}
 ```
 
 - Without the Clipboard API (plain HTTP, some iframes), or when it refuses, the text is copied from a hidden selection instead.
-- The button gets `data-string-copy-state="copied"`, or `error` when no copy succeeded, for `data-string-copy-reset` milliseconds (`2000`). Style it: `[data-string-copy-state='copied']::after { content: ' · Copied' }`.
+- The button gets `data-string-copy-state="copied"`, or `error` when no copy succeeded, for `data-string-copy-reset` milliseconds (`2000`). The CSS above swaps the label for that time; without it, or without JavaScript, the button keeps its label.
 - Every click dispatches `string:copy` with `{ value, ok }` and calls `onCopy`.
 - The clipboard needs a secure context (HTTPS or localhost).
 

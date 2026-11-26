@@ -9,14 +9,14 @@ export default [
       'Attributes only: the slug follows the title until the user edits it, keeps a typed separator while typing, trims on blur and follows again when emptied. The URL preview follows the slug.',
     files: {
       html: `<label for="title">Title</label>
-<input id="title" type="text" value="Café & Té: Guía 2026" />
+<input id="title" type="text" value="Café & Bakery: 2026 Guide" />
 <label for="slug">Slug</label>
 <input
   id="slug"
   type="text"
   data-string="slug"
   data-string-source="#title"
-  data-string-replacements='{"&": "y"}'
+  data-string-replacements='{"&": "and"}'
 />
 <p>example.com/blog/<code data-string="slug" data-string-source="#slug"></code></p>
 <p id="status"></p>`,
@@ -85,7 +85,7 @@ string()`,
     tab: 'Naming',
     title: 'One name in every convention',
     description:
-      'Type a name once, such as Año Nuevo banner, and read it as a CSS name, a JavaScript variable, an environment variable, a component and a translation key, each ready to copy. Attributes only: every code element follows the field with its own data-string conversion, and every button copies that version.',
+      'Type a name once, such as Piñata banner (accents and all), and read it as a CSS name, a JavaScript variable, an environment variable, a component and a translation key, each ready to copy. Attributes only: every code element follows the field with its own data-string conversion, and every button copies that version.',
     files: {
       html: `<label for="token">Name</label>
 <input id="token" type="text" value="Primary button hover" />
@@ -93,27 +93,27 @@ string()`,
   <div>
     <dt>CSS name</dt>
     <dd><code data-string="kebab" data-string-source="#token"></code></dd>
-    <dd><button type="button" data-string-copy="#token" data-string-copy-as="kebab" aria-label="Copy the CSS name">Copy</button></dd>
+    <dd><button type="button" data-string-copy="#token" data-string-copy-as="kebab" aria-label="Copy the CSS name"><span>Copy</span></button></dd>
   </div>
   <div>
     <dt>JavaScript</dt>
     <dd><code data-string="camel" data-string-source="#token"></code></dd>
-    <dd><button type="button" data-string-copy="#token" data-string-copy-as="camel" aria-label="Copy the JavaScript name">Copy</button></dd>
+    <dd><button type="button" data-string-copy="#token" data-string-copy-as="camel" aria-label="Copy the JavaScript name"><span>Copy</span></button></dd>
   </div>
   <div>
     <dt>Environment variable</dt>
     <dd><code data-string="constant" data-string-source="#token"></code></dd>
-    <dd><button type="button" data-string-copy="#token" data-string-copy-as="constant" aria-label="Copy the environment variable">Copy</button></dd>
+    <dd><button type="button" data-string-copy="#token" data-string-copy-as="constant" aria-label="Copy the environment variable"><span>Copy</span></button></dd>
   </div>
   <div>
     <dt>Component</dt>
     <dd><code data-string="pascal" data-string-source="#token"></code></dd>
-    <dd><button type="button" data-string-copy="#token" data-string-copy-as="pascal" aria-label="Copy the component name">Copy</button></dd>
+    <dd><button type="button" data-string-copy="#token" data-string-copy-as="pascal" aria-label="Copy the component name"><span>Copy</span></button></dd>
   </div>
   <div>
     <dt>Translation key</dt>
     <dd><code data-string="dot" data-string-source="#token"></code></dd>
-    <dd><button type="button" data-string-copy="#token" data-string-copy-as="dot" aria-label="Copy the translation key">Copy</button></dd>
+    <dd><button type="button" data-string-copy="#token" data-string-copy-as="dot" aria-label="Copy the translation key"><span>Copy</span></button></dd>
   </div>
 </dl>`,
       css: `label { display: block; font-weight: 600; }
@@ -121,7 +121,12 @@ input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 .names { display: grid; gap: 0.5rem; margin: 1rem 0 0; }
 .names div { display: grid; grid-template-columns: 11rem 1fr auto; gap: 0.75rem; align-items: center; }
 .names dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
-[data-string-copy-state='copied']::after { content: ' · Copied'; }`,
+[data-string-copy] { display: inline-grid; justify-items: center; }
+[data-string-copy] > span,
+[data-string-copy]::after { grid-area: 1 / 1; }
+[data-string-copy]::after { content: 'Copied'; visibility: hidden; }
+[data-string-copy-state='copied'] > span { visibility: hidden; }
+[data-string-copy-state='copied']::after { visibility: visible; }`,
       js: `// Nothing to call: the browser bundle starts every data-string-* attribute.
 // Each <code> follows #token with its own conversion and each button copies it.
 document.addEventListener('string:copy', event => {
@@ -146,14 +151,14 @@ document.addEventListener('string:copy', event => {
     files: {
       html: `<div class="profile">
   <span class="avatar" data-string="initials" data-string-color>Ana María López</span>
-  <span class="file" data-string-fit>curriculum-ana-maria-lopez-2026-version-final.pdf</span>
+  <span class="file" data-string-fit>resume-ana-maria-lopez-2026-final-version.pdf</span>
 </div>
 <label for="bio">Bio</label>
-<textarea id="bio" maxlength="80" rows="3">Diseño interfaces accesibles 🎨</textarea>
+<textarea id="bio" maxlength="80" rows="3">Designs accessible interfaces 🎨</textarea>
 <output data-string-count="#bio" data-string-count-format="{remaining} characters left"></output>
 <label for="handle">Display name</label>
 <input id="handle" value="Ana María López" />
-<button type="button" data-string-copy="#handle" data-string-copy-as="slug">Copy as handle</button>`,
+<button type="button" data-string-copy="#handle" data-string-copy-as="slug"><span>Copy as handle</span></button>`,
       css: `.profile { display: flex; gap: 0.75rem; align-items: center; max-width: 18rem; }
 .avatar { display: grid; place-items: center; flex: none; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--string-color, #475569); color: white; font-weight: 600; }
 .file { display: block; min-width: 0; flex: 1; }
@@ -161,7 +166,12 @@ label { display: block; margin-top: 0.75rem; font-weight: 600; }
 textarea, input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 [data-string-count-state='near'] { color: #b45309; }
 [data-string-count-state='over'] { color: #b91c1c; }
-[data-string-copy-state='copied']::after { content: ' · Copied'; }`,
+[data-string-copy] { display: inline-grid; justify-items: center; }
+[data-string-copy] > span,
+[data-string-copy]::after { grid-area: 1 / 1; }
+[data-string-copy]::after { content: 'Copied'; visibility: hidden; }
+[data-string-copy-state='copied'] > span { visibility: hidden; }
+[data-string-copy-state='copied']::after { visibility: visible; }`,
       js: `// The browser bundle starts every data-string-* element on load: the avatar gets
 // a stable --string-color, the file name fits its box, the counter follows the bio
 // and the button copies the name as a slug.
@@ -199,7 +209,7 @@ document.addEventListener('string:copy', event => {
 </ul>
 <p>Header: <code data-string="train">content security policy</code></p>
 <p>Env var: <code data-string="constant">api base url</code></p>
-<h3 data-string="title" data-string-small-words="de, la, el">la casa de papel</h3>`,
+<h3 data-string="title" data-string-small-words="of, the">the art of the possible</h3>`,
       css: `.files { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
 .files li { display: flex; gap: 0.75rem; align-items: center; }
 .avatar { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #475569; color: white; font-weight: 600; }`,
@@ -224,11 +234,11 @@ console.log('Converted', document.querySelectorAll('[data-string-state]').length
       html: `<label for="q">Search drinks</label>
 <input id="q" type="search" autocomplete="off" />
 <ul id="drinks" data-string-search="#q">
-  <li>Café de olla</li>
-  <li>Té verde</li>
-  <li>Chocolate mexicano</li>
-  <li>Horchata de arroz</li>
-  <li>Jamaica con limón</li>
+  <li>Café au lait</li>
+  <li>Green tea</li>
+  <li>Hot chocolate</li>
+  <li>Piña colada</li>
+  <li>Iced matcha latte</li>
   <li hidden data-string-search-empty>No drinks match.</li>
 </ul>
 <p id="hint" aria-live="polite"></p>`,
@@ -236,7 +246,7 @@ console.log('Converted', document.querySelectorAll('[data-string-state]').length
 input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 mark { background: #fde68a; color: inherit; border-radius: 0.125rem; }`,
       js: `const { closest } = window.Strings
-const drinks = ['Café de olla', 'Té verde', 'Chocolate mexicano', 'Horchata de arroz', 'Jamaica con limón']
+const drinks = ['Café au lait', 'Green tea', 'Hot chocolate', 'Piña colada', 'Iced matcha latte']
 const hint = document.querySelector('#hint')
 document.querySelector('#drinks').addEventListener('string:search', event => {
   const { query, matches, state } = event.detail
@@ -249,7 +259,7 @@ document.querySelector('#drinks').addEventListener('string:search', event => {
 })`,
       esm: `import { closest, search } from '@samline/string/vanilla'
 
-const drinks = ['Café de olla', 'Té verde', 'Chocolate mexicano', 'Horchata de arroz', 'Jamaica con limón']
+const drinks = ['Café au lait', 'Green tea', 'Hot chocolate', 'Piña colada', 'Iced matcha latte']
 const hint = document.querySelector('#hint')
 document.querySelector('#drinks').addEventListener('string:search', event => {
   const { query, matches, state } = event.detail
@@ -268,7 +278,7 @@ search()`,
     tab: 'Suggestions',
     title: 'Suggestions that forgive accents and typos',
     description:
-      'Type peru, cote or turk: contains matches names without caring about accents or case, and highlight returns the matching pieces of the original name, marked here without innerHTML. Type a typo such as mexcio and closest suggests the nearest country.',
+      'Type reunion, cote or turk: contains matches names without caring about accents or case, and highlight returns the matching pieces of the original name, marked here without innerHTML. Type a typo such as curacoa and closest suggests the nearest country.',
     files: {
       html: `<label for="country">Country</label>
 <input id="country" type="search" autocomplete="off" aria-describedby="country-status" />
@@ -278,7 +288,7 @@ search()`,
 input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 mark { background: #fde68a; color: inherit; border-radius: 0.125rem; }`,
       js: `const { closest, contains, highlight } = window.Strings
-const countries = ['México', 'Perú', 'Panamá', 'España', 'Japón', 'Canadá', 'Brasil', 'Bélgica', 'Türkiye', "Côte d'Ivoire"]
+const countries = ['Åland Islands', 'Canada', "Côte d'Ivoire", 'Curaçao', 'Mexico', 'Peru', 'Réunion', 'Saint Barthélemy', 'São Tomé and Príncipe', 'Türkiye']
 const input = document.querySelector('#country')
 const list = document.querySelector('#countries')
 const status = document.querySelector('#country-status')
@@ -312,7 +322,7 @@ input.addEventListener('input', update)
 update()`,
       esm: `import { closest, contains, highlight } from '@samline/string'
 
-const countries = ['México', 'Perú', 'Panamá', 'España', 'Japón', 'Canadá', 'Brasil', 'Bélgica', 'Türkiye', "Côte d'Ivoire"]
+const countries = ['Åland Islands', 'Canada', "Côte d'Ivoire", 'Curaçao', 'Mexico', 'Peru', 'Réunion', 'Saint Barthélemy', 'São Tomé and Príncipe', 'Türkiye']
 const input = document.querySelector('#country')
 const list = document.querySelector('#countries')
 const status = document.querySelector('#country-status')
@@ -351,11 +361,11 @@ update()`,
     tab: 'Sorting',
     title: 'Sort names the way people read them',
     description:
-      'The same file names sorted twice. Plain sort() puts capitals first, accented names last and informe 10 before informe 2; compareNatural reads numbers as numbers and ignores case and accents. Add a name such as informe 3.pdf to see where each one puts it.',
+      'The same file names sorted twice. Plain sort() puts capitals first, accented names last and report 10 before report 2; compareNatural reads numbers as numbers and ignores case and accents. Add a name such as report 3.pdf to see where each one puts it.',
     files: {
       html: `<form id="add-file">
   <label for="file-name">Add a file</label>
-  <input id="file-name" type="text" value="informe 3.pdf" />
+  <input id="file-name" type="text" value="report 3.pdf" />
   <button type="submit">Add</button>
 </form>
 <div class="columns">
@@ -375,7 +385,7 @@ input { flex: 1; min-width: 0; padding: 0.5rem; font: inherit; }
 .columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; }
 h3 { font-size: 1rem; }`,
       js: `const { compareNatural } = window.Strings
-const files = ['informe 10.pdf', 'Informe 2.pdf', 'índice.pdf', 'informe 1.pdf', 'foto 12.jpg', 'Foto 9.jpg']
+const files = ['report 10.pdf', 'Report 2.pdf', 'éclair.jpg', 'report 1.pdf', 'photo 12.jpg', 'Photo 9.jpg']
 const input = document.querySelector('#file-name')
 
 const show = (list, names) =>
@@ -395,7 +405,7 @@ document.querySelector('#add-file').addEventListener('submit', event => {
 update()`,
       esm: `import { compareNatural } from '@samline/string'
 
-const files = ['informe 10.pdf', 'Informe 2.pdf', 'índice.pdf', 'informe 1.pdf', 'foto 12.jpg', 'Foto 9.jpg']
+const files = ['report 10.pdf', 'Report 2.pdf', 'éclair.jpg', 'report 1.pdf', 'photo 12.jpg', 'Photo 9.jpg']
 const input = document.querySelector('#file-name')
 
 const show = (list, names) =>
@@ -423,7 +433,7 @@ update()`,
       'convert() takes the conversion by name, so it can come from a setting, a CMS field or a menu, and data-string accepts the same names. Pick any of the 18 names in CONVERSIONS, or edit the text; isConversion() checks a saved name before it is used.',
     files: {
       html: `<label for="phrase">Text</label>
-<input id="phrase" type="text" value="Café con leche: receta rápida" />
+<input id="phrase" type="text" value="Crème brûlée: quick recipe" />
 <label for="conversion">Conversion</label>
 <select id="conversion"></select>
 <p>Result: <output id="result" for="phrase conversion"></output></p>`,
@@ -473,7 +483,7 @@ update()`,
       'JavaScript’s length counts UTF-16 units, so 👨‍👩‍👧 counts as 8 and slice() can cut it in half. graphemes, the counter and truncate count the characters people see instead. Add or remove emoji and compare the two counts and the two cuts.',
     files: {
       html: `<label for="post">Post</label>
-<textarea id="post" rows="3">¡Listos! 👨‍👩‍👧 🇲🇽 ✈️</textarea>
+<textarea id="post" rows="3">Packing! 👨‍👩‍👧 🇲🇽 ✈️</textarea>
 <output data-string-count="#post" data-string-count-max="40" data-string-count-format="{remaining} of {max} characters left"></output>
 <dl class="stats">
   <dt><code>post.length</code></dt>
@@ -587,13 +597,13 @@ update()`,
     tab: 'Article meta',
     title: 'Reading time, plurals and excerpts',
     description:
-      'The line under the article is computed from its text: readingTime counts words with Intl.Segmenter, pluralize picks each Spanish form, stripTags and truncate turn the body into a 90-character excerpt for a meta description, and template fills the greeting.',
+      'The line under the article is computed from its text: readingTime counts words with Intl.Segmenter, pluralize picks each English form, stripTags and truncate turn the body into a 90-character excerpt for a meta description, and template fills the greeting.',
     files: {
       html: `<article id="post">
-  <h2>Café de olla</h2>
+  <h2>Cold brew at home</h2>
   <div class="body">
-    <p>El <b>café de olla</b> se prepara con canela y piloncillo en una olla de barro.</p>
-    <p>Hierve el agua, añade el piloncillo y la canela, y deja reposar el café cinco minutos antes de colarlo.</p>
+    <p><b>Cold brew</b> steeps coarse coffee in cold water for hours instead of minutes.</p>
+    <p>Grind the beans, stir them into the water, and let the jar rest overnight before you strain it.</p>
   </div>
 </article>
 <p id="meta"></p>
@@ -603,19 +613,19 @@ update()`,
       js: `const { pluralize, readingTime, stripTags, template, truncate } = window.Strings
 const post = document.querySelector('#post')
 const comments = 3
-const { minutes, words } = readingTime(post.textContent, { locale: 'es' })
+const { minutes, words } = readingTime(post.textContent, { locale: 'en' })
 
 document.querySelector('#meta').textContent = [
-  pluralize(minutes, { one: '# minuto de lectura', other: '# minutos de lectura' }, { locale: 'es' }),
-  pluralize(words, { one: '# palabra', other: '# palabras' }, { locale: 'es' }),
-  pluralize(comments, { zero: 'Sin comentarios', one: '# comentario', other: '# comentarios' }, { locale: 'es' }),
+  pluralize(minutes, { one: '# minute read', other: '# minutes read' }, { locale: 'en' }),
+  pluralize(words, { one: '# word', other: '# words' }, { locale: 'en' }),
+  pluralize(comments, { zero: 'No comments', one: '# comment', other: '# comments' }, { locale: 'en' }),
 ].join(' · ')
 
 // Plain text from the body's HTML for a meta description, cut at a whole word.
 const body = post.querySelector('.body')
 document.querySelector('#excerpt').textContent = truncate(stripTags(body.innerHTML), 90)
 
-document.querySelector('#greeting').textContent = template('Hola {user.name}, tienes {count} borradores.', {
+document.querySelector('#greeting').textContent = template('Hi {user.name}, you have {count} drafts.', {
   user: { name: 'Ana' },
   count: 2,
 })`,
@@ -623,19 +633,19 @@ document.querySelector('#greeting').textContent = template('Hola {user.name}, ti
 
 const post = document.querySelector('#post')
 const comments = 3
-const { minutes, words } = readingTime(post.textContent, { locale: 'es' })
+const { minutes, words } = readingTime(post.textContent, { locale: 'en' })
 
 document.querySelector('#meta').textContent = [
-  pluralize(minutes, { one: '# minuto de lectura', other: '# minutos de lectura' }, { locale: 'es' }),
-  pluralize(words, { one: '# palabra', other: '# palabras' }, { locale: 'es' }),
-  pluralize(comments, { zero: 'Sin comentarios', one: '# comentario', other: '# comentarios' }, { locale: 'es' }),
+  pluralize(minutes, { one: '# minute read', other: '# minutes read' }, { locale: 'en' }),
+  pluralize(words, { one: '# word', other: '# words' }, { locale: 'en' }),
+  pluralize(comments, { zero: 'No comments', one: '# comment', other: '# comments' }, { locale: 'en' }),
 ].join(' · ')
 
 // Plain text from the body's HTML for a meta description, cut at a whole word.
 const body = post.querySelector('.body')
 document.querySelector('#excerpt').textContent = truncate(stripTags(body.innerHTML), 90)
 
-document.querySelector('#greeting').textContent = template('Hola {user.name}, tienes {count} borradores.', {
+document.querySelector('#greeting').textContent = template('Hi {user.name}, you have {count} drafts.', {
   user: { name: 'Ana' },
   count: 2,
 })`,
@@ -717,8 +727,8 @@ li { display: flex; gap: 0.75rem; align-items: center; }
       js: `const { hashColor, initials, truncate } = window.Strings
 const people = [
   { name: 'Samuel Olvera', bio: 'Builds small, framework-agnostic utilities for the open web.' },
-  { name: 'Ana María López', bio: 'Diseña interfaces accesibles y escribe sobre tipografía en español.' },
-  { name: 'ana maria lopez', bio: 'Importada de otro sistema, con el nombre escrito sin acentos ni mayúsculas.' },
+  { name: 'Ana María López', bio: 'Designs accessible interfaces and writes about typography.' },
+  { name: 'ana maria lopez', bio: 'Imported from another system, with the name typed without accents or capitals.' },
 ]
 
 document.querySelector('#people').replaceChildren(
@@ -743,8 +753,8 @@ document.querySelector('#people').replaceChildren(
 
 const people = [
   { name: 'Samuel Olvera', bio: 'Builds small, framework-agnostic utilities for the open web.' },
-  { name: 'Ana María López', bio: 'Diseña interfaces accesibles y escribe sobre tipografía en español.' },
-  { name: 'ana maria lopez', bio: 'Importada de otro sistema, con el nombre escrito sin acentos ni mayúsculas.' },
+  { name: 'Ana María López', bio: 'Designs accessible interfaces and writes about typography.' },
+  { name: 'ana maria lopez', bio: 'Imported from another system, with the name typed without accents or capitals.' },
 ]
 
 document.querySelector('#people').replaceChildren(
