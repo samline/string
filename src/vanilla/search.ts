@@ -208,7 +208,7 @@ const bindSearch = (list: HTMLElement, options: SearchOptions): SearchController
  * ```html
  * <input id="q" type="search" />
  * <ul data-string-search="#q">
- *   <li>Café de olla</li>
+ *   <li>Café au lait</li>
  *   <li hidden data-string-search-empty>No results</li>
  * </ul>
  * ```

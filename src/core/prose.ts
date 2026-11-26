@@ -8,7 +8,7 @@ export interface WordCountOptions {
 /**
  * Count the words people read, with `Intl.Segmenter` when available, so
  * punctuation is ignored and Chinese or Japanese text is split correctly:
- * `wordCount('¡Hola, mundo! It's 2026.')` → `4`.
+ * `wordCount('Hello, world! It's 2026.')` → `4`.
  */
 export const wordCount = (input: string, { locale }: WordCountOptions = {}): number => {
   const text = String(input ?? '')
@@ -99,8 +99,8 @@ export interface TemplateOptions {
 
 /**
  * Fill `{placeholders}` with values, including nested paths:
- * `template('Hola {user.name}, tienes {count}', { user: { name: 'Ana' }, count: 3 })`
- * → `'Hola Ana, tienes 3'`. Write `{{` and `}}` for literal braces.
+ * `template('Hi {user.name}, you have {count}', { user: { name: 'Ana' }, count: 3 })`
+ * → `'Hi Ana, you have 3'`. Write `{{` and `}}` for literal braces.
  */
 export const template = (
   input: string,

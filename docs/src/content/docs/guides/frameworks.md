@@ -105,7 +105,7 @@ Load the browser bundle with a classic script tag and pin the version in product
 <script src="https://cdn.jsdelivr.net/npm/@samline/string@2.0.1/dist/browser/string.global.js"></script>
 <script>
   const { slugify } = window.Strings
-  console.log(slugify('Café & Té')) // 'cafe-te'
+  console.log(slugify('Café & Crème')) // 'cafe-creme'
 </script>
 ```
 

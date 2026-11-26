@@ -10,7 +10,7 @@ export interface SlugifyOptions {
   lower?: boolean
   /**
    * Replacements applied before anything else, for example
-   * `{ '&': 'y', '%': 'por ciento' }`. Object keys are matched literally; for
+   * `{ '&': 'and', '%': 'percent' }`. Object keys are matched literally; for
    * patterns pass pairs: `[[/\bC\+\+/g, 'cpp'], ['&', 'and']]` (use the `g` flag
    * to replace every match).
    */
@@ -36,7 +36,7 @@ export interface SlugifyOptions {
 const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 /**
- * `¡Hola, Ñandú & Café!` → `hola-nandu-cafe`
+ * `Hello, Crème Brûlée & Café!` → `hello-creme-brulee-cafe`
  *
  * Removes accents, transliterates common letters (ß, æ, ø, œ, ł…), keeps
  * only ASCII letters and digits, and collapses everything else into one
@@ -89,7 +89,7 @@ export const slugify = (
 }
 
 export interface UniqueSlugOptions extends SlugifyOptions {
-  /** First number tried. Defaults to `2`, so the second "Hola" becomes `hola-2`. */
+  /** First number tried. Defaults to `2`, so the second "Hello" becomes `hello-2`. */
   start?: number
 }
 
@@ -99,8 +99,8 @@ export type TakenSlugs = Iterable<string> | ((slug: string) => boolean)
 const LIMIT = 100_000
 
 /**
- * A slug that is not `taken`: `uniqueSlug('Hola', ['hola', 'hola-2'])` →
- * `'hola-3'`. The number is joined with the separator, and with `maxLength`
+ * A slug that is not `taken`: `uniqueSlug('Hello', ['hello', 'hello-2'])` →
+ * `'hello-3'`. The number is joined with the separator, and with `maxLength`
  * the base is shortened so the number always fits.
  *
  * When editing a record, leave its own current slug out of `taken`.

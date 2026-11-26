@@ -20,10 +20,10 @@ People type `cafe` and expect `Café`, type `file2` and expect it before `file10
 ```js
 import { contains, highlight } from '@samline/string'
 
-contains('México: Café de olla', 'cafe mex') // true: every word must appear
-contains('México: Café de olla', 'olla cafe', { split: false }) // false: one phrase
-highlight('Café de olla', 'cafe')
-// [{ text: 'Café', match: true }, { text: ' de olla', match: false }]
+contains('São Paulo: Café au lait', 'cafe sao') // true: every word must appear
+contains('São Paulo: Café au lait', 'lait cafe', { split: false }) // false: one phrase
+highlight('Café au lait', 'cafe')
+// [{ text: 'Café', match: true }, { text: ' au lait', match: false }]
 ```
 
 - An empty query matches everything.
@@ -36,7 +36,7 @@ highlight('Café de olla', 'cafe')
 
 ```js
 ;['file10', 'file2', 'File1'].sort(compareNatural) // ['File1', 'file2', 'file10']
-;['zeta', 'Árbol', 'avión'].sort(compareNatural) // ['Árbol', 'avión', 'zeta']
+;['zebra', 'Éclair', 'espresso'].sort(compareNatural) // ['Éclair', 'espresso', 'zebra']
 ```
 
 `sensitivity` defaults to `'base'` (accents and case are equal); use `'accent'`, `'case'` or `'variant'` to tell them apart.
@@ -45,9 +45,9 @@ highlight('Café de olla', 'cafe')
 
 - `distance(a, b)`: Levenshtein distance in code points. `('kitten', 'sitting')` → `3`.
 - `similarity(a, b, { fold })`: from `0` to `1`, folded by default. `('Mexico', 'México')` → `1`.
-- `closest(input, candidates, { threshold })`: the most similar candidate, or `undefined` below `threshold` (`0.5`). `('te vrde', ['Café de olla', 'Té verde'])` → `'Té verde'`.
+- `closest(input, candidates, { threshold })`: the most similar candidate, or `undefined` below `threshold` (`0.5`). `('pina colda', ['Café au lait', 'Piña colada'])` → `'Piña colada'`.
 
-`closest` also compares the input with the start of each word of longer candidates (`partial`, on by default, for inputs of three characters or more), so `horchatta` finds `Horchata de arroz` and `limon` finds `Jamaica con limón`. A whole match scores a little higher than a partial one. `similarity` alone always compares whole strings.
+`closest` also compares the input with the start of each word of longer candidates (`partial`, on by default, for inputs of three characters or more), so `matcah` finds `Iced matcha latte` and `pina` finds `Frozen piña colada`. A whole match scores a little higher than a partial one. `similarity` alone always compares whole strings.
 
 ## Filtering a list
 
@@ -56,8 +56,8 @@ highlight('Café de olla', 'cafe')
 ```html
 <input id="q" type="search" />
 <ul data-string-search="#q">
-  <li>Café de olla</li>
-  <li>Té verde</li>
+  <li>Café au lait</li>
+  <li>Piña colada</li>
   <li hidden data-string-search-empty>No results</li>
 </ul>
 ```

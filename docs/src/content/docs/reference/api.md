@@ -36,8 +36,8 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 
 ## URLs and search
 
-- `slugify(text, options?)`: `'¡Hola, Ñandú & Café!'` → `'hola-nandu-cafe'`. See [options](../configuration/#slugify).
-- `uniqueSlug(text, taken, options?)`: `('Hola', ['hola', 'hola-2'])` → `'hola-3'`. `taken` is a list, a `Set` or a `(slug) => boolean` function; the number is joined with the separator and kept inside `maxLength`. Leave the current record's own slug out of `taken` when editing it.
+- `slugify(text, options?)`: `'Hello, Crème Brûlée & Café!'` → `'hello-creme-brulee-cafe'`. See [options](../configuration/#slugify).
+- `uniqueSlug(text, taken, options?)`: `('Hello', ['hello', 'hello-2'])` → `'hello-3'`. `taken` is a list, a `Set` or a `(slug) => boolean` function; the number is joined with the separator and kept inside `maxLength`. Leave the current record's own slug out of `taken` when editing it.
 - `removeAccents(text, options?)`: `'Ñandú Straße'` → `'Nandu Strasse'`. Removes diacritics and transliterates ß, æ, œ, ø, đ, ł, þ, ð and ı; `charMap` adds more.
 - `CYRILLIC`, `GREEK`, `GERMAN`: transliteration presets for `charMap` (`'Щука'` → `'Shchuka'`, `'Αθήνα'` → `'Athina'`, `'Müller'` → `'Mueller'`). `CHAR_MAPS` holds them by name. Combine them with your own: `{ ...CYRILLIC, ...GERMAN, '№': 'no' }`.
 
@@ -50,10 +50,10 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 
 ## Text
 
-- `wordCount(text, options?)`: `"¡Hola, mundo! It's 2026."` → `4`.
+- `wordCount(text, options?)`: `"Hello, world! It's 2026."` → `4`.
 - `readingTime(text, options?)`: `{ words, minutes }`, minutes rounded up at 200 words per minute.
 - `pluralize(count, forms, options?)`: `(1234, { one: '# file', other: '# files' })` → `'1,234 files'`. `forms` takes the `Intl.PluralRules` categories (`zero`, `one`, `two`, `few`, `many`, `other`); `#` becomes the formatted count; `zero` wins for `0` when given.
-- `template(text, values, options?)`: `('Hola {user.name}', { user: { name: 'Ana' } })` → `'Hola Ana'`. `{{` and `}}` are literal braces; missing values keep their placeholder unless you pass `missing`.
+- `template(text, values, options?)`: `('Hi {user.name}', { user: { name: 'Ana' } })` → `'Hi Ana'`. `{{` and `}}` are literal braces; missing values keep their placeholder unless you pass `missing`.
 - `escapeHtml(text)`: `'<b>'` → `'&lt;b&gt;'`, for text and quoted attributes.
 - `unescapeHtml(text)`: numeric entities and `&amp;`, `&lt;`, `&gt;`, `&quot;`, `&apos;`, `&nbsp;`, `&copy;`, `&reg;`, `&hellip;`, `&mdash;`, `&ndash;`, `&laquo;` and `&raquo;` back to characters. Other named entities stay as they are.
 - `stripTags(html)`: plain text from HTML, without comments, scripts or styles. It is not a sanitizer; insert the result with `textContent`.
@@ -69,12 +69,12 @@ These functions rebuild the text from its [words](../../guides/words/), so separ
 See the [search guide](../../guides/search/).
 
 - `fold(text, options?)`: `'Ñandú ＡＢＣ Straße'` → `'nandu abc strasse'`.
-- `contains(text, query, options?)`: `('México: Café de olla', 'cafe mex')` → `true`. Every query word must appear.
-- `highlight(text, query, options?)`: `('Café de olla', 'cafe')` → `[{ text: 'Café', match: true }, { text: ' de olla', match: false }]`.
+- `contains(text, query, options?)`: `('São Paulo: Café au lait', 'cafe sao')` → `true`. Every query word must appear.
+- `highlight(text, query, options?)`: `('Café au lait', 'cafe')` → `[{ text: 'Café', match: true }, { text: ' au lait', match: false }]`.
 - `compareNatural(a, b, options?)`: `['file10', 'file2'].sort(compareNatural)` → `['file2', 'file10']`.
 - `distance(a, b)`: `('kitten', 'sitting')` → `3`.
 - `similarity(a, b, options?)`: `('Mexico', 'México')` → `1`.
-- `closest(input, candidates, options?)`: `('mexcio', ['Chile', 'México'])` → `'México'`. With `partial` (default) it also compares with the start of each word: `('horchatta', ['Horchata de arroz'])` → `'Horchata de arroz'`.
+- `closest(input, candidates, options?)`: `('curacoa', ['Canada', 'Curaçao'])` → `'Curaçao'`. With `partial` (default) it also compares with the start of each word: `('horchatta', ['Horchata de arroz'])` → `'Horchata de arroz'`.
 
 ## Building blocks
 

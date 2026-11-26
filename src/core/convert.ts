@@ -45,7 +45,7 @@ export interface ConvertOptions
   extends TitleCaseOptions, Omit<SlugifyOptions, 'locale'>, TruncateOptions, InitialsOptions {
   /** Maximum length for `'truncate'`. Without it, `'truncate'` returns the text unchanged. */
   length?: number
-  /** Slugs already in use: `'slug'` then returns a free one (`hola-2`). See `uniqueSlug`. */
+  /** Slugs already in use: `'slug'` then returns a free one (`hello-2`). See `uniqueSlug`. */
   taken?: TakenSlugs
 }
 

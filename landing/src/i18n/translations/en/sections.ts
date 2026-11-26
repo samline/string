@@ -15,7 +15,7 @@ const code = (
 })
 
 const markup = `<label for="title">Title</label>
-<input id="title" type="text" value="Café & Té" />
+<input id="title" type="text" value="Café & Crème" />
 <label for="slug">Slug</label>
 <input id="slug" data-string="slug" data-string-source="#title" />`
 
@@ -67,7 +67,7 @@ const sections = {
         icon: 'link',
         title: 'Slugs that read well',
         description: text(
-          'slugify removes accents, transliterates Cyrillic, Greek and German, applies your replacements, and uniqueSlug picks the first free one (hola-3).'
+          'slugify removes accents, transliterates Cyrillic, Greek and German, applies your replacements, and uniqueSlug picks the first free one (hello-3).'
         ),
       },
       html: {
@@ -187,8 +187,8 @@ mapKeys({ firstName: 'Ana' }, snakeCase) // { first_name: 'Ana' }`,
           'main.js',
           `import { closest } from '@samline/string'
 
-closest('mexcio', ['Chile', 'México', 'Perú']) // 'México'
-closest('horchatta', ['Horchata de arroz']) // 'Horchata de arroz'`,
+closest('curacoa', ['Canada', 'Curaçao', 'Peru']) // 'Curaçao'
+closest('matcah', ['Iced matcha latte']) // 'Iced matcha latte'`,
           'javascript'
         ),
       },

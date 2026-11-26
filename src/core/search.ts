@@ -16,7 +16,7 @@ export const fold = (input: string, { locale }: FoldOptions = {}): string =>
 export interface MatchOptions extends FoldOptions {
   /**
    * Treat every word of the query as its own term. Defaults to `true`:
-   * `'cafe mex'` matches `México: Café de olla`. `false` matches the query
+   * `'cafe sao'` matches `São Paulo: Café au lait`. `false` matches the query
    * as one phrase.
    */
   split?: boolean
@@ -29,7 +29,7 @@ const termsOf = (query: string, { locale, split = true }: MatchOptions): string[
 }
 
 /**
- * Accent- and case-insensitive search: `contains('Café de olla', 'CAFE')` is
+ * Accent- and case-insensitive search: `contains('Café au lait', 'CAFE')` is
  * `true`. Every term must appear; an empty query matches everything.
  */
 export const contains = (input: string, query: string, options: MatchOptions = {}): boolean => {
@@ -51,8 +51,8 @@ export interface HighlightSegment {
 /**
  * Split text into matching and non-matching pieces of the original text, for
  * highlighting search results without building HTML strings:
- * `highlight('Café de olla', 'cafe')` →
- * `[{ text: 'Café', match: true }, { text: ' de olla', match: false }]`.
+ * `highlight('Café au lait', 'cafe')` →
+ * `[{ text: 'Café', match: true }, { text: ' au lait', match: false }]`.
  *
  * Matching ignores accents and case, like `contains`; terms do not need to
  * all appear.
@@ -120,7 +120,7 @@ const collators = new Map<string, Intl.Collator>()
 
 /**
  * Natural, locale-aware ordering: numbers compare by value and accents are
- * ignored, so `file2` comes before `file10` and `Árbol` sits with `arbol`.
+ * ignored, so `file2` comes before `file10` and `Éclair` sits with `eclair`.
  * Pass it straight to sort: `names.sort(compareNatural)`.
  */
 export const compareNatural = (
@@ -186,7 +186,7 @@ export interface ClosestOptions extends SimilarityOptions {
   threshold?: number
   /**
    * Also compare the input with the start of each word of a longer
-   * candidate, so `horchatta` finds `Horchata de arroz`. Needs at least three
+   * candidate, so `matcah` finds `Iced matcha latte`. Needs at least three
    * characters. Defaults to `true`.
    */
   partial?: boolean
@@ -213,7 +213,7 @@ const partialScore = (input: string, candidate: string): number => {
 /**
  * The candidate most similar to `input`, for "Did you mean…?" hints, or
  * `undefined` when none reaches `threshold`.
- * `closest('mexcio', ['Chile', 'México', 'Perú'])` → `'México'`.
+ * `closest('curacoa', ['Canada', 'Curaçao', 'Peru'])` → `'Curaçao'`.
  */
 export const closest = <T extends string>(
   input: string,

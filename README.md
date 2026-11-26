@@ -39,8 +39,8 @@ import { camelCase, convert, kebabCase, slugify, titleCase, truncate } from '@sa
 
 camelCase('XMLHttp request_id') // 'xmlHttpRequestId'
 kebabCase('someLongName') // 'some-long-name'
-titleCase('el señor de los anillos', { smallWords: ['de', 'los'] }) // 'El Señor de los Anillos'
-slugify('¡Hola, Ñandú & Café!', { replacements: { '&': 'y' } }) // 'hola-nandu-y-cafe'
+titleCase('the lord of the rings', { smallWords: ['of', 'the'] }) // 'The Lord of the Rings'
+slugify('Hello, Crème Brûlée & Café!', { replacements: { '&': 'and' } }) // 'hello-creme-brulee-and-cafe'
 truncate('The quick brown fox jumps', 15) // 'The quick…'
 truncate('annual-report-2026-final.pdf', 19, { position: 'middle' }) // 'annual-re…final.pdf'
 convert('content type', 'train') // 'Content-Type'
@@ -49,7 +49,7 @@ convert('content type', 'train') // 'Content-Type'
 Or let HTML attributes do the work. This slug field fills itself from the title until the user edits it:
 
 ```html
-<input id="title" value="Café & Té" />
+<input id="title" value="Café & Crème" />
 <input data-string="slug" data-string-source="#title" />
 <span data-string="initials">Samuel Olvera</span>
 ```
@@ -65,17 +65,17 @@ Search without worrying about accents or case:
 ```js
 import { closest, compareNatural, contains, highlight } from '@samline/string'
 
-contains('México: Café de olla', 'cafe mex') // true
-highlight('Café de olla', 'cafe') // [{ text: 'Café', match: true }, { text: ' de olla', match: false }]
+contains('São Paulo: Café au lait', 'cafe sao') // true
+highlight('Café au lait', 'cafe') // [{ text: 'Café', match: true }, { text: ' au lait', match: false }]
 ;['file10', 'file2', 'File1'].sort(compareNatural) // ['File1', 'file2', 'file10']
-closest('te vrde', ['Café de olla', 'Té verde']) // 'Té verde'
+closest('pina colda', ['Café au lait', 'Piña colada']) // 'Piña colada'
 ```
 
 ```html
 <input id="q" type="search" />
 <ul data-string-search="#q">
-  <li>Café de olla</li>
-  <li>Té verde</li>
+  <li>Café au lait</li>
+  <li>Piña colada</li>
   <li hidden data-string-search-empty>No results</li>
 </ul>
 ```
@@ -88,7 +88,7 @@ For Shopify, WordPress or plain HTML pages without a build step, load the browse
 <script src="https://cdn.jsdelivr.net/npm/@samline/string@2.0.1/dist/browser/string.global.js"></script>
 <script>
   const { slugify } = window.Strings
-  console.log(slugify('Café & Té')) // 'cafe-te'
+  console.log(slugify('Café & Crème')) // 'cafe-creme'
 </script>
 ```
 
@@ -106,7 +106,7 @@ The bundle defines `window.Strings` (`window.String` is JavaScript's own) with e
 
 ### Slugs and accents
 
-`slugify` removes accents, transliterates ß, æ, œ, ø, đ, ł and þ, applies your `replacements` (literal or regex pairs), collapses separators and cuts at a separator with `maxLength`. `trim: false` keeps a trailing separator for live slug fields, and `preserve: '.'` keeps characters such as the dot in `v1.2`. `charMap` adds transliteration: the `CYRILLIC`, `GREEK` and `GERMAN` presets (also by name in `CHAR_MAPS`) (`Москва` → `moskva`, `Müller` → `mueller`) or your own map. `uniqueSlug(text, taken)` returns the first free slug (`hola-3`), keeping the number inside `maxLength`. `removeAccents` gives accent-insensitive text for search.
+`slugify` removes accents, transliterates ß, æ, œ, ø, đ, ł and þ, applies your `replacements` (literal or regex pairs), collapses separators and cuts at a separator with `maxLength`. `trim: false` keeps a trailing separator for live slug fields, and `preserve: '.'` keeps characters such as the dot in `v1.2`. `charMap` adds transliteration: the `CYRILLIC`, `GREEK` and `GERMAN` presets (also by name in `CHAR_MAPS`) (`Москва` → `moskva`, `Müller` → `mueller`) or your own map. `uniqueSlug(text, taken)` returns the first free slug (`hello-3`), keeping the number inside `maxLength`. `removeAccents` gives accent-insensitive text for search.
 
 ### Display helpers
 
@@ -114,7 +114,7 @@ The bundle defines `window.Strings` (`window.String` is JavaScript's own) with e
 
 ### Text helpers
 
-`wordCount` and `readingTime` count words with `Intl.Segmenter`, so punctuation is ignored and Chinese or Japanese text is split correctly. `pluralize(count, { one: '# file', other: '# files' })` picks the right form for any language with `Intl.PluralRules`, formats the count and supports ordinals (`22nd`). `template('Hola {user.name}', values)` fills placeholders. `escapeHtml`, `unescapeHtml` and `stripTags` move text in and out of HTML, and `graphemes` splits text into user-perceived characters.
+`wordCount` and `readingTime` count words with `Intl.Segmenter`, so punctuation is ignored and Chinese or Japanese text is split correctly. `pluralize(count, { one: '# file', other: '# files' })` picks the right form for any language with `Intl.PluralRules`, formats the count and supports ordinals (`22nd`). `template('Hi {user.name}', values)` fills placeholders. `escapeHtml`, `unescapeHtml` and `stripTags` move text in and out of HTML, and `graphemes` splits text into user-perceived characters.
 
 ### Conversions by name
 
@@ -122,13 +122,13 @@ The bundle defines `window.Strings` (`window.String` is JavaScript's own) with e
 
 ### Search and comparison
 
-`fold` lowers case, removes accents and maps full-width forms, so `contains` finds `Café` with `cafe` and every query word counts. `highlight` splits the original text into matching and non-matching pieces, without building HTML, and keeps decomposed accents with their letter. `compareNatural` sorts `file2` before `file10` and ignores accents. `distance`, `similarity` and `closest` measure typos and suggest the nearest candidate; `closest` also compares with the start of each word, so `horchatta` finds `Horchata de arroz`.
+`fold` lowers case, removes accents and maps full-width forms, so `contains` finds `Café` with `cafe` and every query word counts. `highlight` splits the original text into matching and non-matching pieces, without building HTML, and keeps decomposed accents with their letter. `compareNatural` sorts `file2` before `file10` and ignores accents. `distance`, `similarity` and `closest` measure typos and suggest the nearest candidate; `closest` also compares with the start of each word, so `matcah` finds `Iced matcha latte`.
 
 ### HTML attributes
 
 `data-string="<conversion>"` converts any element's text, and the original markup comes back on `destroy()`. Inputs and textareas convert while the user types, keep a separator they just typed, keep the caret in place, skip IME composition and finalize on blur. `data-string-taken` keeps a slug field off slugs in use and `data-string-transliterate="cyrillic"` reads other scripts. `data-string-source` makes a field or preview follow another one: a slug follows the title until the user edits it and follows again when emptied, and sources chain (title → slug → URL preview). Truncated text keeps the full text in `title`, initials become an image labelled with the full name, and `data-string-state` plus a `string:change` event report every change. `data-string-search="#q"` filters a list as the user types, wraps matches in `<mark>`, shows a `data-string-search-empty` message and reports results in a `string:search` event.
 
-`data-string-count="#bio"` shows the characters (graphemes) or words left in a field, with `ok`, `near` and `over` states. `data-string-fit` cuts text in the middle to fit its box and fits again when the box resizes. `data-string-copy="#name"` with `data-string-copy-as="slug"` copies converted text to the clipboard, with a selection fallback where the Clipboard API is missing. `data-string-color` sets `--string-color` to a stable color for the text, for avatar backgrounds; `hashColor(text)` gives the same color in code.
+`data-string-count="#bio"` shows the characters (graphemes) or words left in a field, with `ok`, `near` and `over` states. `data-string-fit` cuts text in the middle to fit its box and fits again when the box resizes. `data-string-copy="#name"` with `data-string-copy-as="slug"` copies converted text to the clipboard, with a selection fallback where the Clipboard API is missing. The button gets `data-string-copy-state="copied"` for two seconds; wrap its label in a `<span>` and the docs CSS swaps it for "Copied" in place. `data-string-color` sets `--string-color` to a stable color for the text, for avatar backgrounds; `hashColor(text)` gives the same color in code.
 
 ## API at a glance
 
