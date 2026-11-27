@@ -55,6 +55,8 @@
 .string-example [data-string-copy]::after { content: 'Copied'; visibility: hidden; }
 .string-example [data-string-copy-state='copied'] > span { visibility: hidden; }
 .string-example [data-string-copy-state='copied']::after { visibility: visible; }
+.string-example [data-string-copy-state='error'] > span { visibility: hidden; }
+.string-example [data-string-copy-state='error']::after { content: 'Copy failed'; visibility: visible; }
 .string-example select {
   width: 100%;
   max-width: 28rem;

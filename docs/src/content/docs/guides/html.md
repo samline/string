@@ -99,7 +99,7 @@ slug.addEventListener('string:change', event => {
 
 ```html
 <textarea id="bio" maxlength="160"></textarea>
-<output data-string-count="#bio" data-string-count-format="{remaining} characters left"></output>
+<output aria-live="off" data-string-count="#bio" data-string-count-format="{remaining} characters left"></output>
 ```
 
 - Characters are graphemes, so 😀 counts as one. `maxlength` counts UTF-16 units, so an emoji uses two of the field's limit; set `data-string-count-max` to count against your own limit instead.
@@ -107,7 +107,21 @@ slug.addEventListener('string:change', event => {
 - `data-string-count-format` is a template with `{count}`, `{max}` and `{remaining}`; the default is `{remaining}` with a maximum and `{count}` without. The `format` option also takes a function.
 - `data-string-count-state` is `ok`, `near` (at most `data-string-count-near` left, 10% of the maximum by default) or `over`.
 - Every update dispatches `string:count` with `{ count, max, remaining, state }` and calls `onCount`.
-- `<output>` is announced politely by screen readers; on another element, add `aria-live="polite"` yourself if you want every change announced.
+- `<output>` is a polite live region by default, which would announce every keystroke. Set `aria-live="off"` on a live character count so it is read only when someone goes to it, and announce only the moments that matter: listen to `string:count` and write to one shared polite region when `state` changes to `near` or `over`.
+
+```html
+<output aria-live="off" data-string-count="#bio"></output>
+<p id="count-status" role="status"></p>
+<script>
+  const status = document.querySelector('#count-status')
+  let last = 'ok'
+  document.addEventListener('string:count', ({ detail }) => {
+    if (detail.state === last) return
+    last = detail.state
+    status.textContent = detail.state === 'ok' ? '' : `${detail.remaining} characters left`
+  })
+</script>
+```
 
 ## Fitting text to its box
 
@@ -120,7 +134,8 @@ slug.addEventListener('string:change', event => {
 
 - The value is the position: `middle` (default), `end` or `start`.
 - The element needs a width: a block, inline-block, flex or grid item. Without one, the text is left whole. Flex items also need `min-width: 0`.
-- The full text goes to `title`, `data-string-fit-state` is `full` or `truncated`, and `white-space: nowrap` and `overflow: hidden` are set inline. `destroy()` restores the text, the title and the `style` attribute.
+- The full text stays in the DOM as a visually hidden `<span>` (the accessible content, found by find-in-page and copied), and the shortened text is drawn in an `aria-hidden` `<span>`, so the element holds two child spans while truncated. When the text fits it is plain text again.
+- The full text also goes to `title`, `data-string-fit-state` is `full` or `truncated`, and `white-space: nowrap` and `overflow: hidden` are set inline. `destroy()` restores the text, the title and the `style` attribute.
 
 ## Copy buttons
 
@@ -153,11 +168,19 @@ slug.addEventListener('string:change', event => {
 [data-string-copy-state='copied']::after {
   visibility: visible;
 }
+/* Show the failure too, not only the success. */
+[data-string-copy-state='error'] > span {
+  visibility: hidden;
+}
+[data-string-copy-state='error']::after {
+  content: 'Copy failed';
+  visibility: visible;
+}
 ```
 
 - Without the Clipboard API (plain HTTP, some iframes), or when it refuses, the text is copied from a hidden selection instead.
-- The button gets `data-string-copy-state="copied"`, or `error` when no copy succeeded, for `data-string-copy-reset` milliseconds (`2000`). The CSS above swaps the label for that time; without it, or without JavaScript, the button keeps its label.
-- Every click dispatches `string:copy` with `{ value, ok }` and calls `onCopy`.
+- The button gets `data-string-copy-state="copied"`, or `error` when no copy succeeded, for `data-string-copy-reset` milliseconds (`2000`). The CSS above swaps the label for that time, with "Copy failed" for `error`; without it, or without JavaScript, the button keeps its label.
+- Every click dispatches `string:copy` with `{ value, ok }` and calls `onCopy`. The label swap is visual only: listen to `string:copy` to announce the result (for example in a polite live region), `ok: false` meaning the copy failed.
 - The clipboard needs a secure context (HTTPS or localhost).
 
 ## Browser bundle

@@ -126,7 +126,9 @@ input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit; }
 [data-string-copy]::after { grid-area: 1 / 1; }
 [data-string-copy]::after { content: 'Copied'; visibility: hidden; }
 [data-string-copy-state='copied'] > span { visibility: hidden; }
-[data-string-copy-state='copied']::after { visibility: visible; }`,
+[data-string-copy-state='copied']::after { visibility: visible; }
+[data-string-copy-state='error'] > span { visibility: hidden; }
+[data-string-copy-state='error']::after { content: 'Copy failed'; visibility: visible; }`,
       js: `// Nothing to call: the browser bundle starts every data-string-* attribute.
 // Each <code> follows #token with its own conversion and each button copies it.
 document.addEventListener('string:copy', event => {
@@ -155,7 +157,7 @@ document.addEventListener('string:copy', event => {
 </div>
 <label for="bio">Bio</label>
 <textarea id="bio" maxlength="80" rows="3">Designs accessible interfaces 🎨</textarea>
-<output data-string-count="#bio" data-string-count-format="{remaining} characters left"></output>
+<output aria-live="off" data-string-count="#bio" data-string-count-format="{remaining} characters left"></output>
 <label for="handle">Display name</label>
 <input id="handle" value="Ana María López" />
 <button type="button" data-string-copy="#handle" data-string-copy-as="slug"><span>Copy as handle</span></button>`,
@@ -171,7 +173,9 @@ textarea, input { width: 100%; max-width: 28rem; padding: 0.5rem; font: inherit;
 [data-string-copy]::after { grid-area: 1 / 1; }
 [data-string-copy]::after { content: 'Copied'; visibility: hidden; }
 [data-string-copy-state='copied'] > span { visibility: hidden; }
-[data-string-copy-state='copied']::after { visibility: visible; }`,
+[data-string-copy-state='copied']::after { visibility: visible; }
+[data-string-copy-state='error'] > span { visibility: hidden; }
+[data-string-copy-state='error']::after { content: 'Copy failed'; visibility: visible; }`,
       js: `// The browser bundle starts every data-string-* element on load: the avatar gets
 // a stable --string-color, the file name fits its box, the counter follows the bio
 // and the button copies the name as a slug.
@@ -484,7 +488,7 @@ update()`,
     files: {
       html: `<label for="post">Post</label>
 <textarea id="post" rows="3">Packing! 👨‍👩‍👧 🇲🇽 ✈️</textarea>
-<output data-string-count="#post" data-string-count-max="40" data-string-count-format="{remaining} of {max} characters left"></output>
+<output aria-live="off" data-string-count="#post" data-string-count-max="40" data-string-count-format="{remaining} of {max} characters left"></output>
 <dl class="stats">
   <dt><code>post.length</code></dt>
   <dd id="units"></dd>

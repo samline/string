@@ -8,6 +8,12 @@ All notable changes to this package. Format: [Keep a Changelog](https://keepacha
 
 - A "Framework integrations" guide with React, Vue, Svelte, Astro and plain HTML/CDN usage.
 
+### Changed
+
+- `data-string-fit` keeps the full text in the DOM, in a visually hidden `<span>`, and draws the shortened text in an `aria-hidden` `<span>` while truncated, so screen readers, find-in-page and copying see the whole text. The element holds these two child spans only while truncated; `destroy()` restores the original nodes.
+- Documentation and examples set `aria-live="off"` on the live character count and show how to announce only `near` and `over` from `string:count`.
+- The documented copy-button CSS now also shows the failure ("Copy failed" for `data-string-copy-state="error"`), and the docs point to the `string:copy` event for announcing the result.
+
 ## [2.0.1] - 2026-11-17
 
 ### Fixed

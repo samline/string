@@ -211,11 +211,14 @@ describe('copy', () => {
 
 describe('fit', () => {
   // jsdom has no layout: each character is 10px wide in a 100px box.
+  // What is drawn: the shortened copy when there is one, else the element's own text.
+  const visible = (element: Element) =>
+    element.querySelector('[aria-hidden="true"]')?.textContent ?? element.textContent ?? ''
   const layout = (element: HTMLElement, width = 100) => {
     Object.defineProperty(element, 'clientWidth', { configurable: true, get: () => width })
     Object.defineProperty(element, 'scrollWidth', {
       configurable: true,
-      get: () => Array.from(element.textContent ?? '').length * 10,
+      get: () => Array.from(visible(element)).length * 10,
     })
   }
 
@@ -227,10 +230,13 @@ describe('fit', () => {
     ;['#a', '#b', '#c'].forEach(id => layout($(id)))
     layout($('#d'), 0)
     const controller = fit()
-    expect($('#a').textContent).toBe('annua….pdf')
+    expect(visible($('#a'))).toBe('annua….pdf')
+    // The full text stays in the DOM for assistive technology.
+    expect($('#a').textContent).toContain('annual-report-2026-final.pdf')
+    expect($('#a').querySelector('[aria-hidden]')).not.toBeNull()
     expect($('#a').title).toBe('annual-report-2026-final.pdf')
     expect($('#a').dataset.stringFitState).toBe('truncated')
-    expect($('#b').textContent).toBe('The qui...')
+    expect(visible($('#b'))).toBe('The qui...')
     expect($('#c').textContent).toBe('short')
     expect($('#c').dataset.stringFitState).toBe('full')
     expect($('#d').textContent).toBe('no width at all here')
@@ -240,10 +246,13 @@ describe('fit', () => {
     expect($('#a').textContent).toBe('annual-report-2026-final.pdf')
     expect($('#a').hasAttribute('title')).toBe(false)
 
+    expect($('#a').querySelector('[aria-hidden]')).toBeNull()
+
     layout($('#a'), 100)
     controller.refresh()
     controller.destroy()
     controller.destroy()
+    expect($('#a').children).toHaveLength(0)
     expect($('#a').textContent).toBe('annual-report-2026-final.pdf')
     expect($('#a').getAttribute('style')).toBe('color: red')
     expect($('#a').hasAttribute('title')).toBe(false)
@@ -267,12 +276,12 @@ describe('fit', () => {
     document.body.innerHTML = `<span id="a" data-string-fit="start">0123456789abcdef</span>`
     layout($('#a'))
     const controller = fit('#a', { ellipsis: '~' })
-    expect($('#a').textContent).toBe('~789abcdef')
+    expect(visible($('#a'))).toBe('~789abcdef')
     expect(observe).toHaveBeenCalled()
     layout($('#a'), 60)
     callback()
     await new Promise(resolve => requestAnimationFrame(() => resolve(null)))
-    expect($('#a').textContent).toBe('~bcdef')
+    expect(visible($('#a'))).toBe('~bcdef')
     controller.destroy()
     expect(disconnect).toHaveBeenCalled()
   })
@@ -282,11 +291,11 @@ describe('fit', () => {
     document.body.innerHTML = `<span id="a" data-string-fit>abcdefghijklmnop</span>`
     layout($('#a'))
     const controller = autoFit()
-    expect($('#a').textContent).toBe('abcde…mnop')
+    expect(visible($('#a'))).toBe('abcde…mnop')
     layout($('#a'), 50)
     window.dispatchEvent(new Event('resize'))
     await new Promise(resolve => requestAnimationFrame(() => resolve(null)))
-    expect($('#a').textContent).toBe('ab…op')
+    expect(visible($('#a'))).toBe('ab…op')
     controller.destroy()
     expect($('#a').textContent).toBe('abcdefghijklmnop')
   })

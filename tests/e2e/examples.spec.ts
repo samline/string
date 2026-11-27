@@ -69,7 +69,11 @@ test.describe('string copyable examples', () => {
     const file = page.locator('.file')
     await expect(file).toHaveAttribute('data-string-fit-state', 'truncated')
     await expect(file).toHaveAttribute('title', 'resume-ana-maria-lopez-2026-final-version.pdf')
-    const text = (await file.textContent()) ?? ''
+    const text = (await file.locator('[aria-hidden="true"]').textContent()) ?? ''
+    // The full file name stays in the DOM for screen readers and find-in-page.
+    expect((await file.textContent()) ?? '').toContain(
+      'resume-ana-maria-lopez-2026-final-version.pdf'
+    )
     expect(text).toContain('…')
     expect(text.endsWith('.pdf')).toBe(true)
     expect(await file.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true)

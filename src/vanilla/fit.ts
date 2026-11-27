@@ -28,6 +28,10 @@ export type AutoFitOptions = FitOptions & AutoOptions
 
 const POSITIONS = ['end', 'middle', 'start'] as const
 
+// Visually hidden, still read by screen readers and kept in the DOM.
+const HIDDEN =
+  'position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap'
+
 const bindFit = (element: HTMLElement, options: FitOptions): Controller | null => {
   const restoreChildren = snapshot(element)
   const managed = attributes(element)
@@ -38,6 +42,19 @@ const bindFit = (element: HTMLElement, options: FitOptions): Controller | null =
   element.style.overflow = 'hidden'
 
   const fits = () => element.scrollWidth <= element.clientWidth
+
+  // The full text stays in the DOM as the accessible content; only the shortened
+  // copy is drawn, hidden from assistive technology.
+  const doc = element.ownerDocument
+  const spoken = doc.createElement('span')
+  spoken.style.cssText = HIDDEN
+  spoken.textContent = text
+  const visual = doc.createElement('span')
+  visual.setAttribute('aria-hidden', 'true')
+  const show = (candidate: string) => {
+    visual.textContent = candidate
+    if (visual.parentNode !== element) element.replaceChildren(spoken, visual)
+  }
 
   const fit = () => {
     const position = readEnum(element, FIT_ATTRIBUTE, POSITIONS, options.position ?? 'middle')
@@ -51,6 +68,7 @@ const bindFit = (element: HTMLElement, options: FitOptions): Controller | null =
       managed.set('title', null)
       return
     }
+    show(text)
     // Binary search for the longest text that fits.
     let low = 0
     let high = graphemes(text).length - 1
@@ -58,13 +76,13 @@ const bindFit = (element: HTMLElement, options: FitOptions): Controller | null =
     while (low <= high) {
       const middle = Math.floor((low + high) / 2)
       const candidate = truncate(text, middle, { position, ellipsis, wordBoundary: false })
-      element.textContent = candidate
+      visual.textContent = candidate
       if (fits()) {
         best = candidate
         low = middle + 1
       } else high = middle - 1
     }
-    element.textContent = best
+    visual.textContent = best
     element.setAttribute(FIT_STATE_ATTRIBUTE, 'truncated')
     managed.set('title', text)
   }
