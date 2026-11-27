@@ -99,7 +99,11 @@ slug.addEventListener('string:change', event => {
 
 ```html
 <textarea id="bio" maxlength="160"></textarea>
-<output aria-live="off" data-string-count="#bio" data-string-count-format="{remaining} characters left"></output>
+<output
+  aria-live="off"
+  data-string-count="#bio"
+  data-string-count-format="{remaining} characters left"
+></output>
 ```
 
 - Characters are graphemes, so 😀 counts as one. `maxlength` counts UTF-16 units, so an emoji uses two of the field's limit; set `data-string-count-max` to count against your own limit instead.
@@ -190,7 +194,7 @@ The classic script starts every `[data-string]`, `[data-string-search]`, `[data-
 ```html
 <script
   data-manual
-  src="https://cdn.jsdelivr.net/npm/@samline/string@2.0.1/dist/browser/string.global.js"
+  src="https://cdn.jsdelivr.net/npm/@samline/string@2.1.0/dist/browser/string.global.js"
 ></script>
 <script>
   Strings.auto({ locale: 'es', count: { near: 5 }, copy: { reset: 1000 } })

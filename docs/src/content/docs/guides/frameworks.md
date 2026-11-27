@@ -149,7 +149,7 @@ Enqueue the pinned classic script from your theme or plugin, deferred, on the fr
 add_action('wp_enqueue_scripts', function () {
   wp_enqueue_script(
     'samline-string',
-    'https://cdn.jsdelivr.net/npm/@samline/string@2.0.1/dist/browser/string.global.js',
+    'https://cdn.jsdelivr.net/npm/@samline/string@2.1.0/dist/browser/string.global.js',
     [],
     null,
     ['strategy' => 'defer', 'in_footer' => true]
@@ -170,7 +170,7 @@ See [wp_enqueue_script](https://developer.wordpress.org/reference/functions/wp_e
 Load the browser bundle with a classic script tag and pin the version in production. It defines `window.Strings` (not `window.String`, which is JavaScript's own constructor) with every function, and starts every `[data-string]` element on its own.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@samline/string@2.0.1/dist/browser/string.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@samline/string@2.1.0/dist/browser/string.global.js"></script>
 <script>
   const { slugify } = window.Strings
   console.log(slugify('Café & Crème')) // 'cafe-creme'

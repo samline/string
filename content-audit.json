@@ -1,6 +1,6 @@
 {
   "status": "verified",
-  "packageVersion": "2.0.1",
+  "packageVersion": "2.1.0",
   "capabilityReview": {
     "status": "verified",
     "integrations": [
@@ -122,7 +122,7 @@
   "sources": [
     {
       "source": "README.md",
-      "sha256": "2f6b5ebb871c57d375926c62e0d52a7a561b42248267e598f14e0b6f821c2257",
+      "sha256": "ad1ee78de4e1b85512b1ea6b2dfcc073146a327d1a2cdd5a0b2e32d3368fc60e",
       "destination": "docs/src/content/docs/index.mdx",
       "reviewed": true
     },
@@ -152,7 +152,7 @@
     },
     {
       "source": "src/core/slugify.ts",
-      "sha256": "be54f362b082ec715d917adc99bfe6d851e01b23ea7a38b13f39674ddcce63ff",
+      "sha256": "78f7699c33094cb609d83379e01642f8797042a450c67271ed0b673031cf8000",
       "destination": "docs/src/content/docs/reference/api.md",
       "reviewed": true
     },
